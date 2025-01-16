@@ -1,0 +1,73 @@
+<!-- Relação de Disponibilidade e desconto cadastradas -->
+<div class="card">
+  <div class="card-header d-flex justify-content-end">
+    <button type="button" class="btn btn-outline-primary btn-sm mb-0" (click)="abrirModalDefinirPeriodo('novo')">
+      Nova disponibilidade x desconto
+    </button>
+  </div>
+  <div class="card-body pb-2">
+    @if(disponDescontoAll.length > 0){
+    <p class="card-title-desc pt-2 mb-2 pb-1">
+      <i class="fa fa-plus-square-o fa-sm text-primary me-1"></i>
+      <span>
+        Inserir margens
+      </span>
+      <i class="fa fa-edit fa-sm text-primary ps-2 pe-1"></i>
+      <span>
+        Edita período
+      </span>
+    </p>
+    }
+
+    <div class="table-responsive">
+      <table class="table align-middle table-striped table-nowrap mb-0">
+        <thead class="table-light">
+          <tr>
+            <th class="ps-5">Data início</th>
+            <th class="">Data fim</th>
+            <th class="text-center">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (disponibilidade of disponDescontoAll | paginate: {
+          itemsPerPage: 9,
+          currentPage: paginaAtual
+          }; track $index) {
+          <tr>
+            <td class="ps-5">
+              {{ disponibilidade.dtInicio | date: 'dd/MM/yyyy':'UTC' }}
+            </td>
+            <td class="">
+              {{ disponibilidade.dtFim | date: 'dd/MM/yyyy':'UTC' }}
+            </td>
+            <td class="text-center">
+              <ng-container>
+                <i class="fa fa-lg fa-plus-square-o text-primary me-1" (click)="abrirModalDefinirMargens(disponibilidade)"
+                  ngbTooltip="Inserir Margens" style="cursor: pointer;"></i>
+              </ng-container>
+
+              <ng-container>
+                <i class="fa fa-edit fa-lg text-primary" (click)="abrirModalDefinirPeriodo('editando', disponibilidade)"
+                  ngbTooltip="Editar período" style="cursor: pointer;">
+                </i>
+              </ng-container>
+
+            </td>
+          </tr>
+          }@empty {
+          <tr>
+            <td colspan="3">
+              <h2 class="">
+                Nenhuma disponibilidade X desconto foi encontrada!</h2>
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    <div class="text-end me-3 pe-1 pt-3 mb-0" *ngIf="disponDescontoAll.length > 5">
+      <pagination-controls (pageChange)="paginaAtual = $event" previousLabel="Anterior"
+        nextLabel="Próximo"></pagination-controls>
+    </div>
+  </div>
+</div>

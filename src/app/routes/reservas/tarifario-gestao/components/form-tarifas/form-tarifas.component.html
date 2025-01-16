@@ -1,0 +1,123 @@
+<div class="card">
+  <div class="card-content">
+    <div class="card-header d-flex justify-content-between">
+      <h4>
+        <i class="fs-5 me-2 fa fa-arrow-circle-o-left cursor-pointer" ngbTooltip="Voltar à gestão dos tarifários"
+          placement="top" (click)="voltarAGestaoTarifarios()"></i>
+        {{title}}
+      </h4>
+      <i class="fa fa-question-circle text-secondary cursor-pointer fs-5" placement="bottom"
+        ngbTooltip="Não é obrigatório informar todos os tipos de pensão, contudo, é obrigatório que pelo menos uma seja informada para o período.">
+      </i>
+    </div>
+    <div class="card-body">
+      <ng-container [ngTemplateOutlet]="formTarifasTemplate"></ng-container>
+    </div>
+    <div class="card-footer text-end">
+      <div class="btn-group">
+        <button class="btn btn-sm btn-success me-0" [disabled]="desabilitarBotao()"
+          (click)="salvarTarifasDefinidas(true)">Salvar e fechar</button>
+        <button class="btn btn-sm btn-primary me-0" [disabled]="desabilitarBotao()"
+          (click)="salvarTarifasDefinidas()">Salvar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #formTarifasTemplate>
+  <div class="row g-3">
+    <div class="col-lg-4">
+      <label for="" class="form-label">Tarifário:</label>
+      <input type="text" class="form-control form-control-sm" [value]="nomeTarifario" readonly>
+    </div>
+    <div class="col-lg-4">
+      <label class="form-label">Unidade Hoteleira:</label>
+      <select [(ngModel)]="nomeUhSelecionada" class="form-select form-select-sm" (ngModelChange)="onUHChange($event)">
+        <option value="" selected disabled>Selecione a unidade</option>
+        @for (uh of listaUH; track $index) {
+        <option [value]="uh.nomeTipoUh">
+          {{uh.nomeTipoUh}}
+        </option>
+        }
+      </select>
+    </div>
+    <div class="col-lg-4">
+      <label for="" class="form-label">Período:</label>
+      <select [(ngModel)]="periodoSelecionado" class="form-select form-select-sm"
+        (ngModelChange)="onPeriodoChange($event)">
+        <option value="" selected disabled>Selecione um período</option>
+        @for (periodo of periodos; track $index) {
+        <option [value]="periodo.value">
+          {{periodo.label}}
+        </option>
+        }
+      </select>
+    </div>
+
+    @if(periodoSelecionado){
+    <div class="col-12 table-responsive mt-3">
+      <h5>Período: <span class="text-bg-warning px-2">{{labelPeriodo}}</span></h5>
+      <div>
+        <table class="table text-center">
+          <thead>
+            <tr>
+              <th scope="col">Quarto</th>
+              <th scope="col">Café da Manhã</th>
+              <th scope="col">Meia Pensão Almoço</th>
+              <th scope="col">Meia Pensão Jantar</th>
+              <th scope="col">Pensão Completa</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (quarto of quartos; track $index) {
+            <tr>
+              <th scope="row">{{quarto.label}}</th>
+              <td>
+                <div class="row d-flex justify-content-center">
+                  <div class="col-xl-7">
+                    <input type="string" class="form-control form-control-sm border-2" inputmode="numeric"
+                      [(ngModel)]="tarifasDefinidas.valorPensaoCafeManha![quarto.key]" currencyMask
+                      [options]="{ align: 'start', prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div class="d-flex justify-content-center row">
+                  <div class="col-xl-7">
+                    <input type="string" class="form-control form-control-sm border-2"
+                      [(ngModel)]="tarifasDefinidas.valorMeiaPensaoAlmoco![quarto.key]" currencyMask
+                      [options]="{ align: 'start', prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div class="d-flex justify-content-center row">
+                  <div class="col-xl-7">
+                    <input type="string" class="form-control form-control-sm border-2"
+                      [(ngModel)]="tarifasDefinidas.valorMeiaPensaoJantar![quarto.key]" currencyMask
+                      [options]="{ align: 'start', prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div class="d-flex justify-content-center row">
+                  <div class="col-xl-7">
+                    <input type="string" class="form-control form-control-sm border-2"
+                      [(ngModel)]="tarifasDefinidas.valorPensaoCompleta![quarto.key]" currencyMask
+                      [options]="{ align: 'start', prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                  </div>
+                </div>
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+    }@else {
+    <div class="text-center mt-3">
+      <h5>Selecione um período para iniciar a gestão das tarifas</h5>
+    </div>
+    }
+  </div>
+</ng-template>

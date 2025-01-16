@@ -1,0 +1,124 @@
+<div class="card mb-0">
+  <ul ngbNav #nav="ngbNav" [activeId]="1" class="nav nav-tabs nav-tabs-custom nav-justified">
+    <li [ngbNavItem]="1">
+      <a ngbNavLink>
+        <i class="mdi mdi-account-circle font-size-20"></i>
+        <span class="d-none d-sm-block">
+          <i class="fa fa-male"></i> Masculino
+        </span>
+      </a>
+
+      <ng-template ngbNavContent>
+        <div class="row">
+          @for (item of avataresMasculinos; track $index) {
+          <div class="col-md-4 col-lg-3 col-xl-3 col-xxl-2">
+            <div class="card d-flex align-items-center">
+              <div class="card-body cursor-pointer" (click)="atualizarAvatar(item)">
+                <img src="{{ item.url }}" class="avatar-lg img-thumbnail rounded-circle">
+              </div>
+            </div>
+          </div>
+          }
+        </div>
+      </ng-template>
+    </li>
+
+    <li [ngbNavItem]="2">
+      <a ngbNavLink>
+        <i class="mdi mdi-account-circle-outline font-size-20"></i>
+        <span class="d-none d-sm-block">
+          <i class="fa fa-female"></i> Feminino
+        </span>
+      </a>
+
+      <ng-template ngbNavContent>
+        <div class="row">
+          @for (item of avataresFemininos; track $index) {
+          <div class="col-sm-6 col-md-4 col-lg-3 col-xl-3 col-xxl-2">
+            <div class="card d-flex align-items-center">
+              <div class="card-body cursor-pointer" (click)="atualizarAvatar(item)">
+                <img src="{{ item.url }}" class="avatar-lg img-thumbnail rounded-circle">
+              </div>
+            </div>
+          </div>
+          }
+        </div>
+      </ng-template>
+    </li>
+
+    <li [ngbNavItem]="3">
+      <a ngbNavLink>
+        <i class="mdi mdi-account-child-circle font-size-20"></i>
+        <span class="d-none d-sm-block">
+          <i class="fa fa-user"></i> Outros
+        </span>
+      </a>
+
+      <ng-template ngbNavContent>
+        <div class="row">
+          @for (item of avataresOutros; track $index) {
+          <div class="col-sm-6 col-md-4 col-lg-3 col-xl-3 col-xxl-2">
+            <div class="card d-flex align-items-center">
+              <div class="card-body cursor-pointer" (click)="atualizarAvatar(item)">
+                <img src="{{ item.url }}" class="avatar-lg img-thumbnail rounded-circle">
+              </div>
+            </div>
+          </div>
+          }
+        </div>
+      </ng-template>
+    </li>
+
+    <li [ngbNavItem]="4">
+      <a ngbNavLink>
+        <i class="mdi mdi-account-reactivate font-size-20"></i>
+        <span class="d-none d-sm-block">
+          <i class="mdi mdi-content-save-off me-1">
+            <i class="fa fa-upload"></i></i> Upload </span>
+      </a>
+
+      <ng-template ngbNavContent>
+        <div class="row">
+          <div class="col-12">
+            <div class="card-body">
+              <form class="needs-validation" name="form" novalidate>
+
+                <div class="mb-3">
+                  <label class="form-label" for="filesource">
+                    Selecione a sua imagem para definir como avatar.
+                  </label>
+                  <input type="file" class="form-control form-control-sm" id="filesource"
+                    (change)="onFileChange($event)" accept="image/jpeg, image/png, image/gif, image/jpg" />
+
+                  <span class="text-muted" id="texto-informativo">
+                    {{ textoInformativo }}
+                  </span>
+                </div>
+
+                <div class="mb-0">
+                  <button type="button" (click)="enviarImagemPersonalizada()" [disabled]="desabilitarBotaoEnviar"
+                    class="btn btn-success btn-block px-4">
+                    <i class="fa fa-upload"></i> Enviar...
+                  </button>
+                </div>
+
+              </form>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </li>
+
+  </ul>
+  <div [ngbNavOutlet]="nav" class="p-4"></div>
+  <hr class="my-2">
+  <div class="card-body pt-2 pb-0">
+
+    <div class="float-end mb-3">
+      <button type="button" class="btn btn-primary waves-effect waves-light btn-sm" (click)="voltarAosDetalhes()">
+        <i class="fa fa-times"></i> Cancelar?
+      </button>
+    </div>
+
+  </div>
+</div>

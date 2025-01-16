@@ -1,0 +1,77 @@
+<div class="row p-3 p-lg-auto">
+  <div class="col col-lg-3">
+    <div class="card social-profile">
+      <div class="card-body">
+
+        <div class="social-img-wrap">
+          <div class="social-img">
+            <img src="{{ userLogado!._avatar.url }}" alt="profile" style="height: 70px; width: 70px;">
+          </div>
+
+          <div class="edit-icon">
+            <app-comman-svg-icon [icon]="'profile-check'"></app-comman-svg-icon>
+          </div>
+        </div>
+
+        <div class="social-details">
+          <button class="mb-1 btn btn-xs btn-secondary" type="button" (click)="tipoDeAcesso = 'alterarAvatar'">
+            <i class="mdi mdi-content-save-off me-1">
+              <i class="fa fa-refresh"></i></i>Alterar avatar
+          </button>
+
+          <h5>{{ userLogado!.apelido }}</h5>
+          <span class="mb-2 f-light">{{ userLogado!.email }}</span>
+
+          <div class="d-grid">
+            <button class="btn btn-sm btn-success" style="font-size:x-small; white-space: nowrap; " type="button"
+              (click)="tipoDeAcesso = 'editar'">
+              <i class="fa fa-edit"></i> Editar Perfil
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Detalhes do perfil logado -->
+  <div class="col col-lg-8">
+    @switch (tipoDeAcesso) {
+    @case('detalhes'){
+    <div class="card">
+      <div class="card-header border-primary">
+        <h4 class="card-title mb-0">Detalhes do perfil</h4>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="mt-3 col-xl-6 col-sm-12 col-md-6 col-lg-6">
+            <p class="mb-1 text-muted">Apelido:</p>
+            <h5 class="form-control" type="text" readonly placeholder="Apelido">{{ userLogado!.apelido }}</h5>
+          </div>
+          <div class="mt-3 col-xl-6 col-sm-12 col-md-6 col-lg-6">
+            <p class="mb-1 text-muted">e-mail:</p>
+            <h5 class="form-control" type="text" readonly placeholder="E-mail">{{ userLogado!.email }}</h5>
+          </div>
+          <div class="mt-3 col-xl-6 col-sm-12 col-md-6 col-lg-6">
+            <p class="mb-1 text-muted">Nome Completo:</p>
+            <h5 class="form-control" type="text" readonly placeholder="Nome">{{ userLogado!.nome ? userLogado!.nome :
+              'não informado.' }}</h5>
+          </div>
+          <div class="mt-3 col-xl-6 col-sm-12 col-md-6 col-lg-6">
+            <p class="mb-1 text-muted">Telefone:</p>
+            <h5 class="form-control" type="text" readonly placeholder="Telefone">{{ userLogado!.telefone ?
+              userLogado!.telefone : 'não informado.' }}</h5>
+          </div>
+        </div>
+      </div>
+    </div>
+    } @case('editar'){
+    <app-edit-meu-perfil (retornarAosDetalhes)="voltarAosDetalhes($event)">
+    </app-edit-meu-perfil>'
+    }@case ('alterarAvatar') {
+    <app-avatar-meu-perfil (retornarAosDetalhes)="voltarAosDetalhes($event)">
+    </app-avatar-meu-perfil>
+    }
+    }
+  </div>
+</div>

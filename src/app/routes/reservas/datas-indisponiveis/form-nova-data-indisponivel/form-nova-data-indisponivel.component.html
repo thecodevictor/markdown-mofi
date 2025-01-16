@@ -1,0 +1,42 @@
+<div class="modal-content border-info">
+    <div class="modal-header p-2">
+      <h6 class="text-primary mb-0 p-1">Novo Período de Datas Indisponíveis</h6>
+      <button type="button" class="btn btn-close btn-md" aria-label="Close" (click)="fechar()"></button>
+    </div>
+    <div class="modal-body px-2 pb-0">
+      <form class="form-horizontal" novalidate="" role="form" [formGroup]="form">
+        <div class="row mb-1 ps-5">
+          <div class="col-2 pt-1">
+            <span><b>Data:</b></span>
+          </div>
+          <div class="col-10">
+            <div class="clockpicker me-0">
+              <input type="date" formControlName="dtInicio" placeholder="Início do Período" autocomplete="off"
+                class="form-control ps-2 py-1 w-75 border border-secondary text-center"
+                [ngClass]="{ 'is-invalid': f['dtInicio'].touched && f['dtInicio'].errors, 'is-valid': f['dtInicio'].touched && !f['dtInicio'].errors }"
+                id="dtInicio" required >
+            </div>
+          </div>
+  
+          <div class="col-2 pt-1 mt-2">
+            <span><b><span class="text-muted"></span>Até:</b></span>
+          </div>
+          <div class="col-10 mt-2">
+            <div class="clockpicker me-0">
+              <input type="date" formControlName="dtFim" placeholder="Fim do Período" autocomplete="off"
+                class="form-control ps-2 py-1 w-75 border border-secondary text-center"
+                [ngClass]="{ 'is-invalid': f['dtFim'].touched && f['dtFim'].errors, 'is-valid': f['dtFim'].touched && !f['dtFim'].errors }"
+                id="dtinicio" >
+            </div>
+            <small class="text-muted d-flex justify-content-end pe-5 pt-1">*Opcional</small>
+          </div>
+        </div>
+        <div class="modal-footer p-1">
+          <button type="submit" (click)="enviarDatas()" class="btn btn-success btn-sm px-3"
+          [disabled]="form.pristine || form.invalid">Salvar</button>
+          <button type="button" class="btn btn-danger btn-sm" (click)="cancela()">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  

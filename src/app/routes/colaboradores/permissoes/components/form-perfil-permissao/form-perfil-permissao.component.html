@@ -1,0 +1,66 @@
+<form [formGroup]="formPermissoes">
+  <div class="mb-3">
+    <label for="nomePerfil" class="form-label">Nome do perfil:</label>
+    <input type="text" class="form-control form-control-sm" id="nomePerfil"
+      placeholder="Insira o nome do perfil de permissões" formControlName="nomePerfil"
+      [ngClass]="formReativoService.definindoClasseValidator(formPermissoes, 'nomePerfil')" />
+    @if(formPermissoes.controls['nomePerfil'].errors! && formPermissoes.controls['nomePerfil'].touched){
+    @if(formPermissoes.controls['nomePerfil'].errors['minlength']){
+    <span class="text-danger">
+      * Mínimo de 10 caracteres. restam {{10 - formPermissoes.controls['nomePerfil'].value.length}}
+    </span>
+    }@else if (formPermissoes.controls['nomePerfil'].errors['maxlength']) {
+    <span class="text-danger">
+      * Máximo de 60 caracteres
+    </span>
+    }@else {
+    <span class="text-danger">
+      * O campo é obrigatório
+    </span>
+    }
+    }
+  </div>
+  <div class="row my-2">
+    <div class="col-12 text-center mb-2">
+      <h5 class="fs-4">Módulos disponíveis</h5>
+      <div class="d-flex align-items-center justify-content-center">
+        <div class="cursor-pointer me-2 bg-acesso" (click)="selecionarModulo('colaboradores')"
+          [ngClass]="moduloSelecionado == 'colaboradores' ? 'bg-primary text-white' : ''">
+          <div class="text-center mt-3">
+            <i [ngClass]="moduloSelecionado == 'colaboradores' ? 'text-white' : ''"
+              class="fa fa-user-circle-o icon-size"></i>
+            <br><span [ngClass]="moduloSelecionado == 'colaboradores' ? 'text-white' : ''">
+              Colaboradores
+            </span>
+          </div>
+        </div>
+        <div class="cursor-pointer mx-2 bg-acesso" (click)="selecionarModulo('reservas')"
+          [ngClass]="moduloSelecionado == 'reservas' ? 'bg-primary text-white' : ''">
+          <div class="text-center mt-3">
+            <i [ngClass]="moduloSelecionado == 'reservas' ? 'text-white' : ''"
+              class="fa fa-calendar-check-o icon-size"></i>
+            <br><span [ngClass]="moduloSelecionado == 'reservas' ? 'text-white' : ''">Reservas</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12">
+      @switch (moduloSelecionado) {
+      @case('reservas'){
+      <app-tab-permissoes-modulo-reservas></app-tab-permissoes-modulo-reservas>
+      }
+      @case('colaboradores'){
+      <app-tab-permissoes-modulo-colaboradores></app-tab-permissoes-modulo-colaboradores>
+      }
+      }
+    </div>
+  </div>
+
+  <div class="card-footer border-0 text-end">
+    <button type="button" class="btn btn-sm btn-success"
+      [ngbTooltip]="desabilitarBotaoSalvar() ? 'Necessário definir permissões de, pelo menos, um dos módulos.' : ''"
+      [disabled]="desabilitarBotaoSalvar()" (click)="salvarPerfil()">
+      Salvar
+    </button>
+  </div>
+</form>

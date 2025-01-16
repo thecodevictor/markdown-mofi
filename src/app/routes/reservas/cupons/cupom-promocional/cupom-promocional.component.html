@@ -1,0 +1,147 @@
+
+<!-- Em casos de encontrar cupons -->
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-body pb-2">
+        <div class="row pb-2">
+          <div class="card-body dropdown-basic m-0">
+            <div class="common-flex float-end">
+              <div class="btn-group" ngbDropdown>
+                <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button"
+                    ngbDropdownToggle><i class="fa fa-filter me-2"></i> Filtrar por </button>
+                <ul class="dropdown-menu dropdown-block" ngbDropdownMenu>
+                  <button ngbDropdownItem [disabled]="tabela === ''" (click)="montaTabela('')"
+                  [ngClass]="tabela === '' ? 'text-primary' : ''  ">Válidos</button>
+                <button ngbDropdownItem [disabled]="tabela === '$'" (click)="montaTabela('$')"
+                  [ngClass]="tabela === '$' ? 'text-primary' : ''  ">Valor</button>
+                <button ngbDropdownItem [disabled]="tabela === '%'" (click)="montaTabela('%')"
+                  [ngClass]="tabela === '%' ? 'text-primary' : ''  ">Porcentagem</button>
+                <button ngbDropdownItem [disabled]="tabela === 'exc'" (click)="montaTabela('exc')"
+                  [ngClass]="tabela === 'exc' ? 'text-primary' : ''  ">Excluídos</button>
+                <button ngbDropdownItem [disabled]="tabela === 'on'" (click)="montaTabela('on')"
+                  [ngClass]="tabela === 'on' ? 'text-primary' : ''  ">Ativados</button>
+                <button ngbDropdownItem [disabled]="tabela === 'off'" (click)="montaTabela('off')"
+                  [ngClass]="tabela === 'off' ? 'text-primary' : ''  ">Desativados</button>
+                </ul>
+            </div>
+              <div class="list-inline-item">
+                <button (click)="openFormCupom(true, false)" type="button" class="btn btn-outline-primary btn-sm mb-0">
+                  Novo cupom
+                </button>
+              </div>
+            </div>
+
+            <p class="card-title-desc pt-2 mb-2 pb-1" *ngIf="!msgCupomPromocionalExcluido">
+              <i class="fa fa-list-alt fa-sm"></i>
+              <span class="me-2">Ver detalhes do cupom</span>
+
+              <i class="fa fa-pencil-square-o text-primary fa-sm me-1"></i>
+              <span class="me-2">Edita cupom</span>
+
+              <fa-icon [icon]="faToggleOff" class="fa-sm text-secondary me-1"></fa-icon>
+              <span class="me-2">Cupom Desativado</span>
+
+              <fa-icon [icon]="faToggleOn" class="fa-sm text-primary me-1"></fa-icon>
+              <span class="me-2">Cupom Ativado</span>
+
+              <span *ngIf="tabela !== 'exc'">
+                <i class="fa fa-times fa-sm text-danger me-1"></i>
+                <span class="me-2">Remove cupom</span>
+              </span>
+
+              <span *ngIf="tabela === 'exc'">
+                <i class="fa fa-check text-success me-1"></i>
+                <span>Restaura cupom</span>
+              </span>
+            </p>
+          </div>
+
+          <ng-container *ngIf="cuponsPromocionalTabela.length > 0">
+            <div class="table-responsive" *ngIf="!msgCupomPromocionalExcluido">
+              <table class="table align-middle table-striped table-nowrap mb-0">
+                <thead class="table-light">
+                  <tr>
+                    <th class="text-center">Código</th>
+                    <th class="text-center">Tipo de cupom</th>
+                    <th class="text-center">$ ou %</th>
+                    <th class="text-center">Ciclo de Vida</th>
+                    <th class="text-center">Status</th>
+                    <th class="text-center" *ngIf="tabela === 'on' || tabela === 'off'">Ciclo de Vida
+                    </th>
+                    <th class="text-center">Ações</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    *ngFor="let cupom of cuponsPromocionalTabela | paginate: { itemsPerPage: 9, currentPage: paginaAtual }; let i = index">
+                    <td class="text-center">
+                      <span> {{ cupom.codecupom }}</span>
+                    </td>
+                    <td class="text-center">
+                      {{ cupom.tpcupom ? 'Porcentagem' : 'Valor' }}
+                    </td>
+                    <td class="text-center">
+                      {{ visuTipoCupom(cupom) }}
+                      <!-- {{ cupom.tpcupom ? cupom.porcent : cupom.valor }} -->
+                    </td>
+                    <td class="text-center">
+                      <span class="badge bg-success bg-soft" [ngClass]="{'bg-danger': cupom.excluded == true}">
+                        {{ cupom.excluded == true ? 'Excluído' : "Vigente" }}
+                      </span>
+                    </td>
+                    <td class="text-center">
+                      <div class="form-check form-switch d-flex justify-content-center">
+                        <input class="form-check-input" type="checkbox" role="switch" id="ativa-desativa"
+                          [checked]="cupom.active" (click)="ativaDesativaCupom(cupom)" [disabled]="cupom.excluded">
+                      </div>
+                    </td>
+                    <td *ngIf="tabela === 'on' || tabela === 'off'" class="text-center">
+                      <div *ngIf="cupom.excluded else cupomEmUso">
+                        <span class="text-center badge bg-danger bg-soft ">Excluído</span>
+                      </div>
+                      <ng-template #cupomEmUso>
+                        <span class="badge bg-success bg-soft">Em Uso</span>
+                      </ng-template>
+                    </td>
+                    <td class="text-center">
+                      <ng-container>
+                        <ng-container>
+                          <i class="fa fa-list-alt fa-lg me-2" ngbTooltip="Ver detalhes do cupom"
+                            style="cursor: pointer;" (click)="openDetalhesCupom(cupom)"></i>
+                        </ng-container>
+
+                        <ng-container>
+                          <i class="fa fa-pencil-square-o text-primary fa-lg me-2" ngbTooltip="Editar cupom"
+                            style="cursor: pointer;" (click)="openFormCupom(false, true, cupom)"></i>
+                        </ng-container>
+                      </ng-container>
+
+                      <ng-container>
+                        <span *ngIf="!cupom.excluded else cupomExcluido">
+                          <i class="fa fa-times fa-lg text-danger me-2" ngbTooltip="Remover cupom"
+                            style="cursor: pointer;" (click)="removeRestauraCupom(cupom)"></i>
+                        </span>
+
+                        <ng-template #cupomExcluido>
+                          <i class="fa fa-check fa-lg text-success me-2" ngbTooltip="Restaurar cupom"
+                            style="cursor: pointer;" (click)="removeRestauraCupom(cupom)"></i>
+                        </ng-template>
+                      </ng-container>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="text-end me-3 pe-1 pt-3 mb-0" *ngIf="cuponsPromocionalTabela.length > 10">
+              <pagination-controls (pageChange)="paginaAtual = $event" previousLabel="Anterior"
+                nextLabel="Próximo"></pagination-controls>
+            </div>
+          </ng-container>
+        </div>
+        <div *ngIf="msgCupomPromocionalExcluido" class="text-center mb-4 text-muted font-weight-light">
+          <h2 class="">Nenhum cupom promocional {{tipo}} foi encontrado!</h2>
+        </div>
+      </div>
+    </div>
+  </div>

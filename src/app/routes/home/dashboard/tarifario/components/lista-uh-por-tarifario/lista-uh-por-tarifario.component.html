@@ -1,0 +1,43 @@
+<div class="card-body">
+  <ul class="list-group list-group-horizontal">
+    <li class="list-group-item fw-bold">
+      {{tarifarioSelecionado!.nomeTarifario}}
+    </li>
+    <li class="list-group-item">
+      Data Inicial: {{tarifarioSelecionado!.dtInicio | date: 'dd/MM/yyyy' : 'UTC'}}
+    </li>
+    <li class="list-group-item">
+      Data Final: {{tarifarioSelecionado!.dtFinal | date: 'dd/MM/yyyy' : 'UTC'}}
+    </li>
+    <li class="list-group-item">
+      Tipo do Tarifário: {{tarifarioSelecionado!.isParticular ? 'Particular' : 'Grupo'}}
+    </li>
+    <li class="list-group-item fw-bold"
+      [ngClass]="{'text-success': tarifarioSelecionado!.actived, 'text-danger': !tarifarioSelecionado!.actived}">
+      {{tarifarioSelecionado!.actived ? 'ATIVADO' : 'DESATIVADO'}}
+    </li>
+  </ul>
+  <ol class="list-group list-group-numbered">
+    <caption class="text-nowrap">Lista de Unidades Hoteleiras</caption>
+    @for (uh of tarifarioAgrupadoPorUh; track $index) {
+    <li class="list-group-item d-flex justify-content-between align-items-start">
+      <div class="ms-2 me-auto">
+        <div>
+          <span class="fw-bold">
+            {{uh.tipoUh.nomeTipoUh}}
+          </span>
+          <span class="ms-3 text-primary">
+            {{uh.tipoUh.nomeHotel}} <i class="fa fa-arrow-right"></i>
+          </span>
+          <span class="ms-3">
+            {{uh.tipoUh.totalQuartos?.toString()}} Quarto(s)
+          </span>
+        </div>
+      </div>
+      <a class="btn btn-sm btn-primary" (click)="emitirUhSelecionado(uh)">
+        Visualizar
+      </a>
+    </li>
+    }
+  </ol>
+</div>

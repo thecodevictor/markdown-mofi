@@ -1,0 +1,371 @@
+<div class="card">
+  <form class="form-grid" novalidate="" role="form" [formGroup]="form" name="newPromotion"
+    (ngSubmit)="criarOrEditar === 'criar' ? postNewPromocao() : putUpdatePromocao()">
+    <div class="card-body">
+      <!--Linha código da promoção-->
+      <div class="row">
+        <div class="col-6">
+          <label for="codigo"><b>Código da Promoção/Pacote</b> <span class="text-danger">*</span></label>
+          <div class="input-group auth-nome-inputgroup">
+            <input type="text" formControlName="codigo" class="form-control" id="codigo" (keyup)="definirUrl()"
+              placeholder="Digite o código da promoção/pacote" required [ngClass]="validandoInput('codigo')">
+            <button class="btn btn-light ms-0" type="button" disabled id="btn-codigo">
+              <i class="fa fa-ticket"></i>
+            </button>
+          </div>
+        </div>
+        <div class="col-6">
+          <label for="codigo"><b>URL Gerada:</b></label>
+          <div class="input-group auth-nome-inputgroup">
+            <input type="text" class="form-control" readonly [value]="codigoPromocao" id="url">
+            <button class="btn btn-light ms-0" type="button" id="btn-codigo" (click)="copiarUrlParaClipboard()">
+              <i class="fa fa-copy"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!--Linha que contém as definições de período e valores-->
+      <div class="row">
+        <div class="col">
+          <!--Linha definir períodos-->
+          <div class="row my-4">
+
+            <div class="col-4" *ngIf="criarOrEditar === 'criar'">
+              <p class="mb-1 fw-bold">
+                Definir um Pacote?
+              </p>
+
+              <div class="form-check form-check-inline mb-2" (click)="isItTemporada(true)">
+                <input class="form-check-input" type="radio" formControlname="isTemporada" id="isTemporadaTrue"
+                  [checked]="!isPeriodo" [value]="true">
+                <label class="form-check-label" for="porcentagem">
+                  Sim
+                </label>
+              </div>
+
+              <div class="form-check form-check-inline mb-2" (click)="isItTemporada(false)">
+                <input class="form-check-input" type="radio" formControlname="isTemporada" id="isTemporadaFalse"
+                  [checked]="isPeriodo" [value]="false">
+                <label class="form-check-label" for="valorunico">
+                  Não
+                </label>
+              </div>
+
+            </div>
+
+            <div class="col" *ngIf="isPeriodo; else temporadaTemplate">
+              <div class="row">
+                <div class="col">
+                  <div class="row">
+                    <label class="fw-bold">Período de vigência</label>
+                  </div>
+                  <div class="row">
+                    <div class="col-6">
+                      <div>
+                        <label for="dtIniPromocao">Início da Promoção <span class="text-danger">*</span></label>
+                        <div class="clockpicker">
+                          <input type="date" formControlName="dtIniPromocao" placeholder="Início da Vigência"
+                            class="form-control" autocomplete="off" [required]="isPeriodo" id="dtIniPromocao"
+                            [ngClass]="{'bg-secondary-subtle cursor-not-allowed': !isPeriodo}"
+                            [ngClass]="!form.controls['dtIniPromocao'].pristine ? validandoInput('dtIniPromocao') : ''"
+                            [required]="isPeriodo">
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-6">
+                      <div>
+                        <label for="dtFimPromocao">Fim da Promoção <span class="text-danger">*</span></label>
+                        <div class="clockpicker">
+                          <input type="date" formControlName="dtFimPromocao" placeholder="Fim da Vigência"
+                            class="form-control" id="dtFimPromocao" autocomplete="off" [required]="isPeriodo"
+                            [ngClass]="{'bg-secondary-subtle cursor-not-allowed': !isPeriodo}"
+                            [ngClass]="!form.controls['dtFimPromocao'].pristine ? validandoInput('dtFimPromocao') : ''">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <ng-template #temporadaTemplate>
+              <div class="col">
+                <div class="row">
+                  <label class="fw-bold">
+                    Período das diárias
+                  </label>
+                </div>
+                <div class="row">
+                  <div class="col-5">
+                    <input type="date" class="form-control" placeholder="Check-in" formControlName="dtEntrada">
+                  </div>
+                  <div class="col-5">
+                    <input type="date" class="form-control" placeholder="Check-out" formControlName="dtSaida">
+                  </div>
+                  <div class="col-2 text-center align-self-end">
+                    <i class="fa fa-plus-circle fa-md pb-1 fs-3 text-primary cursor-pointer"
+                      ngbTooltip="adicionar este período ao cupom" (click)="addPeriodo()"></i>
+                  </div>
+                </div>
+                <div class="col-12 form-floating my-3">
+                  <textarea class="form-control" cols="30" rows="3" id="obs" formControlName="obs"></textarea>
+                  <label for="obs">Observações :</label>
+                </div>
+              </div>
+            </ng-template>
+          </div>
+
+          <!--Linha definir desconto e tipo de desconto-->
+          <div class="row">
+            <div class="col">
+              <p class="mb-1"><b>Desconto</b></p>
+              <div class="form-check form-check-inline mb-2" (click)="porcentagemOuValorUnico(true)">
+                <input class="form-check-input" type="radio" formControlname="isPorcentagem" id="porcentagem"
+                  [checked]="porcentagem" [value]="true">
+                <label class="form-check-label" for="porcentagem">
+                  Porcentagem
+                </label>
+              </div>
+              <div class="form-check form-check-inline mb-2" (click)="porcentagemOuValorUnico(false)">
+                <input class="form-check-input" type="radio" formControlname="isPorcentagem" id="valorunico"
+                  [checked]="!porcentagem" [value]="false">
+                <label class="form-check-label" for="valorunico">
+                  Valor único
+                </label>
+              </div>
+              <div *ngIf="porcentagem; else isValor">
+                <input type="text" formControlName="margemDesconto" class="form-control" id="margemDesconto"
+                  placeholder="Informe a porcentagem"
+                  [ngClass]="form.controls['margemDesconto'].pristine ? null : validandoInput('margemDesconto')">
+              </div>
+              <ng-template #isValor>
+                <input type="text" formControlName="valorDesconto" class="form-control" id="valorDesconto"
+                  placeholder="Valor" currencyMask
+                  [ngClass]="form.controls['valorDesconto'].pristine ? null : validandoInput('valorDesconto')"
+                  [options]="{ align: 'start', prefix: 'R$ ', thousands: '.', decimal: ',' }">
+              </ng-template>
+            </div>
+            <div class="col">
+              <p class="mb-1 fw-bold">Desconto Pagamento em Pix</p>
+              <!-- <div class="row">&nbsp;</div> -->
+              <div class="form-check form-check-inline mb-2" (click)="definindoTaxaPix(true)">
+                <input class="form-check-input" type="radio" formControlname="isPix" id="isPixTrue" [checked]="isPix"
+                  [value]="true">
+                <label class="form-check-label" for="isPixTrue">
+                  Sim
+                </label>
+              </div>
+              <div class="form-check form-check-inline" (click)="definindoTaxaPix(false)">
+                <input class="form-check-input" type="radio" formControlname="isPix" id="isPixFalse" [checked]="!isPix"
+                  [value]="false">
+                <label class="form-check-label" for="isPixFalse">
+                  Não
+                </label>
+              </div>
+              <div>
+                <div>
+                  <input type="text" formControlName="margemDescontoPix" class="form-control" id="margemDescontoPix"
+                    placeholder="Porcentagem" [required]="isPix"
+                    [ngClass]="!isPix ? 'cursor-not-allowed bg-secondary-subtle' : (!form.controls['margemDescontoPix'].pristine ? validandoInput('margemDescontoPix') : '')" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col mt-4">
+          <ng-template #isEditar>
+            <div class="alert alert-warning" role="alert" *ngIf="promocaoAEditar.isPeriodo">
+              <label class="fw-bold">Período das diárias</label>
+              <div class="row">
+                <div class="col-6">
+                  <div>
+                    <label>Início</label>
+                    <p class="fw-bolder">{{promocaoAEditar.dtIniDiaria | date: 'dd/MM/YYYY' : '+00:00'}}</p>
+                  </div>
+                </div>
+
+                <div class="col-6">
+                  <div>
+                    <label>Fim</label>
+                    <p class="fw-bolder">{{promocaoAEditar.dtFimDiaria | date: 'dd/MM/YYYY' : '+00:00'}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+
+          <div *ngIf="isPeriodo && !isTemporada">
+            <ng-container *ngIf="criarOrEditar === 'criar'; else isEditar">
+              <div class="row">
+                <label class="fw-bold">
+                  Período das diárias
+                  <small class=" bg-danger badge bg-soft">
+                    Não poderá ser alterado
+                  </small>
+                </label>
+              </div>
+              <div class="row">
+                <div class="col-6">
+                  <div>
+                    <label for="dtIniDiaria">Check-in <span class="text-danger">*</span></label>
+                    <div class="clockpicker">
+                      <input type="date" formControlName="dtIniDiaria" placeholder="Data inicial" class="form-control"
+                        id="dtIniDiaria" autocomplete="off"
+                        [ngClass]="{'bg-secondary-subtle cursor-not-allowed': !isPeriodo}"
+                        [ngClass]="!form.controls['dtIniDiaria'].pristine ? validandoInput('dtIniDiaria') : ''">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div>
+                    <label for="dtFimDiaria">Check-out <span class="text-danger">*</span></label>
+                    <div class="clockpicker">
+                      <input type="date" formControlName="dtFimDiaria" placeholder="Data final" class="form-control"
+                        id="dtFimDiaria" autocomplete="off"
+                        [ngClass]="{'bg-secondary-subtle cursor-not-allowed': !isPeriodo}"
+                        [ngClass]="!form.controls['dtFimDiaria'].pristine ? validandoInput('dtFimDiaria') : ''">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+
+          <div class="mb-3" *ngIf="isTemporada && !isPeriodo">
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title"><strong>Períodos:</strong></div>
+              </div>
+              <ng-template #msg>
+                <div class="card-text text-center">
+                  <p class="p-4 mb-0 text-muted">Os períodos adicionados ao pacote serão dispostos aqui</p>
+                </div>
+              </ng-template>
+              <div class="card-text table-responsive" *ngIf="temporadaArray.length > 0; else msg">
+                <table class="table align-middle table-striped table-nowrap mb-0">
+                  <thead>
+                    <tr>
+                      <th class="text-center mb-3">Check-in
+                      <th>
+                      <th class="text-center mb-3">Check-out
+                      <th>
+                      <th class="text-center mb-3">Obs
+                      <th>
+                      <th class="text-center mb-3">Ações</th>
+                    </tr>
+                  </thead>
+                  <tbody *ngFor="let periodo of temporadaArray; let i = index">
+                    <tr>
+                      <td class="text-center">{{periodo.dtEntrada | date: 'dd/MM/YYYY' : '+00:00'}}</td>
+                      <td></td>
+                      <td class="text-center">{{periodo.dtSaida | date: 'dd/MM/YYYY' : '+00:00'}}</td>
+                      <td></td>
+                      <td class="text-center">{{periodo.obs !== '' ? periodo.obs : 'Não há.'}}</td>
+                      <td></td>
+                      <td class="text-center">
+                        <i class="fa fa-times text-danger fs-5 cursor-pointer py-0"
+                          (click)="removerPeriodo(periodo, i)"></i>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--Linha definir detalhes da promoção/pacote-->
+      <div class="row my-4">
+        <div class="col-2">
+          <label class="fw-bold">Regime da reserva:</label>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" formControlName="opEscolhida" id="cafe-manha" [value]="1"
+              checked>
+            <label class="form-check-label" for="cafe-manha">
+              Café da Manhã
+            </label>
+          </div>
+          <div class="form-check my-2">
+            <input class="form-check-input" type="radio" formControlName="opEscolhida" id="meia-pensao" [value]="2">
+            <label class="form-check-label" for="meia-pensao">
+              Meia Pensão
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" formControlName="opEscolhida" id="pensao-completa" [value]="3">
+            <label class="form-check-label" for="pensao-completa">
+              Pensão Completa
+            </label>
+          </div>
+        </div>
+
+        <div class="col-2">
+          <div>
+            <label class="fw-bold">Total de Reservas <span class="text-danger">*</span></label>
+            <input formControlName="qteReservasPodeVender" class="form-control" type="text" id="qteReservasPodeVender"
+              placeholder="Máximo Reservas" required [ngClass]="validandoInput('qteReservasPodeVender')">
+          </div>
+
+          <div class="my-1">
+            <label for="qtoAdultos" class="fw-bold">
+              Quantidade de Adultos
+            </label>
+            <input type="text" formControlName="qtoAdultos" class="form-control" id="qtoAdultos"
+              [max]="maximoJovensAdultos('adultos')" placeholder="Quantidade padrão">
+          </div>
+
+          <div>
+            <label for="qtoJovens" class="fw-bold">
+              Quantidade de Jovens
+            </label>
+            <input type="text" formControlName="qtoJovens" class="form-control" id="qtoJovens"
+              [max]="maximoJovensAdultos('jovens')" placeholder="Quantidade padrão">
+          </div>
+        </div>
+
+        <div class="col-8">
+          <p class="mb-1 fw-bold">
+            Definir Benefícios do Pacote?
+          </p>
+          <div class="form-check form-check-inline" (click)="definindoBeneficios(true)">
+            <input class="form-check-input" type="radio" name="isBeneficios" id="isBeneficiosTrue"
+              [checked]="isBeneficios" [value]="true">
+            <label class="form-check-label" for="isBeneficiosTrue">
+              Sim
+            </label>
+          </div>
+          <div class="form-check form-check-inline" (click)="definindoBeneficios(false)">
+            <input class="form-check-input" type="radio" name="isBeneficios" id="isBeneficiosFalse"
+              [checked]="!isBeneficios" [value]="false">
+            <label class="form-check-label" for="isBeneficiosFalse">
+              Não
+            </label>
+          </div>
+          <div class="mt-2 form-floating">
+            <textarea type="textarea" formControlName="beneficiosPacote" class="form-control" id="beneficiosPacote"
+              [required]="isBeneficios" style="height: 9.7rem;" placeholder="Digite os benefícios ofertados no pacote"
+              [ngClass]="!isBeneficios ? 'bg-secondary-subtle cursor-not-allowed' : ''"></textarea>
+            <label for="beneficiosPacote">Digite aqui os benefícios do pacote</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+      </div>
+    </div>
+    <div class="card-footer text-end">
+      <button type="button" class="btn btn-danger me-1" aria-label="Close" (click)="retornarPaginaPromocoes()">
+        Cancelar
+      </button>
+      <button type="submit" [disabled]="" class="btn btn-success btn-block px-4" [disabled]="criarOrEditar == 'criar' 
+          ? (temporadaArray.length === 0 && isTemporada) || form.invalid 
+          : form.invalid">
+        Salvar
+      </button>
+    </div>
+  </form>
+</div>

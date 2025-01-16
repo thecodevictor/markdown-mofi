@@ -1,0 +1,89 @@
+<div class="float-end">
+  <div class="btn-group">
+    <button type="button" class="btn btn-outline-primary btn-sm">
+      Todos
+    </button>
+    <button type="button" class="btn btn-outline-primary btn-sm"
+      (click)="abrirFormularioPerfil()">
+      Novo Perfil
+    </button>
+  </div>
+</div>
+
+
+<p class="card-title-desc">
+  <i class="fa fa-edit me-1 text-primary"></i>
+  <span class="me-3">Edita perfil</span>
+
+  <i class="fa fa-check-square-o me-1 text-success"></i>
+  <span class="me-3">Ativa perfil</span>
+
+  <i class="fa fa-ban me-1 text-danger"></i>
+  <span class="me-3">Desativa perfil</span>
+</p>
+
+<div class="mb-0">
+  <table class="table align-middle table-striped table-nowrap mb-0">
+
+    <thead class="table-light">
+      <tr>
+        <th class="text-center">Nome</th>
+        <th class="text-center">Módulos abrangidos</th>
+        <th class="text-center">Status</th>
+        <th class="text-center">Ações</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      @for (permissao of listaPermissoes; track $index) {
+      <tr>
+        <td class="text-center">
+          {{ permissao.namePerfil ? permissao.namePerfil : 'Não definido.' }}
+        </td>
+
+        <td class="text-center">
+          @for (modulo of avaliarModulosAbrangidos(permissao); track $index) {
+          <span class="badge bg-soft text-white bg-{{visualizarModulosAbrangidos(modulo).cor}}">
+            {{ visualizarModulosAbrangidos(modulo).modulo }}
+          </span>
+          }
+        </td>
+
+        <td class="text-center">
+          <span class="badge bg-soft text-white bg-{{visualizarStatusPermissao(permissao).cor}}"
+            style="background-color: rgb(184, 228, 184);">
+            <b>{{ visualizarStatusPermissao(permissao).status}}</b>
+          </span>
+        </td>
+
+        <td class="d-flex justify-content-center align-items-center">
+          <i class="fa fs-5 cursor-pointer fa-edit me-1 text-primary" ngbTooltip="Editar perfil"
+            (click)="abrirFormularioPerfil(permissao)">
+          </i>
+          <i class="fa fs-5 cursor-pointer fa-{{ permissao.actived ? 'ban' : 'check-square-o'}} 
+            {{ permissao.actived ? 'text-danger' : 'text-success' }}"
+            ngbTooltip="{{ permissao.actived ? 'Desativar perfil' : 'Ativar perfil' }}"
+            (click)="ativarDesativarPerfilPermissao(permissao)">
+          </i>
+        </td>
+      </tr>
+      }@empty {
+      <tr>
+        <td colspan="4" class="text-center fs-5">
+          Nenhum perfil de permissão foi encontrado!
+          <span class="link text-decoration-underline cursor-pointer"
+            (click)="comunicacaoEntreComponentes.emitirAcaoSendoRealizada('cadastro')">
+            Clique aqui e cadastre
+          </span>
+        </td>
+      </tr>
+      }
+    </tbody>
+  </table>
+</div>
+@if(listaPermissoes.length > 10){
+<div class="text-end me-3 pe-1 pt-3 mb-0">
+  <pagination-controls (pageChange)="paginaAtual = $event" previousLabel="Anterior"
+    nextLabel="Próximo"></pagination-controls>
+</div>
+}

@@ -1,0 +1,7 @@
+<th scope="row" class="p-0 text-wrap bg-warning-subtle text-black" [width]="'5%'">Marg. Desconto</th>
+@for (dia of listaDatas; track $index) {
+<td class="align-middle border text-center cursor-pointer p-0 {{definirBg(dia)}} text-black" [width]="'3.65%'"
+  (click)="abrirModalFormDesconto(dia)">
+  {{definirMargemDia(dia)}}
+</td>
+}

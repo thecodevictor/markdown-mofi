@@ -1,0 +1,43 @@
+<div>
+  <div class="logo-wrapper">
+    <a href="javascript:void(0)">
+      <!-- <img class="img-fluid" src="assets/images/logo/logo_light.png" alt=""> -->
+      <img height="40px" src="assets/images/adtur/logo1.png" alt="">
+    </a>
+
+    <div class="back-btn" (click)="sidebarToggle()">
+      <i class="fa fa-angle-left"></i>
+    </div>
+    <div class="toggle-sidebar" (click)="sidebarToggle()">
+      <app-comman-svg-icon [class]="'stroke-icon sidebar-toggle status_toggle middle'"
+        [icon]="'toggle-icon'"></app-comman-svg-icon>
+    </div>
+  </div>
+  <div class="logo-icon-wrapper" style="padding: 18px 14px !important;">
+    <a href="javascript:void(0)">
+      <img class="img-fluid" style="height: revert-layer !important; height: 2.4rem !important"
+        src="assets/images/adtur/logo-wrapped.png" alt=""></a>
+  </div>
+
+  <nav class="sidebar-main">
+    <div id="sidebar-menu" class="sidebar-custom-scroll">
+      <ul class="sidebar-links">
+        <li>
+          <h6>Itens Salvos</h6>
+        </li>
+        <li *ngFor="let item of savedItems; let i = index" [ngClass]="{'active': selectedItemIndex === i}">
+          <div class="sidebar-item">
+            <!-- Título do item -->
+            <span (click)="viewItem(item, i)" class="item-title">{{ item.title }}</span>
+
+            <!-- Botão de excluir -->
+            <button class="btn-delete" (click)="deleteItem(i)" title="Excluir item">
+              <i class="fa fa-trash"></i>
+            </button>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+</div>

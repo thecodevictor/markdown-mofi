@@ -1,0 +1,18 @@
+<div class="card">
+  @if(isCriandoEditandoPerfilPermissao){
+  <div class="card-header">
+    <h4 class="card-title mb-0">
+      <i class="fs-5 me-2 fa fa-arrow-circle-o-left cursor-pointer" ngbTooltip="Voltar à lista de perfis"
+        placement="top" (click)="comunicacaoEntreComponentes.emitirAcaoSendoRealizada('lista')"></i>
+      {{tituloFormulario}}
+    </h4>
+  </div>
+  }
+  <div class="card-body pb-4">
+    @if(isVisualizandoListaPerfis){
+    <app-tabela-perfis-permissao></app-tabela-perfis-permissao>
+    }@else if (isCriandoEditandoPerfilPermissao) {
+    <app-form-perfil-permissao></app-form-perfil-permissao>
+    }
+  </div>
+</div>

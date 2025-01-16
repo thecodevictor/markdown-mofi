@@ -1,0 +1,135 @@
+<div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title">{{titulo}}</h4>
+      <button type="button" class="btn btn-close btn-md" aria-label="Close" (click)="fecharModal()"></button>
+    </div>
+    <div class="modal-body">
+      <div class="row">
+        <div class="col">
+          <label class="fw-semibold" *ngIf="promocao.isTemporada">Código do Pacote:</label>
+          <label class="fw-semibold" *ngIf="!promocao.isTemporada">Código da Promoção:</label>
+          <input readonly type="text" class="form-control" [value]="promocao.codigo">
+        </div>
+      </div>
+      <div class="row my-3">
+        <div class="col">
+          <label class="fw-semibold">URL gerada:</label>
+          <div class="input-group">
+            <input type="text" class="form-control" readonly [value]="textoURL()" id="url">
+            <button class="btn btn-light ms-0" type="button" (click)="copiarUrlParaClipboard()">
+              <i class="fa fa-copy"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="row" *ngIf="promocao.isPeriodo; else temporadaTemplate">
+        <div class="col">
+          <label class="fw-semibold">Vigência:</label>
+          <input type="text" readonly class="form-control" [value]="textoVigencia()">
+        </div>
+        <div class="col">
+          <label class="fw-semibold">Estadia:</label>
+          <input type="text" readonly class="form-control" [value]="textoEstadia()">
+        </div>
+      </div>
+      <ng-template #temporadaTemplate>
+        <div class="card">
+          <div class="card-title">
+            <hr class="col-12"/>
+            <div class="fw-semibold">Períodos:</div>
+          </div>
+          <ng-template #msg>
+            <div class="card-text text-center">
+              <p class="p-4 mb-0 text-muted">Não há períodos cadastrados no pacote ainda.</p>
+            </div>
+          </ng-template>
+  
+          <div class="card-text table-responsive" *ngIf="temporadaArray.length > 0; else msg">
+            <table class="table align-middle table-striped table-nowrap mb-0">
+              <thead>
+                <tr>
+                  <th class="text-center mb-3">
+                    Check-in
+                  <th>
+                  <th class="text-center mb-3">
+                    Check-out
+                  <th>
+                  <th class="text-center mb-3">
+                    Obs
+                  <th>
+                </tr>
+              </thead>
+              <tbody *ngFor="let periodo of temporadaArray; let i = index">
+                <tr>
+                  <td class=" text-center">{{ periodo.dtEntrada ? visualizandoData(periodo.dtEntrada) : '' }}</td>
+                  <td></td>
+                  <td class="text-center">{{ periodo.dtSaida ? visualizandoData(periodo.dtSaida) : '' }}</td>
+                  <td></td>
+                  <td class="text-center">{{ periodo.obs !== '' ? periodo.obs : 'Não há.' }}</td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <hr />
+        </div>
+      </ng-template>
+      <div class="row my-3">
+        <div class="col">
+          <div *ngIf="promocao.isMargem">
+            <label class="fw-semibold">Porcentagem do Desconto:</label>
+            <input type="text" readonly class="form-control" [value]="textoMargemDesconto()">
+          </div>
+          <div *ngIf="!promocao.isMargem">
+            <label class="fw-semibold">Valor do Desconto:</label>
+            <input type="text" readonly class="form-control" [value]="textoValorDesconto()">
+          </div>
+        </div>
+        <div class="col">
+          <label class="fw-semibold">Desconto no Pix?</label>
+          <input type="text" readonly class="form-control" [value]="textoMargemDescontoPix()" *ngIf="promocao.isPix">
+          <input type="text" readonly class="form-control" value="Não há." *ngIf="!promocao.isPix">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <label class="fw-semibold">Regime da Reserva:</label>
+          <input type="text" readonly class="form-control" [value]="textoPensaoEscolhida()">
+        </div>
+        <div class="col">
+          <label class="fw-semibold">Adultos:</label>
+          <input type="text" readonly class="form-control" [value]="promocao.qtoAdultos ? promocao.qtoAdultos : 0">
+        </div>
+        <div class="col">
+          <label class="fw-semibold">Jovens:</label>
+          <input type="text" readonly class="form-control" [value]="promocao.qtoJovens ? promocao.qtoJovens : 0">
+        </div>
+      </div>
+      <div class="row my-3">
+        <div class="col">
+          <label class="fw-semibold">Qtd Máxima de Reservas:</label>
+          <input type="text" readonly class="form-control"
+           [value]="this.promocao.qteReservasPodeVender ? this.promocao.qteReservasPodeVender
+            : 'Indefinido.'">
+        </div>
+        <div class="col">
+          <label class="fw-semibold">Reservas Já utilizadas:</label>
+          <input type="text" readonly class="form-control" [value]="promocao.qteReservasVendida">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <label class="fw-semibold">Benefícios do Pacote/Promoção:</label>
+          <div *ngIf="promocao.beneficiosPacote">
+            <p class="fw-bold ms-1 my-1" *ngFor="let beneficio of beneficios">
+              <input type="text" readonly class="form-control" [value]="beneficio">
+            </p>
+          </div>
+          <div *ngIf="!promocao.beneficiosPacote">
+            <input type="text" class="form-control" name="beneficiosPacote" readonly
+                   value="Não foram definidos benefícios além do desconto.">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

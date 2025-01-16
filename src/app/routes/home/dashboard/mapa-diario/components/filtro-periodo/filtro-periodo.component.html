@@ -1,0 +1,37 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <h6 class="modal-title">Filtrar Mapa Diário</h6>
+    <button class="btn btn-sm btn-close" (click)="fecharModal()"></button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-3">
+        <span class="fw-semibold">Data Início:</span>
+      </div>
+      <div class="col-9">
+        <input type="date" class="form-control" name="dataInicio" id="dataInicio" [(ngModel)]="dtInicio"
+          placeholder="Início do Período" autocomplete="off">
+      </div>
+    </div>
+    <div class="row my-3">
+      <div class="col">
+        <p class="bg-info bg-soft badge py-3 mb-0 text-white text-wrap">
+          <i class="fa fa-info-circle"></i>
+          Será filtrado os próximos 25 dias, a contar da data início determinada acima.
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <div class="d-flex justify-content-between">
+      <div class="btn-group">
+        <button class="btn btn-sm btn-danger me-0" (click)="fecharModal()">
+          Cancelar
+        </button>
+        <button class="btn btn-sm btn-success me-0" (click)="buscarPeriodo()">
+          Buscar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

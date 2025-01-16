@@ -1,0 +1,39 @@
+<div class="page-header row" [ngClass]="{'close_icon' :navService.collapseSidebar }">
+  <div class="header-logo-wrapper col-auto">
+    <div class="logo-wrapper">
+      <a href="javascript:void(0)">
+        <img class="for-light" height="60px" src="assets/images/adtur/logo1.png" alt="logo-light" />
+        <img class="for-dark" height="60px" src="assets/images/adtur/logoAdtur.png" alt="logo-dark" /></a>
+    </div>
+  </div>
+  <div class="col-4 col-xl-4 page-title">
+    <app-breadcrumb></app-breadcrumb>
+  </div>
+  <div class="header-wrapper col m-0">
+    <div class="row">
+      <div class="nav-right col-xxl-8 col-xl-6 col-md-7 col-8 pull-right right-header p-0 ms-auto">
+        <ul class="nav-menus">
+          <li class="position-relative">
+            <span class="header-search" (click)="isSearchOpen = !isSearchOpen">
+              <app-comman-svg-icon [icon]="'search'"></app-comman-svg-icon>
+            </span>
+          </li>
+          <li class="onhover-dropdown">
+            <app-bookmark></app-bookmark>
+          </li>
+          <li>
+            <app-theme-mode></app-theme-mode>
+          </li>
+          <li class="profile-nav onhover-dropdown px-0 py-0">
+            <app-profile></app-profile>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+

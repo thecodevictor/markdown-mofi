@@ -1,0 +1,47 @@
+<div class="modal-content">
+  <div class="modal-header d-flex justify-content-between align-items-center">
+    <h5>{{title}}</h5>
+  </div>
+  <form [formGroup]="formUh" (ngSubmit)="onSubmit()">
+    <div class="modal-body">
+      <div class="row g-3">
+        <div class="col-12">
+          <label for="nomeUH" class="form-label">Nome da Unidade Hoteleira:</label>
+          <input type="text" id="nomeTipoUh" class="form-control form-control-sm" formControlName="nomeTipoUh"
+            placeholder="Informe o nome da UH" [ngClass]="formReativo.definindoClasseValidator(formUh, 'nomeTipoUh')">
+        </div>
+        <div class="col-12">
+          <label for="nomeUH" class="form-label">
+            {{listaHoteis.length > 0 ? 'Selecione o Hotel' : 'Nome do Hotel:'}}
+          </label>
+          @if(listaHoteis.length > 0){
+          <select class="form-select form-select-sm" formControlName="nomeHotel"
+            [ngClass]="formReativo.definindoClasseValidator(formUh, 'nomeHotel')">
+            <option value="" selected disabled>Selecione um hotel</option>
+            @for (item of listaHoteis; track $index) {
+            <option value="{{item.nomeHotel}}">{{item.nomeHotel}}</option>
+            }
+            <option value="naoLocalizei">Informar novo hotel</option>
+          </select>
+          @if(controls['nomeHotel'].value == 'naoLocalizei'){
+          <input type="text" id="nomeHotel" class="form-control form-control-sm my-3" [(ngModel)]="novoHotel"
+            [ngModelOptions]="{standalone: true}" placeholder="Informe o hotel">
+          }
+          }@else {
+          <input type="text" id="nomeHotel" class="form-control form-control-sm" formControlName="nomeHotel">
+          }
+        </div>
+        <div class="col">
+          <label for="totalQuartos" class="form-label">Total de Quartos:</label>
+          <input type="text" id="totalQuartos" class="form-control form-control-sm" formControlName="totalQuartos"
+            [ngClass]="formReativo.definindoClasseValidator(formUh, 'totalQuartos')">
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <div class="btn-group">
+        <button class="btn btn-sm btn-success me-0">Salvar</button>
+      </div>
+    </div>
+  </form>
+</div>

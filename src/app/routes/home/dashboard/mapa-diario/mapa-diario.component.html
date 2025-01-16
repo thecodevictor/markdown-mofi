@@ -1,0 +1,66 @@
+<div class="row">
+  <div class="col">
+    <div class="card">
+      <div class="card-body pb-0">
+        <h4 class="card-title mb-4">Mapa diário</h4>
+        <div class="mt-1 d-flex justify-content-between align-items-center">
+          <ul class="list-inline mb-0">
+            <li class="list-inline-item me-0 border-0 border-end">
+              <h3>
+                <span class="h2">{{margemOcupacaoPadrao}}</span>%
+                <span class="text-muted d-inline-block fw-normal font-size-10 mx-2">m. de ocupação<br>padrão</span>
+              </h3>
+            </li>
+            <li class="list-inline-item me-0 border-end">
+              <h3 class="ms-3">
+                <span class="h2">{{margemDescontoPadrao}}</span>%
+                <span class="text-muted d-inline-block fw-normal font-size-10 mx-2">m. de desconto<br>padrão</span>
+              </h3>
+            </li>
+            <li class="list-inline-item me-0 border-end">
+              <h3 class="ms-3">
+                <span class="h2">{{ dtHoje | date:'dd/MM/YY' : '+00:00'}}</span>
+                <span class="text-muted d-inline-block fw-normal font-size-10 mx-2">data<br>de hoje</span>
+              </h3>
+            </li>
+            <li class="list-inline-item me-0">
+              <h3 class="ms-3">
+                <span class="h2">00</span>%
+                <span class="text-muted d-inline-block fw-normal font-size-10 mx-2">outras<br>informações</span>
+              </h3>
+            </li>
+          </ul>
+          <div>
+            <h5 class="text-end">de {{!isPeriodo ? 'hoje' : dtInicio | date: 'dd/MM/yyyy' : '+00:00'}} aos próximos 25
+              dias!</h5>
+            <div class="text-end">
+              <button class="btn btn-sm btn-outline-primary" (click)="abrirFiltroPeriodoModal()">
+                Alterar Período
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+        <ul ngbNav #nav="ngbNav" [(activeId)]="tabAtivado" class="nav-tabs mt-4">
+          @for (item of navTabsMapaDiario; track $index) {
+          <li [ngbNavItem]="$index">
+            <button ngbNavLink (click)="emitirOMapaDiarioDoHotelSelecionado(item.labelEmissao)">
+              {{item.title}}
+            </button>
+            <ng-template ngbNavContent>
+              <div class="card-body p-0">
+                <app-tabela-mapa-diario></app-tabela-mapa-diario>
+              </div>
+            </ng-template>
+          </li>
+          }
+        </ul>
+        <div [ngbNavOutlet]="nav" class="mt-2"></div>
+      </div>
+      <div class="card-body mt-4">
+        <app-tabela-controle-motor-vendas></app-tabela-controle-motor-vendas>
+      </div>
+    </div>
+  </div>
+</div>

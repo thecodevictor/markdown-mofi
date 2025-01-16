@@ -1,0 +1,52 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <h5 class="modal-title">Alterar senha</h5>
+    <button class="btn btn-sm btn-close" (click)="fecharModal()"></button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="formAlterarSenha" class="needs-validation" novalidate>
+      <div class="mb-3">
+        <label for="novaSenha" class="form-label">Nova senha:</label>
+        <input type="password" formControlName="novaSenha" id="novaSenha" class="form-control form-control-sm"
+          [ngClass]="formReativo.definindoClasseValidator(formAlterarSenha, 'novaSenha')">
+        @if (formAlterarSenha.get('novaSenha')?.touched && formAlterarSenha.get('novaSenha')?.errors) {
+        <div class="invalid-feedback">
+          @if (formAlterarSenha.get('novaSenha')?.errors?.['required']) {
+          <div>A nova senha é obrigatória</div>
+          }@else if (formAlterarSenha.get('novaSenha')?.errors?.['minlength'] ||
+          formAlterarSenha.get('novaSenha')?.errors?.['maxlength']) {
+          <div>
+            A nova senha deve ter no mínimo 8 caracteres e no máximo 20 caracteres
+          </div>
+          }@else if (formAlterarSenha.get('novaSenha')?.errors?.['pattern']) {
+          <div>
+            A nova senha deve conter pelo menos uma letra maiúscula, uma letra minúscula, e um número.
+          </div>
+          }
+        </div>
+        }
+      </div>
+      <div class="mb-3">
+        <label for="confirmarSenha" class="form-label">Confirmação de senha</label>
+        <input type="password" formControlName="confirmarSenha" id="confirmarSenha" class="form-control form-control-sm"
+          [ngClass]="formReativo.definindoClasseValidator(formAlterarSenha, 'confirmarSenha')">
+        <div class="invalid-feedback">
+          @if(formAlterarSenha.get('confirmarSenha')?.touched && formAlterarSenha.get('confirmarSenha')?.errors){
+          @if (formAlterarSenha.get('confirmarSenha')?.errors?.['required']) {
+          <div>é necessário confirmar a nova senha</div>
+          }@else if(formAlterarSenha.get('confirmarSenha')?.errors?.['mustMatch']) {
+          <div>As senhas devem ser iguais</div>
+          }
+          }
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer text-end">
+    <button class="btn btn-sm btn-secondary" (click)="fecharModal()">Cancelar</button>
+    <button class="btn btn-sm btn-success" (click)="emitirSenhaASerAlterada()"
+      [disabled]="formAlterarSenha.invalid || (formAlterarSenha.get('confirmarSenha')?.value !== formAlterarSenha.get('novaSenha')?.value)">
+      Alterar
+    </button>
+  </div>
+</div>

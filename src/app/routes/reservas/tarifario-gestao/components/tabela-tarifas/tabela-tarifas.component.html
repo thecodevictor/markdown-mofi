@@ -1,0 +1,101 @@
+<div class="card">
+  <div class="card-content">
+    <div class="card-header border-0 d-flex align-items-center justify-content-between">
+      <h4 class="card-title">
+        <i class="fs-5 me-2 fa fa-arrow-circle-o-left cursor-pointer" ngbTooltip="Voltar" placement="top"
+          [routerLink]="['/reservas/gestao-tarifario']"></i>
+        Gestão das Tarifas -
+        <span class="text-primary">{{tarifarioSelecionado?.nomeTarifario}}</span>
+      </h4>
+      <button class="btn btn-outline-primary btn-sm" [disabled]="verificarSeTodosOsPeriodosJaPossuemTarifas()"
+        (click)="navegarAteFormTarifa()">Nova tarifa</button>
+    </div>
+    <div class="card-body">
+      @if(listaUH.length > 0){
+      <div class="row justify-content-start mb-3">
+        <div class="col-xl-4 col-xxl-3">
+          <span>Visualizando UH:</span>
+          <select class="form-select form-select-sm" [(ngModel)]="id_tipo_uh"
+            (ngModelChange)="verificarSeTodosOsPeriodosJaPossuemTarifas()">
+            @for (item of listaUH; track $index) {
+            <option value="{{item._id}}">{{item.nomeTipoUh}}</option>
+            }
+          </select>
+        </div>
+      </div>
+      <ng-container [ngTemplateOutlet]="tabelaTarifasCadastradas"></ng-container>
+      }@else {
+      <div class="alert alert-light-dark text-center" role="alert">
+        Nenhuma tarifa foi definida para este tarifário. <a (click)="navegarAteFormTarifa()"
+          class="cursor-pointer link text-decoration-underline">Clique aqui e cadastre</a>
+      </div>
+      }
+    </div>
+  </div>
+</div>
+
+<ng-template #tabelaTarifasCadastradas>
+  <div class="table-responsive">
+    <table class="table table-bordered">
+      <thead>
+        <tr class="text-center">
+          <th class="border" scope="col">UH</th>
+          <th class="border" scope="col">Período</th>
+          <th class="border" scope="col">Single</th>
+          <th class="border" scope="col">Duplo</th>
+          <th class="border" scope="col">Triplo</th>
+          <th class="border" scope="col">Quádruplo</th>
+          <th class="border" scope="col">Quíntuplo</th>
+          <th class="border" scope="col">Adicional</th>
+          <th class="border" scope="col">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (tarifa of tarifasUhSelecionado; track $index) {
+        <tr class="text-center border" align="center">
+          <td class="border">{{tipoUh?.nomeTipoUh}}</td>
+          <td class="border">{{definirPeriodo(tarifa)}}</td>
+          <td class="border">
+            <span class="d-block"><b>Café da Manhã: </b>{{definirValorPorPessoa(tarifa, 'single').cafeManha}}</span>
+            <span class="d-block mt-2"><b>Meia Pensão:
+              </b>{{definirValorPorPessoa(tarifa, 'single').meiaPensao}}</span>
+          </td>
+          <td class="border">
+            <span class="d-block"><b>Café da Manhã: </b>{{definirValorPorPessoa(tarifa, 'duplo').cafeManha}}</span>
+            <span class="d-block mt-2"><b>Meia Pensão:
+              </b>{{definirValorPorPessoa(tarifa, 'duplo').meiaPensao}}</span>
+          </td>
+          <td class="border">
+            <span class="d-block"><b>Café da Manhã: </b>{{definirValorPorPessoa(tarifa, 'triplo').cafeManha}}</span>
+            <span class="d-block mt-2"><b>Meia Pensão:
+              </b>{{definirValorPorPessoa(tarifa, 'triplo').meiaPensao}}</span>
+          </td>
+          <td class="border">
+            <span class="d-block"><b>Café da Manhã: </b>{{definirValorPorPessoa(tarifa, 'quad').cafeManha}}</span>
+            <span class="d-block mt-2"><b>Meia Pensão: </b>{{definirValorPorPessoa(tarifa, 'quad').meiaPensao}}</span>
+          </td>
+          <td class="border">
+            <span class="d-block"><b>Café da Manhã: </b>{{definirValorPorPessoa(tarifa, 'quint').cafeManha}}</span>
+            <span class="d-block mt-2"><b>Meia Pensão:
+              </b>{{definirValorPorPessoa(tarifa, 'quint').meiaPensao}}</span>
+          </td>
+          <td class="border">
+            <span class="d-block"><b>Café da Manhã: </b>{{definirValorPorPessoa(tarifa, 'adc').cafeManha}}</span>
+            <span class="d-block mt-2"><b>Meia Pensão: </b>{{definirValorPorPessoa(tarifa, 'adc').meiaPensao}}</span>
+          </td>
+          <td class="my-auto">
+            <i class="fa fa-pencil-square-o text-primary fa-lg me-2 cursor-pointer" ngbTooltip="Editar tarifa"
+              (click)="navegarAteFormTarifa(tarifa)"></i>
+            <i class="fa fa-trash text-danger fa-lg cursor-pointer me-2" ngbTooltip="Excluir tarifa"
+              (click)="alertaExcluirTarifa(tarifa)"></i>
+          </td>
+        </tr>
+        }@empty {
+        <tr class="text-center">
+          <td colspan="9" class="border">Nenhuma tarifa cadastrada</td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</ng-template>

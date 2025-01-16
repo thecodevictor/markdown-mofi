@@ -1,0 +1,51 @@
+<div class="modal-content border-info">
+    <div class="modal-header">
+      <h4 class="modal-title">Detalhes do cupom</h4>
+      <button type="button" class="btn btn-close btn-md" aria-label="Close" (click)="cancela()"></button>
+    </div>
+  
+  
+    <div class="modal-body">
+      <!-- Nome do cupom -->
+      <div class="row">
+        <div class="col-8">
+          <h6 class="mb-1">Código do cupom:</h6>
+          <div class="input-group">
+            <input class="form-control text-center" type="text" readonly [value]="nomeCupom">
+            <button class="btn btn-outline-secondary" (click)="copiarCodigoParaClipboard()">
+              <i class="fa fa-clipboard"></i>
+            </button>
+          </div>
+        </div>
+  
+        <div class="mb-4 col">
+          <h6 class="mb-1">Desconto:</h6>
+          @if (detalhesCupom.porcent!) {
+             <input  class="form-control text-center" type="text" readonly [value]="tipoCupomPorcentagem">
+          } 
+          @if(!detalhesCupom.porcent) {
+            <input  class="form-control text-center" type="text" readonly [value]="tipoCupomValor">
+          }
+          <!-- <input *ngIf="!porcentagem" class="form-control text-center" type="text" readonly [value]="tipoCupomValor"> -->
+        </div>
+      </div>
+  
+      <div class="row mt-3">
+        <div class="mb-0 col-6">
+          <div>
+            <h6 class="mb-0">Início da Vigência:</h6>
+          <input class="form-control text-center" type="text" readonly [value]="dataInicio">
+          </div>
+        </div>
+  
+  
+        <div class="col-6">
+          <div>
+            <h6 class="mb-0">Fim da Vigência:</h6>
+          <input class="form-control text-center" type="text" readonly [value]="dataFim">
+          </div>
+        </div>
+      </div>
+  
+    </div>
+  </div>

@@ -1,0 +1,220 @@
+<div class="modal-content border-info" *ngIf="permissao">
+  <div class="modal-header">
+    <h5 class="modal-title">{{ titulo }}</h5>
+    <button type="button" class="btn btn-close btn-md" aria-label="Close"
+      (click)="cancela('Nenhum cupom foi criado!', 'Novo cupom cancelado!', 'info', 'cancelado')"></button>
+  </div>
+
+  <form class="form-horizontal" novalidate="" role="form" [formGroup]="form" name="newCupom" (ngSubmit)="onSubmit()">
+
+    <div class="modal-body">
+      <!-- Campo de codigo de cupom -->
+      <div class="mb-3">
+        <label for="codecupom">Código do cupom</label>
+        <div class="input-group auth-nome-inputgroup">
+          <input type="text" formControlName="codecupom" class="form-control" id="codecupom"
+            placeholder="Digite o nome do código de cupom" autocomplete="off" required
+            [ngClass]="{ 'is-invalid': form.controls['codecupom'].touched && form.controls['codecupom'].errors, 'is-valid': form.controls['codecupom'].touched && !form.controls['codecupom'].errors }" />
+          <button class="btn btn-light ms-0" type="button" disabled id="btn-codecupom">
+            <i class="fa fa-ticket fa-lg me-1"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- ---------------------------------------- -->
+
+      <div class="container mt-2 mb-2">
+        <div class="row">
+          <div class="col-6 pt-2">
+            <div class="col-6">
+              <div class="form-check">
+                <input formControlName="defineporcento" class="form-check-input" (click)="porcentagemOuValorUnico()"
+                  [(ngModel)]="porcentagem" type="checkbox" id="porcentagem">
+                <label class="form-check-label" for="porcentagem">
+                  Porcentagem
+                </label>
+              </div>
+            </div>
+
+            <div class="col-6">
+              <div class="form-check">
+                <input formControlName="definevalor" class="form-check-input" (click)="porcentagemOuValorUnico()"
+                  [(ngModel)]="valorunico" type="checkbox" id="valorunico">
+                <label class="form-check-label" for="valorunico">
+                  Valor único
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-6">
+            <!-- Campo para digitar o valor em porcentagen -->
+            <div class="mb-3" *ngIf="porcentagem">
+              <label for="porcent">Porcentagem de desconto</label>
+              <input type="text" formControlName="porcent" class="form-control" id="porcent" placeholder="Porcentagem"
+                [required]="porcentagem"
+                [ngClass]="{ 'is-invalid': form.controls['porcent'].touched && form.controls['porcent'].errors, 'is-valid': form.controls['porcent'].touched && !form.controls['porcent'].errors }"
+                autocomplete="off" />
+            </div>
+
+            <!-- Campo para digitar o valor único -->
+            <div class="mb-3" *ngIf="!porcentagem">
+              <label for="valor">Valor de desconto</label>
+              <input type="text" formControlName="valor" class="form-control" id="valor" placeholder="Valor"
+                [required]="!porcentagem"
+                [ngClass]="{ 'is-invalid': form.controls['valor'].touched && form.controls['valor'].errors, 'is-valid': form.controls['valor'].touched && !form.controls['valor'].errors }"
+                autocomplete="off" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ---------------------------------------- -->
+
+
+      <div class="row">
+        <div class="col-6">
+          <div>
+            <label for="dtinicio">Data de início</label>
+            <input type="date" formControlName="dtinicio" class="form-control" placeholder="Data de Entrada"
+              id="dtinicio" required autocomplete="off" [ngClass]="{ 'is-invalid': form.controls['dtinicio'].touched && form.controls['dtinicio'].errors, 'is-valid':
+                 form.controls['dtinicio'].touched && !form.controls['dtinicio'].errors }">
+          </div>
+        </div>
+
+        <!-- input Data de saída -->
+        <div class="col-6">
+          <div>
+            <label for="dtinicio">Data de saida</label>
+            <input type="date" formControlName="dtfim" class="form-control" placeholder="Data de Saída" id="dtfim"
+              required autocomplete="off" [ngClass]="{ 'is-invalid': form.controls['dtfim'].touched && form.controls['dtfim'].errors,
+                 'is-valid': form.controls['dtfim'].touched && !form.controls['dtfim'].errors }">
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-danger" aria-label="Close"
+        (click)="cancela('Nenhum cupom foi criado!', 'Novo cupom cancelado!', 'info', 'cancelado')">
+        Cancelar
+      </button>
+      <button type="submit" [disabled]="form.pristine || form.invalid"
+        class="btn btn-success btn-block px-4">Salvar</button>
+    </div>
+  </form>
+
+</div>
+
+<!-- Formulário a ser aberto caso o usuário tenha permissão de criar novo cupom: promocional -->
+<div class="modal-content border-info" *ngIf="!permissao">
+  <div class="modal-header">
+    <h5 class="modal-title">{{ titulo }}</h5>
+    <button type="button" class="btn btn-close btn-md" aria-label="Close"
+      (click)="cancela('Nenhum cupom foi criado!', 'Novo cupom cancelado!', 'info', 'cancelado')"></button>
+  </div>
+
+  <form class="form-horizontal" novalidate="" role="form" [formGroup]="form" name="newCupom" (ngSubmit)="onSubmit()">
+
+    <div class="modal-body">
+      <!-- Campo de codigo de cupom -->
+      <div class="mb-3">
+        <label for="codecupom">Código do cupom</label>
+        <div class="input-group auth-nome-inputgroup">
+          <input type="text" formControlName="codecupom" class="form-control" id="codecupom"
+            placeholder="Digite o nome do código de cupom" autocomplete="off" required
+            [ngClass]="{ 'is-invalid': form.controls['codecupom'].touched && form.controls['codecupom'].errors, 'is-valid': form.controls['codecupom'].touched && !form.controls['codecupom'].errors }" />
+          <button class="btn btn-light ms-0" type="button" disabled id="btn-codecupom">
+            <i class="fa fa-ticket fa-lg me-1"></i>
+          </button>
+        </div>
+      </div>
+      <!-- ---------------------------------------- -->
+
+      <div class="container mt-2 mb-2">
+        <div class="row">
+          <div class="col-6 pt-2">
+            <div class="col-6">
+              <div class="form-check">
+                <input formControlName="defineporcento" class="form-check-input" (click)="porcentagemOuValorUnico()"
+                  [(ngModel)]="porcentagem" type="checkbox" id="porcentagem">
+                <label class="form-check-label" for="porcentagem">
+                  Porcentagem
+                </label>
+              </div>
+            </div>
+
+            <div class="col-6">
+              <div class="form-check">
+                <input formControlName="definevalor" class="form-check-input" (click)="porcentagemOuValorUnico()"
+                  [(ngModel)]="valorunico" type="checkbox" id="valorunico">
+                <label class="form-check-label" for="valorunico">
+                  Valor único
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-6">
+            <!-- Campo para digitar o valor em porcentagen -->
+            <div class="mb-3" *ngIf="porcentagem">
+              <label for="porcent">Porcentagem de desconto</label>
+              <input type="text" formControlName="porcent" class="form-control" id="porcent" placeholder="Porcentagem"
+                [required]="porcentagem"
+                [ngClass]="{ 'is-invalid': form.controls['porcent'].touched && form.controls['porcent'].errors, 'is-valid': form.controls['porcent'].touched && !form.controls['porcent'].errors }"
+                autocomplete="off" />
+            </div>
+
+            <!-- Campo para digitar o valor único -->
+            <div class="mb-3" *ngIf="!porcentagem">
+              <label for="valor">Valor de desconto</label>
+              <input type="text" formControlName="valor" class="form-control" id="valor" placeholder="Valor"
+                [required]="!porcentagem"
+                [ngClass]="{ 'is-invalid': form.controls['valor'].touched && form.controls['valor'].errors, 'is-valid': form.controls['valor'].touched && !form.controls['valor'].errors }"
+                autocomplete="off" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ---------------------------------------- -->
+
+      <div class="row">
+        <div class="col-6">
+          <div>
+            <label for="valor">Data de início</label>
+            <div class="clockpicker">
+              <input type="date" formControlName="dtinicio" class="form-control" placeholder="Data de Entrada"
+                id="dtinicio" required autocomplete="off" [ngClass]="{ 'is-invalid': form.controls['dtinicio'].touched && form.controls['dtinicio'].errors, 'is-valid':
+                 form.controls['dtinicio'].touched && !form.controls['dtinicio'].errors }">
+            </div>
+          </div>
+        </div>
+
+        <!-- input Data de saída -->
+        <div class="col-6">
+          <div>
+            <label for="valor">Data fim</label>
+            <div class="clockpicker">
+              <input type="date" formControlName="dtfim" class="form-control" placeholder="Data de Saída" id="dtfim"
+                required autocomplete="off" [ngClass]="{ 'is-invalid': form.controls['dtfim'].touched && form.controls['dtfim'].errors,
+                 'is-valid': form.controls['dtfim'].touched && !form.controls['dtfim'].errors }">
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-danger" aria-label="Close"
+        (click)="cancela('Nenhum cupom foi criado!', 'Novo cupom cancelado!', 'info', 'cancelado')">
+        Cancelar
+      </button>
+      <button type="submit" [disabled]="form.pristine || form.invalid"
+        class="btn btn-success btn-block px-4">Salvar</button>
+    </div>
+  </form>
+
+</div>

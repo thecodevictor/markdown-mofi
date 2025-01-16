@@ -1,0 +1,33 @@
+/* You can add global styles to this file, and also import other style files */
+@import "./assets/scss/app.scss";
+@import './assets/scss/themes/custom';
+
+/*Importação necessário para o funcionamento dos ícones font awesome*/
+@import "./assets/scss/fontawasome.scss";
+
+/*Importação necessária para o funcionamento ToastrService*/
+@import "ngx-toastr/toastr";
+
+/* You can add global styles to this file, and also import other style files */
+@import '../node_modules/prismjs/themes/prism.css';
+markdown table {
+  width: 80%;
+  border-collapse: collapse;
+  margin: 1em 0;
+  font-size: 1em;
+  border: 1px solid #ccc;
+}
+
+markdown th,
+markdown td {
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+/* Alinhamento dinâmico */
+markdown th[style*="text-align"],
+markdown td[style*="text-align"] {
+  text-align: inherit; // Mantém o alinhamento definido pelo markdown
+}
+
+

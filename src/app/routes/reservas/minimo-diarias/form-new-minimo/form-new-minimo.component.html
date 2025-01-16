@@ -1,0 +1,39 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <h6 class="modal-title">Novo Limite de Diárias</h6>
+    <button class="btn btn-sm btn-close" (click)="fecharModal()"></button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-12 ps-3 mb-2">
+        <span><b>Informe o mínimo:</b></span>
+        <input type="text" class="ms-4 w-25 text-center border rounded py-1" placeholder=" Ex: 3" name="minimoDiarias"
+          id="minimoDiarias" required autocomplete="off" [(ngModel)]="minimoDiarias" ngbTooltip="Opcional">
+      </div>
+
+      <div class="col-12 ps-3 mb-2">
+        <span><b>Informe o máximo:</b></span>
+        <input type="text" class="ms-4 w-25 text-center border rounded py-1" placeholder=" Ex: 3" name="maximoDiarias"
+          id="maximoDiarias" required autocomplete="off" [(ngModel)]="maximoDiarias" ngbTooltip="Opcional">
+      </div>
+
+      <div class="col-2 ps-3">
+        <span><b>Data:</b></span>
+      </div>
+      <div class="col-10 mb-3">
+        <div class="clockpicker">
+          <input type="date" name="dtMinimo" placeholder="Data de aplicação" autocomplete="off"
+            class="form-control form-control-sm ms-3 py-1 w-75 border border-secondary text-center" id="dtMinimo"
+            [(ngModel)]="dataAAplicarOLimite">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer text-end">
+    <div class="btn-group">
+      <button class="btn btn-sm btn-danger me-0" (click)="fecharModal()">Cancelar</button>
+      <button class="btn btn-sm btn-success" (click)="salvarLimite()"
+        [disabled]="(!minimoDiarias && !maximoDiarias) || !dataAAplicarOLimite">Salvar</button>
+    </div>
+  </div>
+</div>

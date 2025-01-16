@@ -1,0 +1,20 @@
+<div class="d-flex profile-media align-items-center" (click)="isShow =!isShow">
+  <img class="img-30 rounded-circle" src="" alt="">
+  <div class="flex-grow-1">
+    <span>Bilu</span>
+  </div>
+  <ul class="profile-dropdown onhover-show-div" [class.active]="isShow">
+    <li>
+      <a [routerLink]="[ '/colaboradores/meu-perfil' ]">
+        <i class="fa fa-user me-1 text-black"></i>
+        <span>Meu perfil </span>
+      </a>
+    </li>
+    <li>
+      <a href="javascript:void(0)" (click)="logout()">
+        <i class="fa fa-power-off me-1 text-black"></i>
+        <span>Sair</span>
+      </a>
+    </li>
+  </ul>
+</div>

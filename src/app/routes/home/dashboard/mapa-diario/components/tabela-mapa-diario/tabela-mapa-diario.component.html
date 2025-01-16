@@ -1,0 +1,62 @@
+<div class="d-flex justify-content-end text-end mb-2">
+  <div class="color-box d-inline-block me-1 bg-vermelho"></div><span class="me-2">Abaixo de 0</span>
+  <span class="color-box d-inline-block me-1 bg-laranja"></span><span class="me-2">Menor que 20%</span>
+  <span class="color-box d-inline-block me-1 bg-cinza"></span><span class="me-2">Entre 20% e 35%</span>
+  <span class="color-box d-inline-block me-1 bg-azul-claro"></span><span class="me-2">Entre 35% e 50%</span>
+  <span class="color-box d-inline-block me-1 bg-azul-escuro"></span><span class="me-2">Maior que 50%</span>
+</div>
+<div class="table-responsive">
+  <table class="table table-bordered">
+    <thead>
+      <tr class="text-center">
+        <th class="sticky-left align-middle">
+          UH
+        </th>
+        @for (dia of listaDatas; track $index) {
+        <th scope="col" class="bg-body-tertiary py-0">
+          <div class="d-block">
+            <span class="badge bg-primary bg-soft">
+              {{ dia | date: 'MMM' }}
+            </span>
+          </div>
+          <div class="d-block">
+            <span class="text-black">
+              {{ dia | date: 'd' }}
+            </span>
+          </div>
+          <div class="d-block">
+            <small class="text-black">
+              {{ dia | date: 'EEE' }}
+            </small>
+          </div>
+        </th>
+        }
+      </tr>
+    </thead>
+    <tbody class="text-center">
+      @for (unidade of listaUhMapaDiario; track $index) {
+      <tr>
+        <th scope="row" class="text-start text-nowrap p-1 sticky-left">
+          {{ ajustarNomeUH(unidade.nomeUH) }}
+        </th>
+        @for (dia of listaDatas; track $index) {
+        <td class="p-0 sticky-column fw-bold {{definindoBackground(
+            definindoDisponibilidade(unidade, $index)!, 
+            unidade.idUH
+            )}}" style="font-size: 0.9rem;">
+          {{ definindoDisponibilidade(unidade, $index) }}
+        </td>
+        }
+      </tr>
+      }
+      <tr>
+        <th scope="row" class="p-1 text-start sticky-left text-nowrap">Total Disp.</th>
+        @for (dia of listaDatas; track $index) {
+        <td class="p-0 bg-body-tertiary text-black">
+          {{ total($index) }}
+        </td>
+        }
+      </tr>
+    </tbody>
+  </table>
+</div>

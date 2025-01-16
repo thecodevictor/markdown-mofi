@@ -1,0 +1,59 @@
+<div class="row">
+  <div class="col">
+    <div class="card">
+      <div class="card-content">
+        <div class="card-header border-0 d-flex justify-content-between">
+          <h4 class="card-title mb-0">
+            @if(tarifarioSelecionado){
+            <i class="fs-5 me-2 fa fa-arrow-circle-o-left cursor-pointer" [ngbTooltip]="isUhSelecionado ? 'Voltar à lista de tarifários' : (idTarifarioUrl ? 'Voltar à gestão dos tarifários' : 'Voltar à lista de tarifários')"
+              placement="top" (click)="isUhSelecionado ? voltarAListaDeUh() : (idTarifarioUrl ? voltarAGestaoTarifarios() : voltarAListaDosTarifarios()) "></i>
+            }
+            Tarifário(s) ativo(s)
+          </h4>
+          <button class="btn btn-outline-secondary btn-sm" type="button" (click)="abrirModalCadastrarTarifario()">
+            Novo tarifário
+          </button>
+        </div>
+        @if(!tarifarioSelecionado){
+        @if(listaTarifarios.length > 0) {
+        <ng-container [ngTemplateOutlet]="cardSelecionarOTarifarioAVisualizar"></ng-container>
+        }@else{
+        <div class="card-body">
+          <div class="text-center">
+            <p class="p-4 mb-0 text-muted">
+              Nenhum tarifário cadastrado ainda.
+              <a class="link cursor-pointer" (click)="abrirModalCadastrarTarifario()">
+                Clique aqui para cadastrar.
+              </a>
+            </p>
+          </div>
+        </div>
+        }
+        }@else if(tarifarioSelecionado && !isUhSelecionado){
+        <app-lista-uh-por-tarifario></app-lista-uh-por-tarifario>
+        }@else {
+        <app-tabela-tarifas-uh></app-tabela-tarifas-uh>
+        }
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #cardSelecionarOTarifarioAVisualizar>
+  <div class="card-body">
+    <div class="row justify-content-center align-items-center">
+      @for (tarifario of listaTarifarios; track $index) {
+      <div class="col-lg-6 col-xl-3 d-flex justify-content-center">
+        <div class="card text-center" style="width: 13rem; height: 10rem">
+          <h5 class="card-header"><strong>{{tarifario.nomeTarifario}}</strong></h5>
+          <div class="card-body">
+            <a class="btn btn-sm btn-primary" (click)="selecionarEVisualizarTarifario(tarifario._id)">
+              Visualizar
+            </a>
+          </div>
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+</ng-template>

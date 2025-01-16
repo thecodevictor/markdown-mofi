@@ -1,0 +1,121 @@
+<div class="row justify-content-center">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-body pb-4">
+        <div class="float-end">
+          <div class="btn-group">
+            <button type="button" class="btn btn-outline-primary btn-sm" (click)="definirFiltroDaLista('')">
+              Todos
+            </button>
+            <button type="button" class="btn btn-outline-primary btn-sm " ngbTooltip="Conta(s) ativada(s)"
+              (click)="definirFiltroDaLista('ativados')">
+              <i class="fa fa-user fa-lg"></i>
+            </button>
+            <button type="button" class="btn btn-outline-primary btn-sm " ngbTooltip="Conta(s) desativada(s)"
+              (click)="definirFiltroDaLista('desativados')">
+              <i class="fa fa-ban fa-lg"></i>
+            </button>
+            <button type="button" class="btn btn-outline-primary btn-sm" ngbTooltip="Conta(s) excluída(s)"
+              (click)="definirFiltroDaLista('excluidos')">
+              <i class="fa fa-trash-o fa-lg"></i>
+            </button>
+            <button type="button" class="btn btn-outline-primary btn-sm" (click)="abrirModalFormUsuario()">
+              Nova conta
+            </button>
+          </div>
+        </div>
+
+
+        <p class="card-title-desc">
+          <i class="fa fa-edit me-1 text-primary"></i>
+          <span class="me-3">Edita conta</span>
+
+          <i class="fa fa-check-square-o me-1 text-success"></i>
+          <span class="me-3">Ativa conta</span>
+
+          <i class="fa fa-ban me-1 text-warning"></i>
+          <span class="me-3">Desativa conta</span>
+
+          <i class="fa fa-trash-o me-1 text-danger"></i>
+          <span class="me-3">Exclui conta</span>
+        </p>
+
+        <div class="mb-0">
+          <table class="table align-middle table-striped table-nowrap mb-0">
+
+            <thead class="table-light">
+              <tr>
+                <th class="text-center">Apelido</th>
+                <th class="text-center">Nome</th>
+                <th class="text-center">E-mail</th>
+                <th class="text-center">Telefone</th>
+                <th class="text-center">Status</th>
+                <th class="text-center">Ações</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              @for (usuario of listaUsuariosFiltrada| paginate: {
+              itemsPerPage: 10,
+              currentPage: paginaAtual
+              }; track $index) {
+              <tr>
+                <td class="text-center">
+                  <img src="{{ usuario._avatar.url }}" alt="user" class="rounded-circle h-auto avatar-xs me-2"
+                    style="height: 55px; width: 55px;">
+                  <span> {{usuario._user.apelido}}</span>
+                </td>
+
+                <td class="text-center">
+                  {{ usuario.nome ? usuario.nome : 'não informado.' }}
+                </td>
+
+                <td class="text-center">
+                  {{usuario._user.email}}
+                </td>
+
+                <td mask="(00) 0 0000-0000">
+                  {{usuario.telefone}}
+                </td>
+
+                <td class="text-center">
+                  <span class="badge bg-soft text-white bg-{{visualizarStatusTabela(usuario._user).cor}}"
+                    style="background-color: rgb(184, 228, 184);">
+                    <b>{{ visualizarStatusTabela(usuario._user).status}}</b>
+                  </span>
+                </td>
+
+                <td class="text-center">
+                  <i (click)="abrirModalFormUsuario(usuario)" class="fa fs-5 cursor-pointer fa-edit me-1 text-primary"
+                    ngbTooltip="Editar perfil"></i>
+
+                  @if(usuario._user.lock){
+                  <i (click)="ativaConta(usuario)" class="fa fs-5 cursor-pointer fa-check-square-o me-1 text-success"
+                    ngbTooltip="Ativar conta"></i>
+                  }@else{
+                  <i (click)="desativaConta()" class="fa fs-5 cursor-pointer fa-ban me-1 text-warning"
+                    ngbTooltip="Desativar conta"></i>
+                  }
+                  <i (click)="removerOuRestaurarPerfil(usuario)"
+                    class="fa fs-5 cursor-pointer fa-trash-o {{ usuario.excluded ? 'text-info' : 'text-danger' }}"
+                    ngbTooltip="{{ usuario.excluded ? 'Restaurar conta' : 'Excluir conta' }}"></i>
+                </td>
+              </tr>
+              }@empty {
+              <tr>
+                <td colspan="6" class="text-center fs-3">
+                  Nenhum usuário{{' ' + labelFiltroAtual}} foi encontrado!
+                </td>
+              </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+        <div class="text-end me-3 pe-1 pt-3 mb-0">
+          <pagination-controls (pageChange)="paginaAtual = $event" previousLabel="Anterior"
+            nextLabel="Próximo"></pagination-controls>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

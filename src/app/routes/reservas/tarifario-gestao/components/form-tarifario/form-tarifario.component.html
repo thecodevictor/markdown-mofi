@@ -1,0 +1,43 @@
+<div class="modal-content">
+  <div class="modal-header border-0 d-flex justify-content-between align-items-center">
+    <h4>Cadastro de Tarifário</h4>
+    <button class="btn btn-close" aria-label="Close" (click)="fecharModal()"></button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="tarifarioForm">
+      <div class="row g-3">
+        <div class="col-12">
+          <label for="nomeTarifario" class="form-label">Nome do Tarifário:</label>
+          <input type="text" id="nomeTarifario" formControlName="nomeTarifario" class="form-control form-control-sm">
+        </div>
+        <div class="col-12">
+          <label class="form-label me-2">Tipo do Tarifário:</label>
+          <div class="form-check form-check-inline">
+            <input type="checkbox" class="form-check-input" id="isParticular" formControlName="isParticular">
+            <label for="isParticular" class="form-check-label cursor-pointer">Particular</label>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="alert alert-light-dark text-center" role="alert">
+            As tarifas serão definidas após realizar este cadastro.
+          </div>
+        </div>
+        <div class="col-12">
+          <label class="form-label">Informe o período</label>
+          <app-datepicker-range></app-datepicker-range>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer text-end">
+    <div class="btn-group">
+      <button type="button" class="btn btn-danger btn-sm me-0" (click)="fecharModal()">
+        Cancelar
+      </button>
+      <button type="button" class="btn btn-success btn-sm" (click)="onSubmit()"
+        [disabled]="tarifarioForm.invalid && dtInicio! && dtFinal!">
+        Cadastrar Tarifário
+      </button>
+    </div>
+  </div>
+</div>

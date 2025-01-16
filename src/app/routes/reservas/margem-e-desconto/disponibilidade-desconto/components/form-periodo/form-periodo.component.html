@@ -1,0 +1,42 @@
+<div class="modal-content border-info">
+  <div class="modal-header d-flex justify-content-between mb-0">
+    <h5 class="modal-title">{{ titulo }}</h5>
+    <button class="btn btn-sm btn-close" (click)="fecharModal()"></button>
+  </div>
+  <div class="modal-body">
+    <div>
+      <div class="row">
+        <div class="col-3">
+          <label class="form-label"><b>Data Inicial</b></label>
+        </div>
+        <div class="col-9">
+          <div class="clockpicker">
+            <input type="date" placeholder="Insira a data inicial do período" class="form-control text-center"
+              (ngModelChange)="dataFim = ''" id="dtInicio" required autocomplete="off" [(ngModel)]="dataInicio">
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-3">
+          <label class="form-label"><b>Data Final</b></label>
+        </div>
+        <div class="col-9">
+          <div class="clockpicker">
+            <input type="date" placeholder="Insira a data final do período" class="form-control text-center" id="dtFim"
+              required autocomplete="off" [(ngModel)]="dataFim" [min]="dataInicio">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <div class="btn-group m-0">
+      <button type="button" class="btn btn-danger btn-sm me-0" (click)="fecharModal()">Cancelar</button>
+      <button type="submit" class="btn btn-success btn-sm me-0" [disabled]="!dataInicio || !dataFim"
+        (click)="onSubmit()">
+        Salvar
+      </button>
+    </div>
+  </div>
+</div>

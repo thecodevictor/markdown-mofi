@@ -1,0 +1,77 @@
+/* Estilos do container da sidebar */
+.sidebar-main {
+  background-color: #2c3e50; /* Fundo escuro */
+  color: #ecf0f1; /* Texto claro */
+  padding: 10px; /* Adiciona um espaçamento interno geral */
+
+  .sidebar-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    /* Estilo para cada item */
+    li {
+      display: flex; /* Alinha itens na horizontal */
+      align-items: center; /* Centraliza verticalmente os itens */
+      justify-content: space-between; /* Espaça o texto do botão */
+      padding: 10px 10px; /* Espaçamento interno consistente */
+      border-bottom: 1px solid #34495e; /* Linha de separação */
+      transition: background-color 0.3s ease;
+      border-radius: 4px; /* Borda arredondada */
+      margin-bottom: 8px; /* Espaçamento entre itens */
+
+      /* Cor de fundo no hover */
+      &:hover {
+        background-color: #34495e;
+      }
+
+      /* Estilo para o título do item */
+      .item-title {
+        flex-grow: 1; /* Ocupa o espaço restante */
+        font-size: 14px;
+        font-weight: 500;
+        color: #ecf0f1;
+        // overflow: hidden; /* Esconde texto longo */
+        white-space: nowrap;
+        text-overflow: ellipsis; /* Adiciona "..." para texto muito longo */
+        cursor: pointer;
+        margin-right: 15px; /* Ajusta o espaço entre o título e o ícone do botão */
+
+        &:hover {
+          color: #1abc9c; /* Destaque no hover */
+        }
+      }
+
+      /* Botão de exclusão */
+      .btn-delete {
+        // display: flex; /* Garante alinhamento do ícone */
+        align-items: center; /* Centraliza o ícone verticalmente */
+        justify-content: center;
+        width: 32px; /* Define um tamanho fixo ao botão */
+        height: 32px; /* Define o tamanho do botão */
+        background-color: transparent;
+        border: none;
+        color: #e74c3c;
+        font-size: 16px;
+        border-radius: 4px; /* Bordas arredondadas */
+        padding: 5px; /* Adiciona espaço interno */
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+
+        &:hover {
+          background-color: #c0392b;
+          color: #fff;
+          transform: scale(1.1); /* Leve aumento no hover */
+        }
+
+        &:active {
+          transform: scale(0.9); /* Reduz levemente no clique */
+        }
+
+        i {
+          pointer-events: none; /* Ícone não interfere no clique */
+        }
+      }
+    }
+  }
+}

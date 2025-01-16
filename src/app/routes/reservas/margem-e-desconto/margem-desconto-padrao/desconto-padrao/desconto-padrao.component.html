@@ -1,0 +1,59 @@
+<app-loader></app-loader>
+
+<!-- Relação de margens cadastradas -->
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="float-end">
+          <ul class="list-inline mb-0">
+            <li class="list-inline-item mt-1 mr-2 mb-0" (click)="openFormNewMargem(true)">
+              <button type="button" class="btn btn-outline-primary btn-sm">
+                Nova margem
+              </button>
+            </li>
+          </ul>
+        </div>
+
+        <div class="table-responsive mt-5">
+          <table class="table align-middle table-striped table-nowrap mb-0" *ngIf="!msgMargemExcluida">
+            <thead class="table-light">
+              <tr>
+                <th class="text-center">Margem %</th>
+                <th></th>
+                <th class="text-center">Status</th>
+                <th class="text-center">Data encerramento</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="text-center"
+                *ngFor="let margem of margemFiltrada | paginate: { itemsPerPage: 9, currentPage: paginaAtual }; let i = index">
+                <td>
+                  {{ margem.margemDesconto + '%'}}
+                </td>
+                <td></td>
+                <td class="text-center">
+                  <span class="badge bg-success bg-soft"
+                    [ngClass]="{' bg-danger': margem.status == false}">
+                    {{margem.status ? 'Ativada' : 'Desativada'}}</span>
+                </td>
+                <td class="text-center">
+                  <span [ngClass]="{'badge bg-primary bg-soft': margem.status}">
+                    {{ margem.status ? 'Em uso atualmente' : margem.dtEncerramento | date: 'dd/MM/yyyy':'UTC'}}
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="text-end me-3 pe-1" *ngIf="margemFiltrada.length > 5">
+        <pagination-controls (pageChange)="paginaAtual = $event" previousLabel="Anterior"
+          nextLabel="Próximo"></pagination-controls>
+      </div>
+      <div *ngIf="msgMargemExcluida" class="text-center mb-4 text-muted font-weight-light">
+        <h2 class="">Nenhuma margem de desconto padrão foi encontrada!</h2>
+      </div>
+    </div>
+  </div>
+</div>

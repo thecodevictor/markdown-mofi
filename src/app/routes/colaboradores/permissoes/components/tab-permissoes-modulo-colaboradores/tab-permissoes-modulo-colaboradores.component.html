@@ -1,0 +1,251 @@
+<div class="card-body border">
+  <ng-container [ngTemplateOutlet]="MenuContasWeb"></ng-container>
+</div>
+
+<ng-template #MenuContasWeb>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-check form-check-success">
+        <input class="form-check-input" type="checkbox" id="isContasWebMenu"
+          [(ngModel)]="permissoesADefinir!.isContasWebMenu" [checked]="permissoesADefinir!.isContasWebMenu"
+          (ngModelChange)="desmarcarMenuContasWeb()">
+        <label class="cursor-pointer form-check-label" for="isContasWebMenu">
+          <h5 class="mb-0 text-info">Menu "Contas Web"</h5>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="row ms-2">
+    <!-- Submenu "Lista de Contas" -->
+    <div class="col-md-6">
+      <div class="form-check form-check-success mb-0">
+        <input class="form-check-input" type="checkbox" id="isListaContasWeb"
+          [(ngModel)]="permissoesADefinir!.contasWebMenu.isListaContasWeb"
+          [disabled]="!permissoesADefinir!.isContasWebMenu"
+          [(ngModel)]="permissoesADefinir!.contasWebMenu.isListaContasWeb"
+          [checked]="permissoesADefinir!.contasWebMenu.isListaContasWeb"
+          (ngModelChange)="desmarcarSubMenuListaDeContas()">
+        <label class="{{!permissoesADefinir.isContasWebMenu ? 'cursor-notallowed' : 'cursor-pointer'}} form-check-label"
+          for="isListaContasWeb">
+          <h6 class="text-primary mb-1">Submenu "Lista de Contas"</h6>
+        </label>
+
+        <div class="ms-2">
+          <div>
+            <input class="form-check-input" type="checkbox" id="rlcw_isNewColaborador"
+              [disabled]="!permissoesADefinir!.contasWebMenu.isListaContasWeb"
+              [(ngModel)]="permissoesADefinir!.contasWebMenu.rulesListaContasWeb.rlcw_isNewColaborador"
+              [checked]="permissoesADefinir!.contasWebMenu.rulesListaContasWeb.rlcw_isNewColaborador">
+            <label
+              class="{{!permissoesADefinir.contasWebMenu.isListaContasWeb ? 'cursor-notallowed' : 'cursor-pointer'}} form-check-label"
+              for="rlcw_isNewColaborador">
+              <b class="text-success">Cadastrar</b> nova(s) conta(s)
+            </label>
+          </div>
+
+          <div>
+            <input class="form-check-input" type="checkbox" id="rlcw_isLockColaborador"
+              [disabled]="!permissoesADefinir!.contasWebMenu.isListaContasWeb"
+              [(ngModel)]="permissoesADefinir!.contasWebMenu.rulesListaContasWeb.rlcw_isLockColaborador"
+              [checked]="permissoesADefinir!.contasWebMenu.rulesListaContasWeb.rlcw_isLockColaborador">
+            <label
+              class="{{!permissoesADefinir.contasWebMenu.isListaContasWeb ? 'cursor-notallowed' : 'cursor-pointer'}} form-check-label"
+              for="rlcw_isLockColaborador">
+              <b class="text-success">Ativar</b> e <b class="text-warning">desativar</b> conta(s)
+            </label>
+          </div>
+
+          <div>
+            <input class="form-check-input" type="checkbox"
+              [(ngModel)]="permissoesADefinir!.contasWebMenu.rulesListaContasWeb.rlcw_isDeleteColaborador"
+              [checked]="permissoesADefinir!.contasWebMenu.rulesListaContasWeb.rlcw_isDeleteColaborador"
+              [disabled]="!permissoesADefinir!.contasWebMenu.isListaContasWeb" id="rlcw_isDeleteColaborador">
+            <label
+              class="{{!permissoesADefinir.contasWebMenu.isListaContasWeb ? 'cursor-notallowed' : 'cursor-pointer'}} form-check-label"
+              for="rlcw_isDeleteColaborador">
+              <b class="text-danger">Excluir</b> conta(s)
+            </label>
+          </div>
+
+          <div>
+            <input class="form-check-input" type="checkbox"
+              [(ngModel)]="permissoesADefinir!.contasWebMenu.rulesListaContasWeb.rlcw_visualizarColaboradorExcluido"
+              [checked]="permissoesADefinir!.contasWebMenu.rulesListaContasWeb.rlcw_visualizarColaboradorExcluido"
+              [disabled]="!permissoesADefinir!.contasWebMenu.isListaContasWeb" id="rlcw_visualizarColaboradorExcluido">
+            <label
+              class="{{!permissoesADefinir.contasWebMenu.isListaContasWeb ? 'cursor-notallowed' : 'cursor-pointer'}} form-check-label"
+              for="rlcw_visualizarColaboradorExcluido">
+              <b class="text-primary">Visualizar</b> conta(s) <b class="text-danger">excluída(s)</b>
+            </label>
+          </div>
+
+          <div>
+            <input class="form-check-input" type="checkbox"
+              [(ngModel)]="permissoesADefinir!.contasWebMenu.rulesListaContasWeb.rlcw_isRestoreColaboradorExcluido"
+              [checked]="permissoesADefinir!.contasWebMenu.rulesListaContasWeb.rlcw_isRestoreColaboradorExcluido"
+              [disabled]="!permissoesADefinir!.contasWebMenu.isListaContasWeb" id="rlcw_isRestoreColaboradorExcluido">
+            <label
+              class="{{!permissoesADefinir.contasWebMenu.isListaContasWeb ? 'cursor-notallowed' : 'cursor-pointer'}} form-check-label"
+              for="rlcw_isRestoreColaboradorExcluido">
+              <b class="text-success">Restaurar</b> conta(s) <b class="text-danger">excluída(s)</b>
+            </label>
+          </div>
+
+          <div>
+            <input class="form-check-input" type="checkbox"
+              [(ngModel)]="permissoesADefinir!.contasWebMenu.rulesListaContasWeb.rlcw_UpdateColaborador.updateDadosColaborador"
+              [checked]="permissoesADefinir!.contasWebMenu.rulesListaContasWeb.rlcw_UpdateColaborador.updateDadosColaborador"
+              [disabled]="!permissoesADefinir!.contasWebMenu.isListaContasWeb" id="updateDadosColaborador">
+            <label
+              class="{{!permissoesADefinir.contasWebMenu.isListaContasWeb ? 'cursor-notallowed' : 'cursor-pointer'}} form-check-label"
+              for="updateDadosColaborador">
+              <b class="text-primary">Editar</b> nome, telefone e apelido da(s) conta(s)
+            </label>
+          </div>
+
+          <div>
+            <input class="form-check-input" type="checkbox"
+              [(ngModel)]="permissoesADefinir!.contasWebMenu.rulesListaContasWeb.rlcw_UpdateColaborador.updateAccesskeyColaborador"
+              [checked]="permissoesADefinir!.contasWebMenu.rulesListaContasWeb.rlcw_UpdateColaborador.updateAccesskeyColaborador"
+              [disabled]="!permissoesADefinir!.contasWebMenu.isListaContasWeb" id="updateAccesskeyColaborador">
+            <label
+              class="{{!permissoesADefinir.contasWebMenu.isListaContasWeb ? 'cursor-notallowed' : 'cursor-pointer'}} form-check-label"
+              for="updateAccesskeyColaborador">
+              <b class="text-primary">Editar</b> chave de acesso do(s) conta(s)
+            </label>
+          </div>
+
+          <div>
+            <input class="form-check-input" type="checkbox"
+              [(ngModel)]="permissoesADefinir!.contasWebMenu.rulesListaContasWeb.rlcw_UpdateColaborador.updateAvatarColaborador"
+              [checked]="permissoesADefinir!.contasWebMenu.rulesListaContasWeb.rlcw_UpdateColaborador.updateAvatarColaborador"
+              [disabled]="!permissoesADefinir!.contasWebMenu.isListaContasWeb" id="updateAvatarColaborador">
+            <label
+              class="{{!permissoesADefinir.contasWebMenu.isListaContasWeb ? 'cursor-notallowed' : 'cursor-pointer'}} form-check-label"
+              for="updateAvatarColaborador">
+              <b class="text-primary">Editar</b> imagem do avatar da(s) conta(s)
+            </label>
+          </div>
+
+          <div>
+            <input class="form-check-input" type="checkbox"
+              [(ngModel)]="permissoesADefinir!.contasWebMenu.rulesListaContasWeb.rlcw_UpdateColaborador.updatePermissao"
+              [checked]="permissoesADefinir!.contasWebMenu.rulesListaContasWeb.rlcw_UpdateColaborador.updatePermissao"
+              [disabled]="!permissoesADefinir!.contasWebMenu.isListaContasWeb" id="updatePermissao">
+            <label
+              class="{{!permissoesADefinir.contasWebMenu.isListaContasWeb ? 'cursor-notallowed' : 'cursor-pointer'}} form-check-label"
+              for="updatePermissao">
+              <b class="text-primary">Editar</b> perfil de permissão da(s) conta(s)
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Submenu Cupons Promocionais -->
+    <div class="col-md-6">
+      <div class="form-check form-check-success mb-0">
+        <input class="form-check-input" type="checkbox" id="isSubMenuCupomPromocional"
+          [(ngModel)]="permissoesADefinir!.contasWebMenu.isPerfisPermissoes"
+          [disabled]="!permissoesADefinir!.isContasWebMenu"
+          [checked]="permissoesADefinir!.contasWebMenu.isPerfisPermissoes"
+          (ngModelChange)="desmarcarSubMenuPermissoes()">
+        <label class="{{!permissoesADefinir.isContasWebMenu ? 'cursor-notallowed' : 'cursor-pointer'}} form-check-label"
+          for="isSubMenuCupomPromocional">
+          <h6 class="text-primary mb-1">Submenu "Permissões"</h6>
+        </label>
+
+        <div class="ms-2">
+          <div>
+            <input class="form-check-input" type="checkbox" id="rpp_isNewPerfilPermissao"
+              [(ngModel)]="permissoesADefinir!.contasWebMenu.rulesPerfisPermissoes.rpp_isNewPerfilPermissao"
+              [checked]="permissoesADefinir!.contasWebMenu.rulesPerfisPermissoes.rpp_isNewPerfilPermissao"
+              [disabled]="!permissoesADefinir!.contasWebMenu.isPerfisPermissoes"
+              (ngModelChange)="desmarcarChecksModulosPermitidos()">
+            <label
+              class="{{!permissoesADefinir.contasWebMenu.isPerfisPermissoes ? 'cursor-notallowed' : 'cursor-pointer'}} form-check-label"
+              for="rpp_isNewPerfilPermissao">
+              <b class="text-success">Cadastrar</b> novo perfil
+            </label>
+          </div>
+
+          <div class="ms-2">
+            <div>
+              <input class="form-check-input" type="checkbox" id="rnp_isColaborador"
+                [(ngModel)]="permissoesADefinir!.contasWebMenu.rulesNovoPerfis.rnp_isColaborador"
+                [checked]="permissoesADefinir!.contasWebMenu.rulesNovoPerfis.rnp_isColaborador"
+                [disabled]="!permissoesADefinir!.contasWebMenu.isPerfisPermissoes || !permissoesADefinir!.contasWebMenu.rulesPerfisPermissoes.rpp_isNewPerfilPermissao">
+              <label
+                class="{{!permissoesADefinir.contasWebMenu.isPerfisPermissoes || !permissoesADefinir!.contasWebMenu.rulesPerfisPermissoes.rpp_isNewPerfilPermissao ? 'cursor-notallowed' : 'cursor-pointer'}} form-check-label"
+                for="rnp_isColaborador">
+                <b class="text-success">Definir</b> permissões no módulo Colaboradores
+              </label>
+            </div>
+
+            <div>
+              <input class="form-check-input" type="checkbox" id="rnp_isReservas"
+                [(ngModel)]="permissoesADefinir!.contasWebMenu.rulesNovoPerfis.rnp_isReservas"
+                [checked]="permissoesADefinir!.contasWebMenu.rulesNovoPerfis.rnp_isReservas"
+                [disabled]="!permissoesADefinir!.contasWebMenu.isPerfisPermissoes || !permissoesADefinir!.contasWebMenu.rulesPerfisPermissoes.rpp_isNewPerfilPermissao">
+              <label
+                class="{{!permissoesADefinir.contasWebMenu.isPerfisPermissoes || !permissoesADefinir!.contasWebMenu.rulesPerfisPermissoes.rpp_isNewPerfilPermissao ? 'cursor-notallowed' : 'cursor-pointer'}} form-check-label"
+                for="rnp_isReservas">
+                <b class="text-success">Definir</b> permissões no módulo Reservas
+              </label>
+            </div>
+          </div>
+
+          <div>
+            <input class="form-check-input" type="checkbox" id="rpp_isLockPermissao"
+              [(ngModel)]="permissoesADefinir!.contasWebMenu.rulesPerfisPermissoes.rpp_isLockPermissao"
+              [disabled]="!permissoesADefinir!.contasWebMenu.isPerfisPermissoes"
+              [checked]="permissoesADefinir!.contasWebMenu.rulesPerfisPermissoes.rpp_isLockPermissao">
+            <label
+              class="{{!permissoesADefinir.contasWebMenu.isPerfisPermissoes ? 'cursor-notallowed' : 'cursor-pointer'}} form-check-label"
+              for="rpp_isLockPermissao">
+              <b class="text-success">Ativar</b> e <b class="text-warning">desativar</b> perfil
+            </label>
+          </div>
+
+          <div>
+            <input class="form-check-input" type="checkbox"
+              [(ngModel)]="permissoesADefinir!.contasWebMenu.rulesPerfisPermissoes.rpp_isUpdatePermissao"
+              [checked]="permissoesADefinir!.contasWebMenu.rulesPerfisPermissoes.rpp_isUpdatePermissao"
+              [disabled]="!permissoesADefinir!.contasWebMenu.isPerfisPermissoes" id="rpp_isUpdatePermissao">
+            <label
+              class="{{!permissoesADefinir.contasWebMenu.isPerfisPermissoes ? 'cursor-notallowed' : 'cursor-pointer'}} form-check-label"
+              for="rpp_isUpdatePermissao">
+              <b class="text-primary">Editar</b> perfil
+            </label>
+          </div>
+
+          <div>
+            <input class="form-check-input" type="checkbox"
+              [checked]="permissoesADefinir!.contasWebMenu.rulesPerfisPermissoes.rpp_isDetahesPermissao"
+              [(ngModel)]="permissoesADefinir!.contasWebMenu.rulesPerfisPermissoes.rpp_isDetahesPermissao"
+              [disabled]="!permissoesADefinir!.contasWebMenu.isPerfisPermissoes" id="rpp_isDetahesPermissao">
+            <label
+              class="{{!permissoesADefinir.contasWebMenu.isPerfisPermissoes ? 'cursor-notallowed' : 'cursor-pointer'}} form-check-label"
+              for="rpp_isDetahesPermissao">
+              <b class="text-primary">Visualizar</b> detalhes do perfil
+            </label>
+          </div>
+
+          <div>
+            <input class="form-check-input" type="checkbox"
+              [checked]="permissoesADefinir!.contasWebMenu.rulesPerfisPermissoes.rpp_isListaColaboradoresPermissao"
+              [(ngModel)]="permissoesADefinir!.contasWebMenu.rulesPerfisPermissoes.rpp_isListaColaboradoresPermissao"
+              [disabled]="!permissoesADefinir!.contasWebMenu.isPerfisPermissoes" id="rpp_isListaColaboradoresPermissao">
+            <label
+              class="{{!permissoesADefinir.contasWebMenu.isPerfisPermissoes ? 'cursor-notallowed' : 'cursor-pointer'}} form-check-label"
+              for="rpp_isListaColaboradoresPermissao">
+              <b class="text-primary">Visualizar</b> lista de conta(s) que utilizam o perfil
+            </label>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</ng-template>

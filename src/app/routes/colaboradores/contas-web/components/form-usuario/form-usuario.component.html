@@ -1,0 +1,138 @@
+<div class="modal-content border-info">
+  <div class="modal-header">
+    <h5 class="modal-title">{{perfilAEditar ? 'Editar' : 'Nova'}} conta</h5>
+    <button type="button" class="btn btn-close btn-sm" aria-label="Close" (click)="fecharModal()">
+    </button>
+  </div>
+  <div class="modal-body">
+    <form role="form" [formGroup]="formUsuario">
+      @if(perfilAEditar){
+      <div class="mb-3">
+        <label for="nome" class="form-label">Nome</label>
+        <input type="text" formControlName="nome" class="form-control form-control-sm" id="nome"
+          placeholder="Insira o nome do usuário"
+          [ngClass]="formReativo.definindoClasseValidator(formUsuario, 'nome')" />
+        @if(formUsuario.controls['nome'].errors && formUsuario.controls['nome'].touched){
+        <div class="mt-1">
+          @if(formUsuario.controls['nome'].errors['minlength'] ||
+          formUsuario.controls['nome'].errors['maxlength']){
+          <span>
+            <i class="fa fa-exclamation-triangle text-danger"></i>
+            Nome deve ter entre 4 e 10 caracteres
+          </span>
+          }@else if(formUsuario.controls['nome'].errors['required']){
+          <span>
+            <i class="fa fa-exclamation-triangle text-danger"></i>
+            Nome obrigatório
+          </span>
+          }
+        </div>
+        }
+      </div>
+      }
+
+      <div class="mb-3">
+        <label for="apelido" class="form-label">Apelido</label>
+        <div class="input-group">
+          <input type="text" formControlName="apelido" class="form-control form-control-sm" id="apelido"
+            placeholder="Insira o apelido do usuário"
+            [ngClass]="formReativo.definindoClasseValidator(formUsuario, 'apelido')" />
+          <button class="btn btn-light ms-0" type="button" id="btn-apelido">
+            <i class="fa fa-user"></i>
+          </button>
+        </div>
+        @if(formUsuario.controls['apelido'].errors && formUsuario.controls['apelido'].touched){
+        <div class="mt-1">
+          @if(formUsuario.controls['apelido'].errors['minlength'] ||
+          formUsuario.controls['apelido'].errors['maxlength']){
+          <span>
+            <i class="fa fa-exclamation-triangle text-danger"></i>
+            Apelido deve ter entre 4 e 10 caracteres
+          </span>
+          }@else if(formUsuario.controls['apelido'].errors['required']){
+          <span>
+            <i class="fa fa-exclamation-triangle text-danger"></i>
+            Campo obrigatório
+          </span>
+          }
+        </div>
+        }
+      </div>
+
+      <div class="mb-3">
+        <label for="email" class="form-label">E-mail</label>
+        <div class="input-group">
+          <input type="email" formControlName="email" class="form-control form-control-sm" id="email"
+            placeholder="Insira seu e-mail" required
+            [ngClass]="{ 'is-invalid': formUsuario.controls['email'].touched && formUsuario.controls['email'].errors, 'is-valid': formUsuario.controls['email'].touched && !formUsuario.controls['email'].errors }" />
+          <button class="btn btn-light ms-0" type="button" id="btn-email">
+            <i class="fa fa-envelope"></i></button>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="telefone" class="form-label">Telefone</label>
+        <div class="input-group">
+          <input type="text" formControlName="telefone" class="form-control form-control-sm" id="telefone"
+            placeholder="Insira seu número de telefone celular" autocomplete="telefone" required
+            [ngClass]="{ 'is-invalid': formUsuario.controls['telefone'].touched && formUsuario.controls['telefone'].errors, 'is-valid': formUsuario.controls['telefone'].touched && !formUsuario.controls['telefone'].errors }" />
+          <button class="btn btn-light ms-0" type="button" id="btn-telefone">
+            <i class="fa fa-mobile fa-lg"></i></button>
+        </div>
+      </div>
+
+      @if(!perfilAEditar){
+      <div class="mb-3">
+        <label for="accesskey" class="form-label">Chave de acesso</label>
+        <div class="input-group">
+          <input class="form-control form-control-sm" id="accesskey" type="password" formControlName="accesskey"
+            placeholder="Insira sua chave de acesso" autocomplete="accesskey" required
+            [ngClass]="{ 'is-invalid': formUsuario.controls['accesskey'].touched && formUsuario.controls['accesskey'].errors, 'is-valid': formUsuario.controls['accesskey'].touched && !formUsuario.controls['accesskey'].errors }" />
+          <button class="btn btn-light ms-0" type="button" id="password-addon">
+            <i class="fa fa-key"></i></button>
+          <span class="text-muted">Deve conter no mínimo 8 caracteres dentre eles maiúsculo, minúsculo e
+            número.</span>
+        </div>
+      </div>
+      }
+
+      <div class="mb-3">
+        <label for="perfilPermissao" class="form-label">Selecione o perfil de permissões</label>
+        <div class="input-group">
+          <select class="form-select form-select-sm" formControlName="perfilPermissao" id="perfilPermissao"
+            [ngClass]="{ 'is-invalid': formUsuario.controls['perfilPermissao'].touched && formUsuario.controls['perfilPermissao'].errors, 'is-valid': formUsuario.controls['perfilPermissao'].touched && !formUsuario.controls['perfilPermissao'].errors }">
+            <option class="text-muted" value="">Nenhum perfil de permissões foi selecionado</option>
+            @for (permissao of listaPermissoes; track $index) {
+            <option [value]="permissao._id">
+              {{ permissao.namePerfil }}
+            </option>
+            }
+          </select>
+          <button class="btn btn-light ms-0" type="button" id="rules-addon">
+            <i class="fa fa-lock"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="text-end">
+        <a class="link cursor-pointer text-decoration-underline d-block" (click)="abrirModalAlterarSenha()">
+          Alterar Senha do Colaborador
+        </a>
+        <a class="link cursor-pointer text-decoration-underline" (click)="abrirModalAlterarAvatar()">
+          Alterar Avatar do Colaborador
+        </a>
+      </div>
+    </form>
+  </div>
+
+  <div class="modal-footer text-end">
+    <div class="btn-group">
+      <button type="button" class="btn btn-danger btn-sm me-0" (click)="fecharModal()">Cancelar</button>
+      <button type="button" [disabled]="formUsuario.pristine || formUsuario.invalid" (click)="salvar()"
+        class="btn btn-success btn-block px-4 btn-sm">
+        {{ perfilAEditar ? 'Alterar' : 'Cadastrar' }}
+      </button>
+    </div>
+  </div>
+
+</div>

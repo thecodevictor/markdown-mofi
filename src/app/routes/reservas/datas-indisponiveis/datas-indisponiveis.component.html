@@ -1,0 +1,43 @@
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-header bg-white border-0">
+        <div class="float-end pt-3">
+          <ul class="list-inline">
+            <li class="list-inline-item">
+              <button type="button" (click)="openFormNewIndisponibilidade()"
+                class="btn btn-outline-primary btn-sm">Indisponibilizar data</button>
+            </li>
+          </ul>
+        </div>
+        <p class="card-title-desc pt-3">
+          Relação de datas indisponíveis
+        </p>
+      </div>
+      <!-- Em casos de encontrar Datas -->
+      <div class="card-body pb-2" *ngIf="datasIndisponiveis.length > 0; else naoHaDatasIndisponiveis">
+        <div class="row">
+          <ng-container *ngFor="let items of datasIndisponiveis">
+            <div class="col-2">
+              <div class="card text-center" style="width: 13rem;">
+                <h5 class="card-header"><strong>{{ items.data | date:'dd/MM/yyyy' : '+00:00'}}</strong></h5>
+                <div class="card-body">
+                  <p class="card-text">Data indisponível.</p>
+                  <a class="btn btn-sm btn-success" (click)="disponibilizarOrIndisponibilizarData(false, items._id)">
+                    Disponibilizar
+                  </a>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+      <!-- Em casos de não encontrar datas -->
+      <ng-template #naoHaDatasIndisponiveis>
+        <div class="text-center mb-4 text-muted font-weight-light">
+          <h2 class="mt-3">Nenhuma data foi encontrada!</h2>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>

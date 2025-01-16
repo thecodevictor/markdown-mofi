@@ -1,0 +1,106 @@
+<!-- Relação de margens cadastradas -->
+<div class="card">
+  <div class="card-body">
+    <div class="card-body dropdown-basic m-0">
+      <div class="common-flex float-end">
+
+        <div class="btn-group" ngbDropdown>
+          <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" ngbDropdownToggle><i
+              class="fa fa-filter me-2"></i> Filtrar por </button>
+          <ul class="dropdown-menu dropdown-block" ngbDropdownMenu>
+            <button ngbDropdownItem [disabled]="tipoTabela == ''" (click)="montaTabela('')">Todos</button>
+            <button ngbDropdownItem [disabled]="tipoTabela == 'validos'"
+              (click)="montaTabela('validos')">Válidos</button>
+            <button ngbDropdownItem [disabled]="tipoTabela == 'excluidos'"
+              (click)="montaTabela('excluidos')">Excluídos</button>
+          </ul>
+        </div>
+
+        <div class="list-inline-item">
+          <button (click)="abrirModalNovoLimite()" type="button" class="btn btn-outline-primary btn-sm mb-0">
+            Definir Limite
+          </button>
+        </div>
+
+      </div>
+      <p class="card-title-desc pt-2 mb-2 pb-1">
+        <i class="fa fa-times text-danger me-1"></i>
+        Remove o limite de diárias
+      </p>
+
+    </div>
+    @if(limites.length > 0){
+    <div class="table-responsive mt-2">
+      <table class="table align-middle table-striped table-nowrap mb-0">
+        <thead class="table-light">
+          <tr>
+            <th class="text-center">Data</th>
+            <th class="text-center">
+              Mínimo
+              <i class="fa fa-info-circle" ngbTooltip="Mínimo de diárias definido para a data"></i>
+            </th>
+            <th class="text-center">
+              Máximo
+              <i class="fa fa-info-circle" ngbTooltip="Máximo de diárias definido para a data"></i>
+            </th>
+            <th class="text-center">Status</th>
+            <th class="text-center">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="text-center"
+            *ngFor="let limite of limites | paginate: { itemsPerPage: 9, currentPage: paginaAtual }; let i = index">
+            <td class="text-center">
+              <span>
+                {{limite.data | date: 'dd/MM/yyyy':'UTC'}}
+              </span>
+            </td>
+            <td class="text-center">
+              {{limite.minimo}} diárias
+            </td>
+            <td class="text-center">
+              {{limite.maximo ? limite.maximo + ' diarias' : 'Não definido'}}
+            </td>
+            <td class="text-center">
+              <span *ngIf="!limite.excluded" class="badge bg-soft bg-success ">
+                Vigente
+              </span>
+              <span *ngIf="limite.excluded" class="badge bg-soft bg-danger ">
+                Excluído
+              </span>
+            </td>
+            <td>
+              <i class="fa fa-times fa-lg text-danger mx-1 cursor-pointer" (click)="removeLimiteDiarias(limite)"
+                ngbTooltip="Remover Limite" *ngIf="!limite.excluded"></i>
+              <span *ngIf="limite.excluded" class="badge bg-soft bg-secondary">Nada a ser
+                feito</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    }@else {
+    <ng-container [ngTemplateOutlet]="naoHaLimites"></ng-container>
+    }
+  </div>
+  <div class="text-end me-3 pe-1" *ngIf="limites.length > 9">
+    <pagination-controls (pageChange)="paginaAtual = $event" previousLabel="Anterior"
+      nextLabel="Próximo"></pagination-controls>
+  </div>
+</div>
+
+<ng-template #naoHaLimites>
+  <div class="text-center mb-4 pt-3 text-muted font-weight-light">
+    @switch (tipoTabela) {
+    @case(''){
+    <h2 class="text-muted">Nenhum limite de diária foi localizado!</h2>
+    }
+    @case('validos'){
+    <h2 class="text-muted">Nenhum limite de diária vigente foi localizado!</h2>
+    }
+    @case('excluidos'){
+    <h2 class="text-muted">Nenhum limite de diária excluído foi localizado!</h2>
+    }
+    }
+  </div>
+</ng-template>

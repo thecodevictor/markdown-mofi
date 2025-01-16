@@ -1,0 +1,21 @@
+<!-- <div class="notification-box" (click)="isShow =!isShow"> -->
+<i class="fa fa-th-large fa-lg"></i>
+<!-- </div> -->
+<div class="onhover-show-div notification-dropdown">
+  <h5 class="f-18 f-w-600 mb-0 dropdown-title">Módulos</h5>
+  @for (modulo of modulos; track $index) {
+  <ul class="project-status-col">
+    <li class="d-flex bg-light-{{modulo.bgColor}} gap-2 upcoming-box" (click)="alterarParaOModuloSelecionado(modulo.heading)">
+      <div class="upcoming-icon flex-shrink-0">
+        <i class="fa {{modulo.icon}} fs-2 text-black"></i>
+      </div>
+      <div class="flex-grow-1">
+        <a href="javascript:void(0) d-flex justify-content-center align-items-center">
+          <h6 class="font-primary f-w-600">{{modulo.title}}</h6>
+          <small>{{modulo.subtitle}}</small>
+        </a>
+      </div>
+    </li>
+  </ul>
+  }
+</div>

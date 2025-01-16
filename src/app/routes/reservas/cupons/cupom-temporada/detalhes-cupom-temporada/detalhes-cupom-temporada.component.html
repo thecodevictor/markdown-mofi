@@ -1,0 +1,54 @@
+<div class="modal-content border-info">
+    <div class="modal-header">
+      <h4 class="modal-title">Detalhes do cupom</h4>
+      <button type="button" class="btn btn-close btn-md" aria-label="Close" (click)="fechar()"></button>
+    </div>
+  
+    <div class="modal-body">
+      <!-- Nome do cupom -->
+      <div class="row justify-content-center">
+        <div class="col-8">
+          <label class="mb-1">Código do cupom:</label>
+          <div class="input-group">
+            <input type="text" readonly [value]="cupom.codecupom" class="form-control text-center">
+            <button class="btn btn-outline-secondary"  (click)="copiarCodigoParaClipboard()">
+              <i class="fa fa-clipboard"></i>
+            </button>
+          </div>
+        </div>
+  
+        <div class="mb-2 col-4">
+          <label class="mb-1">Desconto:</label>
+          <input type="text" readonly [value]="cupom.porcent+'%'" class="form-control text-center" *ngIf="cupom.tpcupom">
+          <input type="text" readonly [value]="formatarValoresService.formatar(cupom.valor)" class="form-control text-center" *ngIf="!cupom.tpcupom">
+        </div>
+      </div>
+  
+      <div class="row">
+        <div class="card border-0">
+          <div class="card-content">
+            <div class="card-body">
+              <div class="card-title">Períodos</div>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th class="text-center">Check-in</th>
+                    <th class="text-center">Check-out</th>
+                    <th class="text-center">Observações</th>
+                  </tr>
+                </thead>
+                <tbody *ngFor="let periodo of cupom.temporada">
+                  <tr>
+                    <td class="text-center">{{periodo.dtEntrada! | date: 'dd/MM/YYYY' : '+00:00'}}</td>
+                    <td class="text-center">{{periodo.dtSaida! | date: 'dd/MM/YYYY' : '+00:00'}}</td>
+                    <td class="text-center">{{periodo.obs === '' ? 'Não há observações' : periodo.obs}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+    </div>
+  </div>

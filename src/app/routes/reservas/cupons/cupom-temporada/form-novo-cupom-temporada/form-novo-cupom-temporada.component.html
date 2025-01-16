@@ -1,0 +1,138 @@
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title mb-4">{{titulo}}</h4>
+        <form class="outer-repeater" [formGroup]="form"
+          (ngSubmit)="isNovoOuEditando ? cadastrarNovoCupom() : cadastrarEdicaoCupom()">
+          <div class="mb-3">
+            <label for="codecupom">Código da Promoção:</label>
+            <input type="text" class="form-control" formControlName="codecupom" placeholder="Digite o código do cupom"
+              [ngClass]="{ 'is-invalid': form.controls['codecupom'].touched && form.controls['codecupom'].errors, 
+                  'is-valid': form.controls['codecupom'].touched && !form.controls['codecupom'].errors }">
+          </div>
+
+          <div class="container mt-2 mb-2">
+            <div class="row">
+              <div class="col-6 pt-2">
+                <div class="col-6">
+                  <div class="form-check" (click)="isPorcentagemOuValorFixo()" (click)="resetandoFormControl('valor')">
+                    <input class="form-check-input" [(ngModel)]="porcentagem" [ngModelOptions]="{standalone: true}"
+                      type="checkbox" name="porcentagem">
+                    <label class="form-check-label" for="porcentagem">
+                      Porcentagem
+                    </label>
+                  </div>
+                </div>
+
+                <div class="col-6">
+                  <div class="form-check" (click)="isPorcentagemOuValorFixo()"
+                    (click)="resetandoFormControl('porcentagem')">
+                    <input class="form-check-input" [(ngModel)]="valorFixo" [ngModelOptions]="{standalone: true}"
+                      type="checkbox" name="valorFixo">
+                    <label class="form-check-label" for="valorFixo">
+                      Valor único
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-6">
+                <!-- Campo para digitar o valor em porcentagen -->
+                <div class="mb-3" *ngIf="porcentagem">
+                  <label for="porcent">Porcentagem de desconto</label>
+                  <input type="text" formControlName="porcent" class="form-control" formControlName="porcent"
+                    placeholder="Porcentagem" [ngClass]="{ 'is-invalid': form.controls['porcent'].touched && form.controls['porcent'].errors, 
+                'is-valid': form.controls['porcent'].touched && !form.controls['porcent'].errors }" />
+                </div>
+
+                <!-- Campo para digitar o valor único -->
+                <div class="mb-3" *ngIf="valorFixo">
+                  <label for="valor">Valor de desconto</label>
+                  <input type="text" formControlName="valor" class="form-control" currencyMask
+                    [options]="{ align: 'start', prefix: 'R$ ', thousands: '.', decimal: ',' }" formControlName="valor"
+                    placeholder="R$0,00" [ngClass]="{ 'is-invalid': form.controls['valor'].touched && form.controls['valor'].errors, 
+                  'is-valid': form.controls['valor'].touched && !form.controls['valor'].errors }" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-12 col-8">
+            <div class="row">
+              <div class="col-5">
+                <label>Check-in :</label>
+                <input type="date" class="form-control" placeholder="Data de Entrada" formControlName="dtEntrada">
+              </div>
+              <div class="col-5">
+                <label>Check-out :</label>
+                <input type="date" class="form-control" placeholder="Data de Saida" formControlName="dtSaida">
+              </div>
+              <div class="col-2 text-center align-self-end">
+                <i class="fa fa-plus-circle fa-md pb-1 fs-3 text-primary cursor-pointer"
+                  ngbTooltip="adicionar este período ao cupom" (click)="addPeriodo()"></i>
+              </div>
+            </div>
+            <div class="col-12 form-floating my-3">
+              <textarea class="form-control" cols="30" rows="3" id="obs" formControlName="obs"></textarea>
+              <label for="obs">Observações :</label>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">Períodos:</div>
+              </div>
+              <div class="card-body table-responsive">
+                <table class="table align-middle table-striped table-nowrap">
+                  <thead>
+                    <tr>
+                      <th class="text-center mb-3">Check-in
+                      <th>
+                      <th class="text-center mb-3">Check-out
+                      <th>
+                      <th class="text-center mb-3">Obs
+                      <th>
+                      <th class="text-center mb-3">Ações</th>
+                    </tr>
+                  </thead>
+                  <tbody *ngFor="let periodo of temporadaArray; let i = index">
+                    <tr>
+                      <td class="text-center">
+                        @if(periodo.dtEntrada){
+                        {{periodo.dtEntrada | date: 'dd/MM/yyyy':'UTC'}}
+                        }@else{
+                        ''
+                        }
+                      </td>
+                      <td></td>
+                      <td class="text-center">
+                        @if(periodo.dtSaida){
+                        {{periodo.dtSaida | date: 'dd/MM/yyyy':'UTC'}}
+                        }@else {''}
+                      </td>
+                      <td></td>
+                      <td class="text-center">{{periodo.obs !== '' ? periodo.obs : 'Não há.'}}</td>
+                      <td></td>
+                      <td class="text-center">
+                        <i class="fa fa-times text-danger fs-5 cursor-pointer py-0"
+                          (click)="removerPeriodo(periodo, i)"></i>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div class="text-end">
+            <button class="btn btn-danger me-2" type="button" (click)="fechar()">Cancelar</button>
+            <button class="btn btn-success" type="submit"
+              [disabled]="this.form.invalid || this.form.pristine || this.temporadaArray.length === 0">Salvar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

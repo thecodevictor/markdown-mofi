@@ -1,0 +1,7 @@
+<th scope="row" class="p-0 text-wrap bg-warning-subtle text-black" [width]="'5%'">Dispon. x Desconto</th>
+@for (dia of listaDatas; track $index) {
+<td class="align-middle border text-center cursor-pointer p-0 text-black {{definirBg(dia)}}" [width]="'3.65%'"
+  (click)="definirModalASerAberto(dia)">
+  {{dia | date: 'd':'UTC'}}
+</td>
+}

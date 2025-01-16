@@ -1,0 +1,7 @@
+<th scope="row" class="p-0 text-wrap bg-warning-subtle text-black" [width]="'5%'">Máximo Diária</th>
+@for (dia of listaDatas; track $index) {
+<td class="align-middle border {{definirBg(dia)}} text-black text-center cursor-pointer p-0"
+  (click)="abrirModalLimiteDiaria(dia)" [width]="'3.65%'">
+  {{ definindoMaximoDiaria(dia) }}
+</td>
+}

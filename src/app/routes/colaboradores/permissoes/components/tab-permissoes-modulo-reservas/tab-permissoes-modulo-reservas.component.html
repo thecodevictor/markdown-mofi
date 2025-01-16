@@ -1,0 +1,805 @@
+<div class="card-body border">
+  <div>
+    <ng-container [ngTemplateOutlet]="MenuCupomUnicoTemplate"></ng-container>
+  </div>
+  <div class="my-2">
+    <ng-container [ngTemplateOutlet]="MenuMargemDescontoTemplate"></ng-container>
+  </div>
+  <div>
+    <ng-container [ngTemplateOutlet]="MenuDatasIndisponiveisTemplate"></ng-container>
+  </div>
+  <div class="my-2">
+    <ng-container [ngTemplateOutlet]="MenuPromocoesTemplate"></ng-container>
+  </div>
+  <div>
+    <ng-container [ngTemplateOutlet]="MenuLimiteDiariasTemplate"></ng-container>
+  </div>
+</div>
+
+<ng-template #MenuCupomUnicoTemplate>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-check form-check-success">
+        <input class="form-check-input" type="checkbox" id="permissoesADefinir!.isMenuCupom"
+          [(ngModel)]="permissoesADefinir!.isMenuCupom" [checked]="permissoesADefinir!.isMenuCupom"
+          (click)="desmarcarMenuCupons()">
+        <label class="cursor-pointer form-check-label" for="permissoesADefinir!.isMenuCupom">
+          <h5 class="mb-0 text-info">Menu "Cupons"</h5>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="row ms-2">
+    <!-- Submenu "Cupom individual" -->
+    <div class="col-md-4">
+      <div class="form-check form-check-success mb-0">
+        <input class="form-check-input" type="checkbox" id="isSubMenuCupomIndividual"
+          [(ngModel)]="permissoesADefinir!.menuCupom!.isSubMenuCupomIndividual"
+          [disabled]="!permissoesADefinir!.isMenuCupom"
+          [(ngModel)]="permissoesADefinir!.menuCupom!.isSubMenuCupomIndividual"
+          [checked]="permissoesADefinir!.menuCupom!.isSubMenuCupomIndividual"
+          (click)="desmarcarSubMenuCupons('individual')">
+        <label class="{{!permissoesADefinir.isMenuCupom ? 'cursor-notallowed' : 'cursor-pointer'}} form-check-label"
+          for="isSubMenuCupomIndividual">
+          <h6 class="text-primary mb-1">Submenu "Cupom individual"</h6>
+        </label>
+
+        <div class="ms-2">
+          <div>
+            <input class="form-check-input" type="checkbox" id="rcu_isNewCupomUnico"
+              [disabled]="!permissoesADefinir!.menuCupom!.isSubMenuCupomIndividual"
+              [(ngModel)]="permissoesADefinir!.menuCupom!.rulesCupomUnico!.rcu_isNewCupomUnico"
+              [checked]="permissoesADefinir!.menuCupom!.rulesCupomUnico!.rcu_isNewCupomUnico">
+            <label
+              class="{{!permissoesADefinir.menuCupom!.isSubMenuCupomIndividual ? 'cursor-notallowed' : 'cursor-pointer'}} form-check-label"
+              for="rcu_isNewCupomUnico">
+              <b class="text-success">Cadastrar</b> novo
+            </label>
+          </div>
+
+          <div>
+            <input class="form-check-input" type="checkbox" id="rcu_isLockCupomUnico"
+              [disabled]="!permissoesADefinir!.menuCupom!.isSubMenuCupomIndividual"
+              [(ngModel)]="permissoesADefinir!.menuCupom!.rulesCupomUnico!.rcu_isLockCupomUnico"
+              [checked]="permissoesADefinir!.menuCupom!.rulesCupomUnico!.rcu_isLockCupomUnico">
+            <label
+              class="{{!permissoesADefinir.menuCupom!.isSubMenuCupomIndividual ? 'cursor-notallowed' : 'cursor-pointer'}} form-check-label"
+              for="rcu_isLockCupomUnico">
+              <b class="text-success">Ativar</b> e <b class="text-warning">desativar</b>
+            </label>
+          </div>
+
+          <div>
+            <input class="form-check-input" type="checkbox"
+              [(ngModel)]="permissoesADefinir!.menuCupom!.rulesCupomUnico!.rcu_isUpdateCupomUnico"
+              [checked]="permissoesADefinir!.menuCupom!.rulesCupomUnico!.rcu_isUpdateCupomUnico"
+              [disabled]="!permissoesADefinir!.menuCupom!.isSubMenuCupomIndividual" id="rcu_isUpdateCupomUnico">
+            <label
+              class="{{!permissoesADefinir.menuCupom!.isSubMenuCupomIndividual ? 'cursor-notallowed' : 'cursor-pointer'}} form-check-label"
+              for="rcu_isUpdateCupomUnico">
+              <b class="text-primary">Editar</b> dados do cupom
+            </label>
+          </div>
+
+          <div>
+            <input class="form-check-input" type="checkbox"
+              [(ngModel)]="permissoesADefinir!.menuCupom!.rulesCupomUnico!.rcu_isDeleteCupomUnico"
+              [checked]="permissoesADefinir!.menuCupom!.rulesCupomUnico!.rcu_isDeleteCupomUnico"
+              [disabled]="!permissoesADefinir!.menuCupom!.isSubMenuCupomIndividual" id="rcu_isDeleteCupomUnico">
+            <label
+              class="{{!permissoesADefinir.menuCupom!.isSubMenuCupomIndividual ? 'cursor-notallowed' : 'cursor-pointer'}} form-check-label"
+              for="rcu_isDeleteCupomUnico">
+              <b class="text-danger">Excluir</b> cupom
+            </label>
+          </div>
+
+          <div>
+            <input class="form-check-input" type="checkbox"
+              [(ngModel)]="permissoesADefinir!.menuCupom!.rulesCupomUnico!.rcu_isListaCuponsDeletados"
+              [checked]="permissoesADefinir!.menuCupom!.rulesCupomUnico!.rcu_isListaCuponsDeletados"
+              [disabled]="!permissoesADefinir!.menuCupom!.isSubMenuCupomIndividual" id="rcu_isListaCuponsDeletados">
+            <label
+              class="{{!permissoesADefinir.menuCupom!.isSubMenuCupomIndividual ? 'cursor-notallowed' : 'cursor-pointer'}} form-check-label"
+              for="rcu_isListaCuponsDeletados">
+              <b class="text-primary">Visualizar</b> cupom(ns) <b class="text-danger">excluído(s)</b>
+            </label>
+          </div>
+
+          <div>
+            <input class="form-check-input" type="checkbox"
+              [(ngModel)]="permissoesADefinir!.menuCupom!.rulesCupomUnico!.rcu_isRestoreCuponsDeletados"
+              [checked]="permissoesADefinir!.menuCupom!.rulesCupomUnico!.rcu_isRestoreCuponsDeletados"
+              [disabled]="!permissoesADefinir!.menuCupom!.isSubMenuCupomIndividual" id="rcu_isRestoreCuponsDeletados">
+            <label
+              class="{{!permissoesADefinir.menuCupom!.isSubMenuCupomIndividual ? 'cursor-notallowed' : 'cursor-pointer'}} form-check-label"
+              for="rcu_isRestoreCuponsDeletados">
+              <b class="text-success">Restaurar</b> cupom(ns) <b class="text-danger">excluído(s)</b>
+            </label>
+          </div>
+
+          <div>
+            <input class="form-check-input" type="checkbox"
+              [(ngModel)]="permissoesADefinir!.menuCupom!.rulesCupomUnico!.rcu_DetalhesCupomUnico"
+              [checked]="permissoesADefinir!.menuCupom!.rulesCupomUnico!.rcu_DetalhesCupomUnico"
+              [disabled]="!permissoesADefinir!.menuCupom!.isSubMenuCupomIndividual" id="rcu_DetalhesCupomUnico">
+            <label
+              class="{{!permissoesADefinir.menuCupom!.isSubMenuCupomIndividual ? 'cursor-notallowed' : 'cursor-pointer'}} form-check-label"
+              for="rcu_DetalhesCupomUnico">
+              <b class="text-primary">Visualizar</b> detalhes do cupom
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Submenu Cupons Promocionais -->
+    <div class="col-md-4">
+      <div class="form-check form-check-success mb-0">
+        <input class="form-check-input" type="checkbox" id="isSubMenuCupomPromocional"
+          [(ngModel)]="permissoesADefinir!.menuCupom!.isSubMenuCupomPromocional"
+          [disabled]="!permissoesADefinir!.isMenuCupom"
+          [checked]="permissoesADefinir!.menuCupom!.isSubMenuCupomPromocional"
+          (click)="desmarcarSubMenuCupons('promocional')">
+        <label class="{{!permissoesADefinir.isMenuCupom ? 'cursor-notallowed' : 'cursor-pointer'}} form-check-label"
+          for="isSubMenuCupomPromocional">
+          <h6 class="text-primary mb-1">Submenu "Cupons Promocionais"</h6>
+        </label>
+
+        <div class="ms-2">
+          <div>
+            <input class="form-check-input" type="checkbox" id="rcp_isNewCupomPromocional"
+              [(ngModel)]="permissoesADefinir!.menuCupom!.rulesCupomPromocional.rcp_isNewCupomPromocional"
+              [checked]="permissoesADefinir!.menuCupom!.rulesCupomPromocional.rcp_isNewCupomPromocional"
+              [disabled]="!permissoesADefinir!.menuCupom!.isSubMenuCupomPromocional">
+            <label
+              class="{{!permissoesADefinir.menuCupom!.isSubMenuCupomPromocional ? 'cursor-notallowed' : 'cursor-pointer'}} form-check-label"
+              for="rcp_isNewCupomPromocional">
+              <b class="text-success">Cadastrar</b> novo
+            </label>
+          </div>
+
+          <div>
+            <input class="form-check-input" type="checkbox" id="rcp_isLockCupomPromocional"
+              [(ngModel)]="permissoesADefinir!.menuCupom!.rulesCupomPromocional.rcp_isLockCupomPromocional"
+              [disabled]="!permissoesADefinir!.menuCupom!.isSubMenuCupomPromocional"
+              [checked]="permissoesADefinir!.menuCupom!.rulesCupomPromocional.rcp_isLockCupomPromocional">
+            <label
+              class="{{!permissoesADefinir.menuCupom!.isSubMenuCupomPromocional ? 'cursor-notallowed' : 'cursor-pointer'}} form-check-label"
+              for="rcp_isLockCupomPromocional">
+              <b class="text-success">Ativar</b> e <b class="text-warning">desativar</b>
+            </label>
+          </div>
+
+          <div>
+            <input class="form-check-input" type="checkbox"
+              [(ngModel)]="permissoesADefinir!.menuCupom!.rulesCupomPromocional.rcp_isUpdateCupomPromocional"
+              [checked]="permissoesADefinir!.menuCupom!.rulesCupomPromocional.rcp_isUpdateCupomPromocional"
+              [disabled]="!permissoesADefinir!.menuCupom!.isSubMenuCupomPromocional" id="rcp_isUpdateCupomPromocional">
+            <label
+              class="{{!permissoesADefinir.menuCupom!.isSubMenuCupomPromocional ? 'cursor-notallowed' : 'cursor-pointer'}} form-check-label"
+              for="rcp_isUpdateCupomPromocional">
+              <b class="text-primary">Editar</b> dados do cupom
+            </label>
+          </div>
+
+          <div>
+            <input class="form-check-input" type="checkbox"
+              [checked]="permissoesADefinir!.menuCupom!.rulesCupomPromocional.rcp_isDeleteCupomPromocional"
+              [(ngModel)]="permissoesADefinir!.menuCupom!.rulesCupomPromocional.rcp_isDeleteCupomPromocional"
+              [disabled]="!permissoesADefinir!.menuCupom!.isSubMenuCupomPromocional" id="rcp_isDeleteCupomPromocional">
+            <label
+              class="{{!permissoesADefinir.menuCupom!.isSubMenuCupomPromocional ? 'cursor-notallowed' : 'cursor-pointer'}} form-check-label"
+              for="rcp_isDeleteCupomPromocional">
+              <b class="text-danger">Excluir</b> cupom
+            </label>
+          </div>
+
+          <div>
+            <input class="form-check-input" type="checkbox"
+              [checked]="permissoesADefinir!.menuCupom!.rulesCupomPromocional.rcp_isListaCuponsDeletados"
+              [(ngModel)]="permissoesADefinir!.menuCupom!.rulesCupomPromocional.rcp_isListaCuponsDeletados"
+              [disabled]="!permissoesADefinir!.menuCupom!.isSubMenuCupomPromocional" id="rcp_isListaCuponsDeletados">
+            <label
+              class="{{!permissoesADefinir.menuCupom!.isSubMenuCupomPromocional ? 'cursor-notallowed' : 'cursor-pointer'}} form-check-label"
+              for="rcp_isListaCuponsDeletados">
+              <b class="text-primary">Visualizar</b> cupom(ns) <b class="text-danger">excluído(s)</b>
+            </label>
+          </div>
+
+          <div>
+            <input class="form-check-input" type="checkbox"
+              [checked]="permissoesADefinir!.menuCupom!.rulesCupomPromocional.rcp_isRestoreCuponsDeletados"
+              [(ngModel)]="permissoesADefinir!.menuCupom!.rulesCupomPromocional.rcp_isRestoreCuponsDeletados"
+              [disabled]="!permissoesADefinir!.menuCupom!.isSubMenuCupomPromocional" id="rcp_isRestoreCuponsDeletados">
+            <label
+              class="{{!permissoesADefinir.menuCupom!.isSubMenuCupomPromocional ? 'cursor-notallowed' : 'cursor-pointer'}} form-check-label"
+              for="rcp_isRestoreCuponsDeletados">
+              <b class="text-success">Restaurar</b> cupom(ns) <b class="text-danger">excluído(s)</b>
+            </label>
+          </div>
+
+          <div>
+            <input class="form-check-input" type="checkbox"
+              [checked]="permissoesADefinir!.menuCupom!.rulesCupomPromocional.rcp_DetalhesCupomPromocional"
+              [(ngModel)]="permissoesADefinir!.menuCupom!.rulesCupomPromocional.rcp_DetalhesCupomPromocional"
+              [disabled]="!permissoesADefinir!.menuCupom!.isSubMenuCupomPromocional" id="rcp_DetalhesCupomPromocional">
+            <label
+              class="{{!permissoesADefinir.menuCupom!.isSubMenuCupomPromocional ? 'cursor-notallowed' : 'cursor-pointer'}} form-check-label"
+              for="rcp_DetalhesCupomPromocional">
+              <b class="text-primary">Visualizar</b> detalhes do cupom
+            </label>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Submenu "Cupom Temporada" -->
+    <div class="col-md-4">
+      <div class="form-check form-check-success mb-0">
+        <input class="form-check-input" type="checkbox" id="isSubMenuCupomTemporada"
+          [(ngModel)]="permissoesADefinir.menuCupom.isSubMenuCupomTemporada"
+          [disabled]="!permissoesADefinir.isMenuCupom" [checked]="permissoesADefinir.menuCupom.isSubMenuCupomTemporada"
+          (click)="desmarcarSubMenuCupons('temporada')">
+        <label class="{{!permissoesADefinir.isMenuCupom ? 'cursor-notallowed' : 'cursor-pointer'}} form-check-label"
+          for="isSubMenuCupomTemporada">
+          <h6 class="text-primary mb-1">Submenu "Cupom Temporada"</h6>
+        </label>
+
+        <div class="ms-2">
+          <div>
+            <input class="form-check-input" type="checkbox" id="rct_isNewCupomTemporada"
+              [disabled]="!permissoesADefinir.menuCupom.isSubMenuCupomTemporada"
+              [(ngModel)]="permissoesADefinir.menuCupom.rulesCupomTemporada.rct_isNewCupomTemporada"
+              [checked]="permissoesADefinir.menuCupom.rulesCupomTemporada.rct_isNewCupomTemporada">
+            <label
+              class="{{!permissoesADefinir.menuCupom.isSubMenuCupomTemporada ? 'cursor-notallowed' : 'cursor-pointer'}} form-check-label"
+              for="rct_isNewCupomTemporada">
+              <b class="text-success">Cadastrar</b> novo
+            </label>
+
+            <div>
+              <input class="form-check-input" type="checkbox" id="rct_isLockCupomTemporada"
+                [(ngModel)]="permissoesADefinir.menuCupom.rulesCupomTemporada.rct_isLockCupomTemporada"
+                [disabled]="!permissoesADefinir.menuCupom.isSubMenuCupomTemporada"
+                [checked]="permissoesADefinir.menuCupom.rulesCupomTemporada.rct_isLockCupomTemporada">
+              <label
+                class="{{!permissoesADefinir.menuCupom.isSubMenuCupomTemporada ? 'cursor-notallowed' : 'cursor-pointer'}} form-check-label"
+                for="rct_isLockCupomTemporada">
+                <b class="text-success">Ativar</b> e <b class="text-danger">desativar</b>
+              </label>
+            </div>
+
+            <div>
+              <input class="form-check-input" type="checkbox"
+                [(ngModel)]="permissoesADefinir.menuCupom.rulesCupomTemporada.rct_isUpdateCupomTemporada"
+                [checked]="permissoesADefinir.menuCupom.rulesCupomTemporada.rct_isUpdateCupomTemporada"
+                [disabled]="!permissoesADefinir.menuCupom.isSubMenuCupomTemporada" id="rct_isUpdateCupomTemporada">
+              <label
+                class="{{!permissoesADefinir.menuCupom.isSubMenuCupomTemporada ? 'cursor-notallowed' : 'cursor-pointer'}} form-check-label"
+                for="rct_isUpdateCupomTemporada">
+                <b class="text-primary">Editar</b> dados do cupom
+              </label>
+            </div>
+
+            <div>
+              <input class="form-check-input" type="checkbox"
+                [checked]="permissoesADefinir.menuCupom.rulesCupomTemporada.rct_isDeleteCupomTemporada"
+                [(ngModel)]="permissoesADefinir.menuCupom.rulesCupomTemporada.rct_isDeleteCupomTemporada"
+                [disabled]="!permissoesADefinir.menuCupom.isSubMenuCupomTemporada" id="rct_isDeleteCupomTemporada">
+              <label
+                class="{{!permissoesADefinir.menuCupom.isSubMenuCupomTemporada ? 'cursor-notallowed' : 'cursor-pointer'}} form-check-label"
+                for="rct_isDeleteCupomTemporada">
+                <b class="text-danger">Excluir</b> cupom
+              </label>
+            </div>
+
+            <div>
+              <input class="form-check-input" type="checkbox"
+                [checked]="permissoesADefinir.menuCupom.rulesCupomTemporada.rct_isListaCuponsDeletados"
+                [(ngModel)]="permissoesADefinir.menuCupom.rulesCupomTemporada.rct_isListaCuponsDeletados"
+                [disabled]="!permissoesADefinir.menuCupom.isSubMenuCupomTemporada" id="rct_isListaCuponsDeletados">
+              <label
+                class="{{!permissoesADefinir.menuCupom.isSubMenuCupomTemporada ? 'cursor-notallowed' : 'cursor-pointer'}} form-check-label"
+                for="rct_isListaCuponsDeletados">
+                <b class="text-primary">Visualizar</b> cupom(ns) <b class="text-danger">excluído(s)</b>
+              </label>
+            </div>
+
+            <div>
+              <input class="form-check-input" type="checkbox"
+                [checked]="permissoesADefinir.menuCupom.rulesCupomTemporada.rct_isRestoreCuponsDeletados"
+                [(ngModel)]="permissoesADefinir.menuCupom.rulesCupomTemporada.rct_isRestoreCuponsDeletados"
+                [disabled]="!permissoesADefinir.menuCupom.isSubMenuCupomTemporada" id="rct_isRestoreCuponsDeletados">
+              <label
+                class="{{!permissoesADefinir.menuCupom.isSubMenuCupomTemporada ? 'cursor-notallowed' : 'cursor-pointer'}} form-check-label"
+                for="rct_isRestoreCuponsDeletados">
+                <b class="text-success">Restaurar</b> cupom(ns) <b class="text-danger">excluído(s)</b>
+              </label>
+            </div>
+
+            <div>
+              <input class="form-check-input" type="checkbox"
+                [checked]="permissoesADefinir.menuCupom.rulesCupomTemporada.rct_DetalhesCupomTemporada"
+                [(ngModel)]="permissoesADefinir.menuCupom.rulesCupomTemporada.rct_DetalhesCupomTemporada"
+                [disabled]="!permissoesADefinir.menuCupom.isSubMenuCupomTemporada" id="rct_DetalhesCupomTemporada">
+              <label
+                class="{{!permissoesADefinir.menuCupom.isSubMenuCupomTemporada ? 'cursor-notallowed' : 'cursor-pointer'}} form-check-label"
+                for="rct_DetalhesCupomTemporada">
+                <b class="text-primary">Visualizar</b> detalhes do cupom
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #MenuMargemDescontoTemplate>
+  <div class="row">
+    <div class="col-12">
+      <div class="form-check form-check-success mb-0">
+        <input class="form-check-input" type="checkbox" id="isMenuMargemDesconto"
+          [(ngModel)]="permissoesADefinir.isMenuMargemDesconto" [(ngModel)]="permissoesADefinir.isMenuMargemDesconto"
+          (click)="desmarcarMenuMargemDesconto()" checked="permissoesADefinir.isMenuMargemDesconto">
+        <label class="cursor-pointer form-check-label" for="isMenuMargemDesconto">
+          <h5 class="text-info mb-1">Menu "Margem e Desconto"</h5>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="row ms-2 g-3">
+    <!-- Submenu "Margem de desconto diário" -->
+    <div class="col-md-4 mb-0">
+      <div class="form-check form-check-success mb-0">
+        <input class="form-check-input" type="checkbox" id="isSubMenuMargemDescontoDiario"
+          (click)="desmarcarSubMenusMargem('descontoDiario')" [disabled]="!permissoesADefinir.isMenuMargemDesconto"
+          checked="permissoesADefinir.menuMargemDesconto.isSubMenuMargemDescontoDiario"
+          [(ngModel)]="permissoesADefinir.menuMargemDesconto.isSubMenuMargemDescontoDiario">
+        <label
+          class="{{!permissoesADefinir.isMenuMargemDesconto ? 'cursor-notallowed' : 'cursor-pointer'}} form-check-label"
+          for="isSubMenuMargemDescontoDiario">
+          <h6 class="text-primary mb-1">Submenu "Margem de desconto diário"</h6>
+        </label>
+
+        <div class="ms-2">
+          <div>
+            <input class="form-check-input" type="checkbox" id="rmdd_isNewMargemDescontoDiario"
+              checked="permissoesADefinir.menuMargemDesconto.rulesMargemDescontoDiario.rmdd_isNewMargemDescontoDiario"
+              [disabled]="!permissoesADefinir.menuMargemDesconto.isSubMenuMargemDescontoDiario"
+              [(ngModel)]="permissoesADefinir.menuMargemDesconto.rulesMargemDescontoDiario.rmdd_isNewMargemDescontoDiario">
+            <label
+              class="{{!permissoesADefinir.menuMargemDesconto.isSubMenuMargemDescontoDiario ? 'cursor-notallowed' : 'cursor-pointer'}} form-check-label"
+              for="rmdd_isNewMargemDescontoDiario">
+              <b class="text-success">Cadastrar</b> nova margem de desconto diário
+            </label>
+          </div>
+
+          <div>
+            <input class="form-check-input" type="checkbox" id="rmdd_isUpdateMargemDescontoDiario"
+              checked="permissoesADefinir.menuMargemDesconto.rulesMargemDescontoDiario.rmdd_isUpdateMargemDescontoDiario"
+              [disabled]="!permissoesADefinir.menuMargemDesconto.isSubMenuMargemDescontoDiario"
+              [(ngModel)]="permissoesADefinir.menuMargemDesconto.rulesMargemDescontoDiario.rmdd_isUpdateMargemDescontoDiario">
+            <label
+              class="{{!permissoesADefinir.menuMargemDesconto.isSubMenuMargemDescontoDiario ? 'cursor-notallowed' : 'cursor-pointer'}} form-check-label"
+              for="rmdd_isUpdateMargemDescontoDiario">
+              <b class="text-primary">Editar</b> margem de desconto diário
+            </label>
+          </div>
+
+
+          <div>
+            <input class="form-check-input" type="checkbox" id="rmdd_isDeleteMargemDescontoDiario"
+              checked="permissoesADefinir.menuMargemDesconto.rulesMargemDescontoDiario.rmdd_isDeleteMargemDescontoDiario"
+              [disabled]="!permissoesADefinir.menuMargemDesconto.isSubMenuMargemDescontoDiario"
+              [(ngModel)]="permissoesADefinir.menuMargemDesconto.rulesMargemDescontoDiario.rmdd_isDeleteMargemDescontoDiario">
+            <label
+              class="{{!permissoesADefinir.menuMargemDesconto.isSubMenuMargemDescontoDiario ? 'cursor-notallowed' : 'cursor-pointer'}} form-check-label"
+              for="rmdd_isDeleteMargemDescontoDiario">
+              <b class="text-danger">Excluir</b> margem de desconto diário
+            </label>
+          </div>
+
+          <div>
+            <input class="form-check-input" type="checkbox" id="rmdd_visualizarMargemDescontoDiarioExcluido"
+              checked="permissoesADefinir.menuMargemDesconto.rulesMargemDescontoDiario.rmdd_visualizarMargemDescontoDiarioExcluido"
+              [disabled]="!permissoesADefinir.menuMargemDesconto.isSubMenuMargemDescontoDiario"
+              [(ngModel)]="permissoesADefinir.menuMargemDesconto.rulesMargemDescontoDiario.rmdd_visualizarMargemDescontoDiarioExcluido">
+            <label
+              class="{{!permissoesADefinir.menuMargemDesconto.isSubMenuMargemDescontoDiario ? 'cursor-notallowed' : 'cursor-pointer'}} form-check-label"
+              for="rmdd_visualizarMargemDescontoDiarioExcluido">
+              <b class="text-primary">Visualizar</b> margem(ns) de desconto diário <b class="text-danger">excluídas</b>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Submenu "Margem de ocupação diário" -->
+    <div class="col-md-4 mb-0">
+      <div class="form-check form-check-success mb-0">
+        <input class="form-check-input" type="checkbox" id="isSubMenuMargemOcupacaoDiario"
+          checked="permissoesADefinir.menuMargemDesconto.isSubMenuMargemOcupacaoDiario"
+          [disabled]="!permissoesADefinir.isMenuMargemDesconto" (click)="desmarcarSubMenusMargem('ocupacaoDiaria')"
+          [(ngModel)]="permissoesADefinir.menuMargemDesconto.isSubMenuMargemOcupacaoDiario">
+        <label
+          class="form-check-label {{!permissoesADefinir.isMenuMargemDesconto ? 'cursor-notallowed' : 'cursor-pointer'}}"
+          for="isSubMenuMargemOcupacaoDiario">
+          <h6 class="text-primary mb-1">Submenu "Margem de ocupação diária"</h6>
+        </label>
+
+        <div class="ms-2">
+          <div>
+            <input class="form-check-input" type="checkbox" id="rmod_isNewMargemOcupacaoDiario"
+              checked="permissoesADefinir.menuMargemDesconto.rulesMargemOcupacaoDiario.rmod_isNewMargemOcupacaoDiario"
+              [disabled]="!permissoesADefinir.menuMargemDesconto.isSubMenuMargemOcupacaoDiario"
+              [(ngModel)]="permissoesADefinir.menuMargemDesconto.rulesMargemOcupacaoDiario.rmod_isNewMargemOcupacaoDiario">
+            <label
+              class="form-check-label {{!permissoesADefinir.menuMargemDesconto.isSubMenuMargemOcupacaoDiario ? 'cursor-notallowed' : 'cursor-pointer'}}"
+              for="rmod_isNewMargemOcupacaoDiario">
+              <b class="text-success">Cadastrar</b> nova margem de ocupação diária
+            </label>
+          </div>
+
+          <div>
+            <input class="form-check-input" type="checkbox" id="rmod_isUpdateMargemOcupacaoDiario"
+              checked="permissoesADefinir.menuMargemDesconto.rulesMargemOcupacaoDiario.rmod_isUpdateMargemOcupacaoDiario"
+              [disabled]="!permissoesADefinir.menuMargemDesconto.isSubMenuMargemOcupacaoDiario"
+              [(ngModel)]="permissoesADefinir.menuMargemDesconto.rulesMargemOcupacaoDiario.rmod_isUpdateMargemOcupacaoDiario">
+            <label
+              class="form-check-label {{!permissoesADefinir.menuMargemDesconto.isSubMenuMargemOcupacaoDiario ? 'cursor-notallowed' : 'cursor-pointer'}}"
+              for="rmod_isUpdateMargemOcupacaoDiario">
+              <b class="text-primary">Editar</b> margem de ocupação diária
+            </label>
+          </div>
+
+          <div>
+            <input class="form-check-input" type="checkbox" id="rmod_isDeleteMargemOcupacaoDiario"
+              checked="permissoesADefinir.menuMargemDesconto.rulesMargemOcupacaoDiario.rmod_isDeleteMargemOcupacaoDiario"
+              [disabled]="!permissoesADefinir.menuMargemDesconto.isSubMenuMargemOcupacaoDiario"
+              [(ngModel)]="permissoesADefinir.menuMargemDesconto.rulesMargemOcupacaoDiario.rmod_isDeleteMargemOcupacaoDiario">
+            <label
+              class="form-check-label {{!permissoesADefinir.menuMargemDesconto.isSubMenuMargemOcupacaoDiario ? 'cursor-notallowed' : 'cursor-pointer'}}"
+              for="rmod_isDeleteMargemOcupacaoDiario">
+              <b class="text-danger">Excluir</b> margem de ocupação diária
+            </label>
+          </div>
+
+          <div>
+            <input class="form-check-input" type="checkbox" id="rmod_visualizarMargemOcupacaoDiarioExcluido"
+              checked="permissoesADefinir.menuMargemDesconto.rulesMargemOcupacaoDiario.rmod_visualizarMargemOcupacaoDiarioExcluido"
+              [disabled]="!permissoesADefinir.menuMargemDesconto.isSubMenuMargemOcupacaoDiario"
+              [(ngModel)]="permissoesADefinir.menuMargemDesconto.rulesMargemOcupacaoDiario.rmod_visualizarMargemOcupacaoDiarioExcluido">
+            <label
+              class="form-check-label {{!permissoesADefinir.menuMargemDesconto.isSubMenuMargemOcupacaoDiario ? 'cursor-notallowed' : 'cursor-pointer'}}"
+              for="rmod_visualizarMargemOcupacaoDiarioExcluido">
+              <b class="text-primary">Visualizar</b> margem(ns) de ocupação diária <b class="text-danger">excluidas</b>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Submenu "Disponibilidade X Desconto" -->
+    <div class="col-md-4 mb-0">
+      <div class="form-check form-check-success mb-0">
+        <input class="form-check-input" type="checkbox" id="isSubMenuDisponibilidadeDesconto"
+          checked="permissoesADefinir.menuMargemDesconto.isSubMenuDisponibilidadeDesconto"
+          [disabled]="!permissoesADefinir.isMenuMargemDesconto" (click)="desmarcarSubMenusMargem('dispDesc')"
+          [(ngModel)]="permissoesADefinir.menuMargemDesconto.isSubMenuDisponibilidadeDesconto">
+        <label
+          class="form-check-label {{!permissoesADefinir.isMenuMargemDesconto ? 'cursor-notallowed' : 'cursor-pointer'}}"
+          for="isSubMenuDisponibilidadeDesconto">
+          <h6 class="text-primary mb-1">Submenu "Disponibilidade X Desconto"</h6>
+        </label>
+
+        <div class="ms-2">
+          <div>
+            <input class="form-check-input" type="checkbox" id="rmdd_isNewDisponibilidadeDesconto"
+              checked="permissoesADefinir.menuMargemDesconto.rulesMenuDisponibilidadeDesconto.rmdd_isNewDisponibilidadeDesconto"
+              [disabled]="!permissoesADefinir.menuMargemDesconto.isSubMenuDisponibilidadeDesconto"
+              [(ngModel)]="permissoesADefinir.menuMargemDesconto.rulesMenuDisponibilidadeDesconto.rmdd_isNewDisponibilidadeDesconto">
+            <label
+              class="form-check-label {{!permissoesADefinir.menuMargemDesconto.isSubMenuDisponibilidadeDesconto ? 'cursor-notallowed' : 'cursor-pointer'}}"
+              for="rmdd_isNewDisponibilidadeDesconto">
+              <b class="text-success">Cadastrar</b> novo período de disponibilidade x desconto
+            </label>
+          </div>
+
+          <div>
+            <input class="form-check-input" type="checkbox" id="rmdd_isInserirMargens"
+              checked="permissoesADefinir.menuMargemDesconto.rulesMenuDisponibilidadeDesconto.rmdd_isInserirMargens"
+              [disabled]="!permissoesADefinir.menuMargemDesconto.isSubMenuDisponibilidadeDesconto"
+              [(ngModel)]="permissoesADefinir.menuMargemDesconto.rulesMenuDisponibilidadeDesconto.rmdd_isInserirMargens">
+            <label
+              class="form-check-label {{!permissoesADefinir.menuMargemDesconto.isSubMenuDisponibilidadeDesconto ? 'cursor-notallowed' : 'cursor-pointer'}}"
+              for="rmdd_isInserirMargens">
+              <b class="text-success">Inserir</b> margens para o período cadastrado
+            </label>
+          </div>
+
+          <div>
+            <input class="form-check-input" type="checkbox"
+              checked="permissoesADefinir.menuMargemDesconto.rulesMenuDisponibilidadeDesconto.rmdd_isUpdateDisponibilidadeDesconto"
+              [(ngModel)]="permissoesADefinir.menuMargemDesconto.rulesMenuDisponibilidadeDesconto.rmdd_isUpdateDisponibilidadeDesconto"
+              [disabled]="!permissoesADefinir.menuMargemDesconto.isSubMenuDisponibilidadeDesconto"
+              id="rmdd_isUpdateDisponibilidadeDesconto">
+            <label
+              class="form-check-label {{!permissoesADefinir.menuMargemDesconto.isSubMenuDisponibilidadeDesconto ? 'cursor-notallowed' : 'cursor-pointer'}}"
+              for="rmdd_isUpdateDisponibilidadeDesconto">
+              <b class="text-primary">Editar</b> período de disponibilidade x desconto
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Submenu "Margem de desconto padrão" -->
+    <div class="col-md-4 mb-0">
+      <div class="form-check form-check-success mb-0">
+        <input class="form-check-input" type="checkbox" id="isSubMenuMargemDescontoPadrao"
+          checked="permissoesADefinir.menuMargemDesconto.isSubMenuMargemDescontoPadrao"
+          [disabled]="!permissoesADefinir.isMenuMargemDesconto" (click)="desmarcarSubMenusMargem('descontoPadrao')"
+          [(ngModel)]="permissoesADefinir.menuMargemDesconto.isSubMenuMargemDescontoPadrao">
+        <label
+          class="form-check-label {{!permissoesADefinir.isMenuMargemDesconto ? 'cursor-notallowed' : 'cursor-pointer'}}"
+          for="isSubMenuMargemDescontoPadrao">
+          <h6 class="text-primary mb-1">Submenu "Margem de desconto padrão"</h6>
+        </label>
+
+        <div class="ms-2">
+          <div>
+            <input class="form-check-input" type="checkbox" id="rmdp_isNewMargemDescontoPadrao"
+              checked="permissoesADefinir.menuMargemDesconto.rulesMargemDescontoPadrao.rmdp_isNewMargemDescontoPadrao"
+              [disabled]="!permissoesADefinir.menuMargemDesconto.isSubMenuMargemDescontoPadrao"
+              [(ngModel)]="permissoesADefinir.menuMargemDesconto.rulesMargemDescontoPadrao.rmdp_isNewMargemDescontoPadrao">
+            <label
+              class="form-check-label {{!permissoesADefinir.menuMargemDesconto.isSubMenuMargemDescontoPadrao ? 'cursor-notallowed' : 'cursor-pointer'}}"
+              for="rmdp_isNewMargemDescontoPadrao">
+              <b class="text-success">Cadastrar</b> nova margem de desconto padrão
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Submenu "Margem de ocupação padrão" -->
+    <div class="col-md-4 mb-0">
+      <div class="form-check form-check-success mb-0">
+        <input class="form-check-input" type="checkbox" id="isSubMenuMargemOcupacaoPadrao"
+          (click)="desmarcarSubMenusMargem('ocupacaoPadrao')" [disabled]="!permissoesADefinir.isMenuMargemDesconto"
+          checked="permissoesADefinir.menuMargemDesconto.isSubMenuMargemOcupacaoPadrao"
+          [(ngModel)]="permissoesADefinir.menuMargemDesconto.isSubMenuMargemOcupacaoPadrao">
+        <label
+          class="form-check-label {{!permissoesADefinir.isMenuMargemDesconto ? 'cursor-notallowed' : 'cursor-pointer'}}"
+          for="isSubMenuMargemOcupacaoPadrao">
+          <h6 class="text-primary mb-1">Submenu "Margem de ocupação padrão"</h6>
+        </label>
+
+        <div class="ms-2">
+          <div>
+            <input class="form-check-input" type="checkbox" id="rmop_isNewMargemOcupacaoPadrao"
+              checked="permissoesADefinir.menuMargemDesconto.rulesMargemOcupacaoPadrao.rmop_isNewMargemOcupacaoPadrao"
+              [disabled]="!permissoesADefinir.menuMargemDesconto.isSubMenuMargemOcupacaoPadrao"
+              [(ngModel)]="permissoesADefinir.menuMargemDesconto.rulesMargemOcupacaoPadrao.rmop_isNewMargemOcupacaoPadrao">
+            <label
+              class="form-check-label {{!permissoesADefinir.menuMargemDesconto.isSubMenuMargemOcupacaoPadrao ? 'cursor-notallowed' : 'cursor-pointer'}}"
+              for="rmop_isNewMargemOcupacaoPadrao">
+              <b class="text-success">Cadastrar</b> nova margem de ocupação padrão
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #MenuDatasIndisponiveisTemplate>
+  <div class="row mt-2">
+    <div class="col-md-12">
+      <div class="form-check form-check-success mb-0">
+        <input class="form-check-input" type="checkbox" id="isMenuDatasIndisponiveis"
+          (click)="desmarcarMenuDatasIndisponiveis()" [checked]="permissoesADefinir!.isMenuDatasIndisponiveis"
+          [(ngModel)]="permissoesADefinir!.isMenuDatasIndisponiveis">
+        <label class="form-check-label cursor-pointer" for="isMenuDatasIndisponiveis">
+          <h5 class="text-info mb-1">Menu "Datas Indisponíveis"</h5>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="row ms-2">
+    <div class="col-md-12">
+      <div class="mb-0">
+        <div class="form-check form-check-success mb-0">
+          <input class="form-check-input" type="checkbox" id="rdi_isNewOrIsNotDataIndisponivel"
+            [checked]="permissoesADefinir!.menuDatasIndisponiveis!.rulesDatasIndisponiveis!.rdi_isNewOrIsNotDataIndisponivel"
+            [disabled]="!permissoesADefinir!.isMenuDatasIndisponiveis"
+            [(ngModel)]="permissoesADefinir!.menuDatasIndisponiveis!.rulesDatasIndisponiveis.rdi_isNewOrIsNotDataIndisponivel">
+          <label
+            class=" {{!permissoesADefinir.isMenuDatasIndisponiveis ? 'cursor-notallowed' : 'cursor-pointer'}} form-check-label"
+            for="rdi_isNewOrIsNotDataIndisponivel">
+            <b class="text-danger">Indisponibilizar</b> e <b class="text-success">disponibilizar</b> datas
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #MenuPromocoesTemplate>
+  <div class="row">
+    <div class="col-12">
+      <div class="form-check form-check-success mb-0">
+        <input class="form-check-input" type="checkbox" id="isMenuPromocoes"
+          [(ngModel)]="permissoesADefinir.isMenuPromocoes" (click)="desmarcarMenuPromocoes()"
+          checked="permissoesADefinir.isMenuPromocoes">
+        <label class="form-check-label cursor-pointer" for="isMenuPromocoes">
+          <h5 class="text-info mb-1">Menu "Promoções"</h5>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="row ms-2">
+    <div class="col">
+      <div class="form-check form-check-success mb-0">
+        <div>
+          <input class="form-check-input" type="checkbox" id="rp_isNewPromocao"
+            checked="permissoesADefinir.menuDatasIndisponiveis.rulesDatasIndisponiveis.rp_isNewPromocao"
+            [disabled]="!permissoesADefinir.isMenuPromocoes"
+            [(ngModel)]="permissoesADefinir.menuPromocoes.rulesPromocoes.rp_isNewPromocao">
+          <label
+            class="form-check-label {{!permissoesADefinir.isMenuPromocoes ? 'cursor-notallowed' : 'cursor-pointer'}}"
+            for="rp_isNewPromocao">
+            <b class="text-success">Cadastrar</b> nova
+          </label>
+        </div>
+
+        <div>
+          <input class="form-check-input" type="checkbox" id="rp_isLockAndUnlockPromocao"
+            [(ngModel)]="permissoesADefinir.menuPromocoes.rulesPromocoes.rp_isLockAndUnlockPromocao"
+            [disabled]="!permissoesADefinir.isMenuPromocoes"
+            checked="permissoesADefinir.menuPromocoes.rulesPromocoes.rp_isLockAndUnlockPromocao">
+          <label
+            class="form-check-label {{!permissoesADefinir.isMenuPromocoes ? 'cursor-notallowed' : 'cursor-pointer'}}"
+            for="rp_isLockAndUnlockPromocao">
+            <b class="text-success">Ativar</b> e <b class="text-warning">desativar</b>
+          </label>
+        </div>
+
+        <div>
+          <input class="form-check-input" type="checkbox"
+            [(ngModel)]="permissoesADefinir.menuPromocoes.rulesPromocoes.rp_isUpdatePromocao"
+            checked="permissoesADefinir.menuPromocoes.rulesPromocoes.rp_isUpdatePromocao"
+            [disabled]="!permissoesADefinir.isMenuPromocoes" id="rp_isUpdatePromocao">
+          <label
+            class="form-check-label {{!permissoesADefinir.isMenuPromocoes ? 'cursor-notallowed' : 'cursor-pointer'}}"
+            for="rp_isUpdatePromocao">
+            <b class="text-primary">Editar</b> dados da promoção
+          </label>
+        </div>
+
+        <div>
+          <input class="form-check-input" type="checkbox"
+            checked="permissoesADefinir.menuPromocoes.rulesPromocoes.rp_isDeletePromocao"
+            [(ngModel)]="permissoesADefinir.menuPromocoes.rulesPromocoes.rp_isDeletePromocao"
+            [disabled]="!permissoesADefinir.isMenuPromocoes" id="rp_isDeletePromocao">
+          <label
+            class="form-check-label {{!permissoesADefinir.isMenuPromocoes ? 'cursor-notallowed' : 'cursor-pointer'}}"
+            for="rp_isDeletePromocao">
+            <b class="text-danger">Excluir</b> promoção
+          </label>
+        </div>
+
+
+        <div>
+          <input class="form-check-input" type="checkbox"
+            checked="permissoesADefinir.menuPromocoes.rulesPromocoes.rp_isListaPromocao"
+            [(ngModel)]="permissoesADefinir.menuPromocoes.rulesPromocoes.rp_isListaPromocao"
+            [disabled]="!permissoesADefinir.isMenuPromocoes" id="rp_isListaPromocao">
+          <label
+            class="form-check-label {{!permissoesADefinir.isMenuPromocoes ? 'cursor-notallowed' : 'cursor-pointer'}}"
+            for="rp_isListaPromocao">
+            <b class="text-primary">Visualizar</b> promoção <b class="text-danger">excluída</b>
+          </label>
+        </div>
+
+        <div>
+          <input class="form-check-input" type="checkbox"
+            checked="permissoesADefinir.menuPromocoes.rulesPromocoes.rp_isRestorePromocao"
+            [(ngModel)]="permissoesADefinir.menuPromocoes.rulesPromocoes.rp_isRestorePromocao"
+            [disabled]="!permissoesADefinir.isMenuPromocoes" id="rp_isRestorePromocao">
+          <label
+            class="form-check-label {{!permissoesADefinir.isMenuPromocoes ? 'cursor-notallowed' : 'cursor-pointer'}}"
+            for="rp_isRestorePromocao">
+            Restaurar promoção <span class="text-danger"><b>excluída</b></span>
+          </label>
+        </div>
+
+        <div>
+          <input class="form-check-input" type="checkbox"
+            checked="permissoesADefinir.menuPromocoes.rulesPromocoes.rp_isDetalhesPromocao"
+            [(ngModel)]="permissoesADefinir.menuPromocoes.rulesPromocoes.rp_isDetalhesPromocao"
+            [disabled]="!permissoesADefinir.isMenuPromocoes" id="rp_isDetalhesPromocao">
+          <label
+            class="form-check-label {{!permissoesADefinir.isMenuPromocoes ? 'cursor-notallowed' : 'cursor-pointer'}}"
+            for="rp_isDetalhesPromocao">
+            <b class="text-primary">Visualizar</b> detalhes da promoção
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #MenuLimiteDiariasTemplate>
+  <div class="row">
+    <div class="col">
+      <div class="form-check form-check-success mb-0">
+        <input class="form-check-input" type="checkbox" id="isMenuMinimoDiarias"
+          [(ngModel)]="permissoesADefinir.isMenuMinimoDiarias" (click)="desmarcarMenuLimiteDiarias()"
+          checked="permissoesADefinir.isMenuMinimoDiarias">
+        <label class="form-check-label cursor-pointer" for="isMenuMinimoDiarias">
+          <h5 class="text-info mb-1">Menu "Limite de Diárias"</h5>
+        </label>
+      </div>
+    </div>
+  </div>
+  <div class="row ms-2">
+    <div class="col">
+      <div class="form-check form-check-success mb-2 col-md-6">
+        <div>
+          <input class="form-check-input" type="checkbox" id="rmd_isNewMinimoDiarias"
+            checked="permissoesADefinir.menuMinimoDiarias.rulesMinimoDiarias.rmd_isNewMinimoDiarias"
+            [disabled]="!permissoesADefinir.isMenuMinimoDiarias"
+            [(ngModel)]="permissoesADefinir.menuMinimoDiarias.rulesMinimoDiarias.rmd_isNewMinimoDiarias">
+          <label
+            class="form-check-label {{!permissoesADefinir.isMenuMinimoDiarias ? 'cursor-notallowed' : 'cursor-pointer'}}"
+            for="rmd_isNewMinimoDiarias">
+            <b class="text-success">Cadastrar</b> limite
+          </label>
+        </div>
+
+        <div>
+          <input class="form-check-input" type="checkbox" id="rmd_isUpdateMinimoDiarias"
+            [(ngModel)]="permissoesADefinir.menuMinimoDiarias.rulesMinimoDiarias.rmd_isUpdateMinimoDiarias"
+            [disabled]="!permissoesADefinir.isMenuMinimoDiarias"
+            checked="permissoesADefinir.menuMinimoDiarias.rulesMinimoDiarias.rmd_isUpdateMinimoDiarias">
+          <label
+            class="form-check-label {{!permissoesADefinir.isMenuMinimoDiarias ? 'cursor-notallowed' : 'cursor-pointer'}}"
+            for="rmd_isUpdateMinimoDiarias">
+            <b class="text-primary">Editar</b> limite
+          </label>
+        </div>
+
+        <div>
+          <input class="form-check-input" type="checkbox"
+            [(ngModel)]="permissoesADefinir.menuMinimoDiarias.rulesMinimoDiarias.rmd_isDeleteMinimoDiarias"
+            checked="permissoesADefinir.menuMinimoDiarias.rulesMinimoDiarias.rmd_isDeleteMinimoDiarias"
+            [disabled]="!permissoesADefinir.isMenuMinimoDiarias" id="rmd_isDeleteMinimoDiarias">
+          <label
+            class="form-check-label {{!permissoesADefinir.isMenuMinimoDiarias ? 'cursor-notallowed' : 'cursor-pointer'}}"
+            for="rmd_isDeleteMinimoDiarias">
+            <b class="text-danger">Excluir</b> limite
+          </label>
+        </div>
+
+        <div>
+          <input class="form-check-input" type="checkbox"
+            checked="permissoesADefinir.menuMinimoDiarias.rulesMinimoDiarias.rmd_visualizarMinimoDiariasExcluido"
+            [(ngModel)]="permissoesADefinir.menuMinimoDiarias.rulesMinimoDiarias.rmd_visualizarMinimoDiariasExcluido"
+            [disabled]="!permissoesADefinir.isMenuMinimoDiarias" id="rmd_visualizarMinimoDiariasExcluido">
+          <label
+            class="form-check-label {{!permissoesADefinir.isMenuMinimoDiarias ? 'cursor-notallowed' : 'cursor-pointer'}}"
+            for="rmd_visualizarMinimoDiariasExcluido">
+            <b class="text-primary">Visualizar</b> limites <b class="text-danger">excluídos</b>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

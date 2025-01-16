@@ -1,0 +1,131 @@
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-8 mx-auto">
+      <div class="editor-container">
+        <!-- Agrupamento de toolbar e textarea -->
+        <div class="toolbar-and-editor">
+          <div class="toolbar">
+
+            <!-- Botões de modo (Escrever e Visualizar) -->
+            <div class="view-toggle btn-group" role="group" aria-label="Toggle view" style="margin-bottom: 10px;">
+              <button type="button" class="btn" [class.active]="mode === 'edit'" [disabled]="!isEditing"
+                (click)="setMode('edit')" title="Modo de edição">
+                <i class="fa fa-pencil"></i>
+              </button>
+              <button type="button" class="btn" [class.active]="mode === 'preview'" (click)="setMode('preview')"
+                title="Modo de visualização">
+                <i class="fa fa-eye"></i>
+              </button>
+            </div>
+
+            <div *ngIf="mode === 'edit'" class="d-flex flex-wrap">
+              <!-- Botões de formatação existentes -->
+              <button (click)="addFormatting('**', '**')" title="Negrito">
+                <i class="fa fa-bold fa-sm"></i>
+              </button>
+              <button (click)="addFormatting('_', '_')" title="Itálico">
+                <i class="fa fa-italic fa-sm"></i>
+              </button>
+              <button (click)="addFormatting('~~', '~~')" title="Tachado">
+                <i class="fa fa-strikethrough fa-sm"></i>
+              </button>
+              <button (click)="addFormatting('# ', '')" title="Cabeçalho">
+                <i class="fa fa-header fa-sm"></i>1
+              </button>
+              <button (click)="addFormatting('## ', '')" title="Cabeçalho 2">
+                <i class="fa fa-header fa-sm"></i>2
+              </button>
+              <button (click)="addFormatting('### ', '')" title="Cabeçalho 3">
+                <i class="fa fa-header fa-sm"></i>3
+              </button>
+              <button (click)="addFormatting('- ', '')" title="Lista">
+                <i class="fa fa-list fa-sm"></i>
+              </button>
+              <button (click)="addFormatting('---', '')" title="Linha horizontal">
+                <i class="fa fa-minus fa-sm"></i>
+              </button>
+              <button (click)="addFormatting('```javascript\n', '\n```')" title="Bloco de código">
+                <i class="fa fa-code fa-sm"></i>
+              </button>
+              <button (click)="addFormatting('`', '`')" title="Linha de código">
+                <>
+              </button>
+              <button (click)="addFormatting('> ', '')" title="Bloco de citação">
+                <i class="fa fa-terminal fa-sm"></i>
+              </button>
+              <button (click)="addFormatting('[', '](url)')" title="Link">
+                <i class="fa fa-link fa-sm"></i>
+              </button>
+              <button (click)="addFormatting('![', '](url)')" title="Imagem">
+                <i class="fa fa-image fa-sm"></i>
+              </button>
+              <input type="file" id="imageUpload" accept="image/*" (change)="uploadImage($event)" style="display:none;">
+              <button (click)="triggerImageUpload()" title="Inserir Imagem Local">
+                <i class="fa fa-file-image-o fa-sm"></i>
+              </button>
+              <button (click)="addEmoji(':', ':')" title="Emoji">
+                <i class="fa fa-smile-o fa-sm"></i>
+              </button>
+              <!-- Botão para inserir tabelas -->
+              <div class="button-container">
+                <button (click)="toggleSelector()" title="Inserir Tabela">
+                  <i class="fa fa-table fa-sm"></i>
+                </button>
+                <!-- Container da tabela de seleção -->
+                <div class="table-selector" *ngIf="showSelector" (mouseleave)="hideSelector()">
+                  <div *ngFor="let rowIndex of [].constructor(maxRows); let row = index" class="row">
+                    <span *ngFor="let colIndex of [].constructor(maxCols); let col = index" class="cell"
+                      [class.selected]="row < selectedRows && col < selectedCols"
+                      (mouseenter)="highlightCells(row + 1, col + 1)" (click)="insertTable(row + 1, col + 1)"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Espaço principal de edição ou pré-visualização -->
+          <div *ngIf="mode === 'edit'">
+            <textarea #markdownInput [(ngModel)]="markdownText" rows="10" placeholder="Digite seu Markdown aqui..."
+              class="markdown-input w-100 form-control" (keydown)="handleEnterKey($event)" [disabled]="!isEditing">
+            </textarea>
+          </div>
+
+          <div *ngIf="mode === 'preview'" class="markdown-preview">
+            <markdown [data]="markdownText"></markdown>
+          </div>
+        </div>
+
+        <!-- Botões de ações (Salvar, Cancelar, etc.) -->
+        <div class="button-group" *ngIf="isEditing" style="display: flex; gap: 10px;">
+          <button (click)="saveMarkdown()" class="btn-save-markdown">
+            {{ editingItemIndex !== null ? 'Atualizar' : 'Salvar' }}
+          </button>
+          <button *ngIf="editingItemIndex !== null" (click)="cancelEdit()" class="btn-cancel-markdown">
+            Cancelar
+          </button>
+        </div>
+
+        <div *ngIf="!isEditing" class="preview-only">
+          <button class="btn-edit" (click)="enableEditing()">Editar</button>
+          <button class="btn-cancel" (click)="goBackToStart()">Voltar</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- <div class="col-md-4">
+      <div class="agenda">
+        <h4>Salvos</h4>
+        <ul>
+          <li *ngFor="let item of savedItems; let i = index" [ngClass]="{'active': editingItemIndex === i}"
+            (click)="viewItem(item, i)">
+            {{ item.title }}
+            <button class="btn-delete" (click)="deleteItem(i)" title="Excluir item">
+              <i class="fa fa-trash"></i>
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div> -->
+  </div>
+</div>
