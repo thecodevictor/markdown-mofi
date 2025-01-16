@@ -17,7 +17,7 @@ export class BookmarkComponent {
   modulos = [
     {
       id: 1,
-      icon: 'fa-home',
+      icon: 'fa-slack',
       heading: "Módulo",
       title: "MARKDOWN",
       subtitle: 'Módulo Markdown',
