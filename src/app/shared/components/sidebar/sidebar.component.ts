@@ -105,18 +105,30 @@ export class SidebarComponent {
     this.savedItemsService.setActiveItem(index);
   }
 
-  // Função para excluir um item com confirmação
-  deleteItem(index: number) {
-    if (confirm('Você tem certeza que deseja excluir este item?')) {
-      this.savedItems.splice(index, 1); // Remove o item da lista
+  resetEditor() {
+    this.markdownText = ''; // Limpa o conteúdo do editor
+    this.editingItemIndex = null; // Remove o índice ativo
+    this.isEditing = true; // Ativa o modo de edição
+    this.mode = 'edit'; // Garante que o modo seja "edit"
+  }
 
-      if (this.savedItems.length > 0) {
-        // Calcula o próximo índice, garantindo que seja válido
-        const nextIndex = index < this.savedItems.length ? index : this.savedItems.length - 1;
-        this.viewItem(this.savedItems[nextIndex], nextIndex); // Exibe o próximo item na lista
+  deleteItem(index: number) {
+    if (confirm('Tem certeza que deseja excluir este item?')) {
+      this.savedItemsService.removeItem(index);
+
+      // Verifica se ainda há itens na lista
+      const remainingItemsCount = this.savedItemsService.getItemsCount();
+
+      if (remainingItemsCount === 0) {
+        // Se não houver mais itens, reseta o editor
+        this.resetEditor();
       } else {
-        // Volta a página inicial se não houver mais itens
-        this.goBackToStart();
+        // Caso ainda haja itens, exibe o próximo item (se necessário)
+        const nextIndex = index < remainingItemsCount ? index : index - 1;
+        const nextItem = this.savedItemsService.getItem(nextIndex);
+        if (nextItem) {
+          this.viewItem(nextItem, nextIndex);
+        }
       }
     }
   }

@@ -19,8 +19,8 @@ export class BookmarkComponent {
       id: 1,
       icon: 'fa-home',
       heading: "Módulo",
-      title: "Home",
-      subtitle: 'Módulo Home',
+      title: "MARKDOWN",
+      subtitle: 'Módulo Markdown',
       allowed: true,
       bgColor: "primary",
     },
@@ -60,7 +60,7 @@ export class BookmarkComponent {
 
   alterarParaOModuloSelecionado(modulo: string) {
     switch (modulo) {
-      // case 'Módulo Reservas':
+      // case 'Módulo Markdown':
       //   this.route.navigate([`/dashboard/mapa-diario`]);
       //   this.navService.items.next(MENURESERVAS);
       //   break;
@@ -73,7 +73,7 @@ export class BookmarkComponent {
       //   this.navService.items.next(MENUHOME);
       //   break;
       default:
-        this.route.navigate([`/dashboard/mapa-diario`]);
+        this.route.navigate([`/markdown`]);
         this.navService.items.next(MENUHOME);
         break;
     }

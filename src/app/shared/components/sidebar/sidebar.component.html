@@ -25,13 +25,10 @@
         <li>
           <h6>Itens Salvos</h6>
         </li>
-        <li *ngFor="let item of savedItems; let i = index" [ngClass]="{'active': selectedItemIndex === i}">
+        <li *ngFor="let item of savedItems; let i = index">
           <div class="sidebar-item">
-            <!-- Título do item -->
-            <span (click)="viewItem(item, i)" class="item-title">{{ item.title }}</span>
-
-            <!-- Botão de excluir -->
-            <button class="btn-delete" (click)="deleteItem(i)" title="Excluir item">
+            <span class="item-title" (click)="viewItem(item, i)">{{ item.title }}</span>
+            <button class="btn-delete" (click)="deleteItem(i)">
               <i class="fa fa-trash"></i>
             </button>
           </div>

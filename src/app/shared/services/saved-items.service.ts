@@ -17,16 +17,24 @@ export class SavedItemsService {
     this.savedItemsSource.next([...currentItems, item]);
   }
 
-  // Remove um item
   removeItem(index: number) {
     const currentItems = this.savedItemsSource.value;
-    currentItems.splice(index, 1);
+    currentItems.splice(index, 1); // Remove o item pelo índice
     this.savedItemsSource.next([...currentItems]);
 
-    // Se o item removido era o ativo, limpa o estado
-    if (this.activeItemSource.value === index) {
+    // Limpa o item ativo se não houver mais itens
+    if (currentItems.length === 0) {
       this.activeItemSource.next(null);
     }
+  }
+
+  getItemsCount(): number {
+    return this.savedItemsSource.value.length; // Retorna o número de itens
+  }
+
+  getItem(index: number): { title: string; content: string } | null {
+    const items = this.savedItemsSource.value;
+    return items[index] || null; // Retorna o item ou null se não existir
   }
 
   // Define o item ativo
@@ -47,4 +55,6 @@ export class SavedItemsService {
     currentItems[index] = item;
     this.savedItemsSource.next([...currentItems]);
   }
+
+
 }

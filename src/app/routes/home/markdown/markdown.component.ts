@@ -64,8 +64,8 @@ export class MarkdownComponent {
     });
   }
 
-   // Alterna entre modos de edição e visualização
-   setMode(mode: 'edit' | 'preview') {
+  // Alterna entre modos de edição e visualização
+  setMode(mode: 'edit' | 'preview') {
     this.mode = mode;
   }
 
@@ -216,28 +216,26 @@ export class MarkdownComponent {
     return emojione.toImage(text);
   }
 
-   // Salva ou atualiza o markdown
-   saveMarkdown() {
+  saveMarkdown() {
     const title = this.extractTitle(this.markdownText);
 
     if (this.editingItemIndex !== null) {
-      // Atualiza um item existente
+      // Atualiza item existente
       this.savedItemsService.updateItem(this.editingItemIndex, {
         title,
-        content: this.markdownText
+        content: this.markdownText,
       });
     } else {
       // Adiciona um novo item
       this.savedItemsService.addItem({ title, content: this.markdownText });
     }
 
-    this.isEditing = false;
-    this.mode = 'preview';
-    this.originalMarkdownText = this.markdownText;
+    // Limpa o textarea e reseta o editor
+    this.resetEditor();
   }
 
-   // Extrai o título do markdown (primeira linha como título)
-   private extractTitle(markdown: string): string {
+  // Extrai o título do markdown (primeira linha como título)
+  private extractTitle(markdown: string): string {
     const lines = markdown.split('\n');
     return lines[0]?.startsWith('#') ? lines[0].replace('#', '').trim() : 'Sem título';
   }
@@ -256,13 +254,14 @@ export class MarkdownComponent {
     // this.toggleEdit(); // Use apenas se necessário para alternar o estado de edição
   }
 
-  // Função para visualizar o conteúdo do item ao clicar no título
-  viewItem(item: { title: string, content: string }, index: number) {
+
+
+
+  viewItem(item: { title: string; content: string }, index: number) {
     this.markdownText = item.content;
-    this.editingItemIndex = index; // Define qual item está sendo visualizado
-    this.isEditing = false; // Define que estamos apenas visualizando, não editando
-    this.setMode('preview'); // Muda para o modo de visualização
-    this.isEditable = false; // Desabilita o botão "Escrever"
+    this.editingItemIndex = index;
+    this.isEditing = false;
+    this.mode = 'preview';
   }
 
   // Habilita a edição do item
@@ -276,8 +275,8 @@ export class MarkdownComponent {
     this.isEditing = true;
   }
 
-   // Cancela a edição de um item existente
-   cancelEdit() {
+  // Cancela a edição de um item existente
+  cancelEdit() {
     if (this.editingItemIndex !== null) {
       // Restaura o conteúdo original
       this.markdownText = this.originalMarkdownText;
@@ -294,27 +293,30 @@ export class MarkdownComponent {
     this.resetEditor();
   }
 
-  // Reseta o editor para o estado inicial
-  private resetEditor() {
-    this.markdownText = '';
-    this.originalMarkdownText = '';
-    this.isEditing = true;
-    this.mode = 'edit';
-    this.editingItemIndex = null;
+  resetEditor() {
+    this.markdownText = ''; // Limpa o conteúdo do editor
+    this.editingItemIndex = null; // Remove o índice ativo
+    this.isEditing = true; // Ativa o modo de edição
+    this.mode = 'edit'; // Garante que o modo seja "edit"
   }
 
-  // Função para excluir um item com confirmação
   deleteItem(index: number) {
-    if (confirm('Você tem certeza que deseja excluir este item?')) {
-      this.savedItems.splice(index, 1); // Remove o item da lista
+    if (confirm('Tem certeza que deseja excluir este item?')) {
+      this.savedItemsService.removeItem(index);
 
-      if (this.savedItems.length > 0) {
-        // Calcula o próximo índice, garantindo que seja válido
-        const nextIndex = index < this.savedItems.length ? index : this.savedItems.length - 1;
-        this.viewItem(this.savedItems[nextIndex], nextIndex); // Exibe o próximo item na lista
+      // Verifica se ainda há itens na lista
+      const remainingItemsCount = this.savedItemsService.getItemsCount();
+
+      if (remainingItemsCount === 0) {
+        // Se não houver mais itens, reseta o editor
+        this.resetEditor();
       } else {
-        // Volta a página inicial se não houver mais itens
-        this.goBackToStart();
+        // Caso ainda haja itens, exibe o próximo item (se necessário)
+        const nextIndex = index < remainingItemsCount ? index : index - 1;
+        const nextItem = this.savedItemsService.getItem(nextIndex);
+        if (nextItem) {
+          this.viewItem(nextItem, nextIndex);
+        }
       }
     }
   }
